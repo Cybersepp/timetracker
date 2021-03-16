@@ -1,0 +1,21 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 11
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+
+application {
+    mainClassName = 'gui.Valuutakalkulaator'
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml']
+}
