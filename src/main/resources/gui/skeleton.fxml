@@ -32,28 +32,14 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
   <children>
       <MenuBar>
         <menus>
@@ -84,46 +70,7 @@
                            <content>
                         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="721.0" prefWidth="448.0">
                           <children>
-                            <Label alignment="CENTER" layoutX="22.0" layoutY="461.0" style="&#10;" text="Project G" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x5" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x6" />
-                                       </textFill>
-                                    </Label>
-                                    <Label fx:id="uiButton" alignment="CENTER" layoutX="23.0" layoutY="43.0" style="&#10;" text="Project X" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x51" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x61" />
-                                       </textFill>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="22.0" layoutY="302.0" style="&#10;" text="Project Y" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x52" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x62" />
-                                       </textFill>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="23.0" layoutY="167.0" style="&#10;" text="Project W" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x53" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x63" />
-                                       </textFill>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="22.0" layoutY="595.0" style="&#10;" text="Project D" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x54" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x64" />
-                                       </textFill>
-                                    </Label>
+                                    <TreeView fx:id="projectsTree" layoutX="14.0" layoutY="14.0" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="721.0" prefWidth="448.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                           </children>
                         </AnchorPane>
                            </content>
