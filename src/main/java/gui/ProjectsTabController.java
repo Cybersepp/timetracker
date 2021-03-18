@@ -10,7 +10,7 @@ public class ProjectsTabController {
     private TreeView<String> projectsTree;
 
     @FXML
-    void initialize() {
+    private void initialize() {
 
         // Test items for tree view
         // Root

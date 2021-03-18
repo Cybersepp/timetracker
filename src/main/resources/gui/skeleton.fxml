@@ -82,9 +82,9 @@
                      <tabs>
                         <Tab text="Projects">
                            <content>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                              <AnchorPane prefHeight="721.0" prefWidth="448.0">
                                  <children>
-                                    <fx:include prefHeight="721.0" prefWidth="448.0" source="projectsTab.fxml" />
+                                    <fx:include fx:id="projectsTab"  prefHeight="721.0" prefWidth="448.0" source="ProjectsTab.fxml" />
                                  </children>
                               </AnchorPane>
                            </content>
