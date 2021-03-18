@@ -82,50 +82,11 @@
                      <tabs>
                         <Tab text="Projects">
                            <content>
-                        <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="721.0" prefWidth="448.0">
-                          <children>
-                            <Label alignment="CENTER" layoutX="22.0" layoutY="461.0" style="&#10;" text="Project G" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x5" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x6" />
-                                       </textFill>
-                                    </Label>
-                                    <Label fx:id="uiButton" alignment="CENTER" layoutX="23.0" layoutY="43.0" style="&#10;" text="Project X" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x51" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x61" />
-                                       </textFill>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="22.0" layoutY="302.0" style="&#10;" text="Project Y" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x52" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x62" />
-                                       </textFill>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="23.0" layoutY="167.0" style="&#10;" text="Project W" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x53" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x63" />
-                                       </textFill>
-                                    </Label>
-                                    <Label alignment="CENTER" layoutX="22.0" layoutY="595.0" style="&#10;" text="Project D" textAlignment="CENTER" wrapText="false">
-                                       <font>
-                                          <Font size="18.0" fx:id="x54" />
-                                       </font>
-                                       <textFill>
-                                          <Color red="0.624" green="0.624" blue="0.624" fx:id="x64" />
-                                       </textFill>
-                                    </Label>
-                          </children>
-                        </AnchorPane>
+                              <AnchorPane prefHeight="721.0" prefWidth="448.0">
+                                 <children>
+                                    <fx:include fx:id="projectsTab"  prefHeight="721.0" prefWidth="448.0" source="ProjectsTab.fxml" />
+                                 </children>
+                              </AnchorPane>
                            </content>
                         </Tab>
                         <Tab text="Tasks">

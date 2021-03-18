@@ -22,11 +22,15 @@ public class Controller {
     @FXML
     private Label uiButton;
 
+    @FXML
+    private ProjectsTabController projectsTabController; // if we need to get something from projectsTabController
+    // Not 100% sure if this is necessary
+
     // File to read from.
     private final File file = new File("records.csv");
 
     @FXML
-    void initialize() {
+    private void initialize() {
     }
 
     /**
@@ -61,4 +65,6 @@ public class Controller {
         series1.getData().add(new XYChart.Data("project", numberOfRecords));
         projectGraph.getData().add(series1);
     }
+
+
 }
