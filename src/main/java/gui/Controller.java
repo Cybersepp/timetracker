@@ -34,42 +34,37 @@ public class Controller {
     void initialize() {
 
         // Test items for tree view
+        // Root
         TreeItem<String> projects = new TreeItem<>("Projects");
 
-        TreeItem<String> project1 = new TreeItem<>("Project1");
-        TreeItem<String> project2 = new TreeItem<>("Project2");
-        TreeItem<String> project3 = new TreeItem<>("Project3");
-        TreeItem<String> project4 = new TreeItem<>("Project4");
-        TreeItem<String> archived = new TreeItem<>("Archived");
+        // Project items
+        TreeItem<String> project1 = createProject(projects, "Project1");
+        TreeItem<String> project2 = createProject(projects, "Project1");
+        TreeItem<String> project3 = createProject(projects, "Project1");
+        TreeItem<String> project4 = createProject(projects, "Project1");
 
-        TreeItem<String> project1Task1 = new TreeItem<>("task1");
-        TreeItem<String> project1Task2 = new TreeItem<>("task2");
-        TreeItem<String> project2Task1 = new TreeItem<>("task3");
-        TreeItem<String> project2Task2 = new TreeItem<>("task4");
-        TreeItem<String> project3Task1 = new TreeItem<>("task5");
-        TreeItem<String> project3Task2 = new TreeItem<>("task6");
-        TreeItem<String> project4Task1 = new TreeItem<>("task7");
-        TreeItem<String> project4Task2 = new TreeItem<>("task8");
+        createTask(project1, "task2");
+        createTask(project1, "task1");
+        createTask(project2, "task3");
+        createTask(project2, "task4");
+        createTask(project3, "task5");
+        createTask(project3, "task6");
+        createTask(project4, "task7");
+        createTask(project4, "task8");
 
-        TreeItem<String> archivedProject1 = new TreeItem<>("ArchivedProject1");
-        TreeItem<String> archivedProject2 = new TreeItem<>("ArchivedProject2");
+        // Archived items
+        TreeItem<String> archived = createProject(projects, "Archived"); // This shouldn't be done using createProject method
 
-        TreeItem<String> archivedTask1 = new TreeItem<>("ArchivedTask1");
-        TreeItem<String> archivedTask2 = new TreeItem<>("ArchivedTask2");
-        TreeItem<String> archivedTask3 = new TreeItem<>("ArchivedTask3");
-        TreeItem<String> archivedTask4 = new TreeItem<>("ArchivedTask4");
+        TreeItem<String> archivedProject1 = createProject(archived, "ArchivedProject1");
+        TreeItem<String> archivedProject2 = createProject(archived, "ArchivedProject2");
 
-        archivedProject1.getChildren().addAll(archivedTask1, archivedTask2);
-        archivedProject2.getChildren().addAll(archivedTask3, archivedTask4);
+        createTask(archivedProject1, "ArchivedTask1");
+        createTask(archivedProject1, "ArchivedTask2");
+        createTask(archivedProject2, "ArchivedTask3");
+        createTask(archivedProject2, "ArchivedTask4");
 
-        project1.getChildren().addAll(project1Task1, project1Task2);
-        project2.getChildren().addAll(project2Task1, project2Task2);
-        project3.getChildren().addAll(project3Task1, project3Task2);
-        project4.getChildren().addAll(project4Task1, project4Task2);
-        archived.getChildren().addAll(archivedProject1, archivedProject2);
-
-        projects.getChildren().addAll(project1, project2, project3, project4, archived);
-
+        // root configuration
+        // tree configuration
         projectsTree.setShowRoot(false);
         projectsTree.setRoot(projects);
         // Test items end for tree view
@@ -117,12 +112,74 @@ public class Controller {
         if (activity != null) {
             System.out.println(activity.getValue());
         }
-        // TODO list - Richard
         // TODO return some value that can be used using selectItem() method
-        // TODO method createProjectItem
-        // TODO method createTaskItem
-        // TODO method archiveProject
-        // TODO method markTaskAsDone
-
     }
+
+    /**
+     * Method for creating a new tree item in the tab and making it a child of an existing item.
+     * @param root the branch of the project which the item is situated on.
+     * @param itemName the name of the created item.
+     */
+    private TreeItem<String> createItem(TreeItem<String> root, String itemName){
+        TreeItem<String> item = new TreeItem<>(itemName);
+        root.getChildren().add(item);
+        return item;
+    }
+
+    /**
+     * Method for creating a new project branch.
+     * @param root the branch of the project which the item is situated on.
+     * @param projectName the name of the created item.
+     */
+    public TreeItem<String> createProject(TreeItem<String> root, String projectName){
+        TreeItem<String> project = createItem(root, projectName);
+        // TODO add configuration specific to all projects
+        return project;
+    }
+
+    /**
+     * Method for creating a new task in a specific project branch.
+     * @param project the branch of the project which the task is situated on.
+     * @param taskName the name of displayable task name.
+     */
+    public TreeItem<String> createTask(TreeItem<String> project, String taskName){
+        TreeItem<String> task = createItem(project, taskName);
+        // TODO add configuration specific to all tasks
+        return task;
+    }
+
+    /**
+     * Method for archiving projects.
+     * @param root the root of the project.
+     * @param project the instance of a project that is about to be archived.
+     * @param archive the archive branch.
+     */
+    public void archiveProject(TreeItem<String> root, TreeItem<String> project, TreeItem<String> archive){
+        root.getChildren().remove(project);
+        archive.getChildren().add(project);
+        // TODO archived projects are unable to start recordings
+    }
+
+    /**
+     * Method for marking a task as done and crossing it out.
+     * @param project the branch of the project which the task is situated on.
+     * @param task the instance of a task that is about to be crossed out / be marked as done.
+     */
+    public void markTaskAsDone(TreeItem<String> project, TreeItem<String> task){
+        // TODO mark task as done and cross it out
+        // TODO done tasks should not be able to add any recordings
+        // TODO crossed out tasks should be at the end of the project's task list
+    }
+
+    /**
+     * Method for removing items from the tree
+     * @param root the root of the removable item
+     * @param item the item that is about to be removed from the root
+     */
+    public void removeItem(TreeItem<String> root, TreeItem<String> item) {
+        root.getChildren().remove(item);
+        // TODO should send out a warning message if there are any recordings associated with the item
+        // TODO should also delete all history that is associated with this item
+    }
+
 }
