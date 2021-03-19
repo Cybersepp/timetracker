@@ -51,8 +51,6 @@ public class Controller {
         data.addRecordToFile(file, timeStampToShow);
         // Updating graph based on the entry.
         updateGraph(data.howManyRecords(file));
-        // For lulz forcing label "Project X" to show current time.
-        uiButton.setText(String.valueOf(timeStampToShow));
     }
 
     /**
