@@ -1,4 +1,4 @@
-module Valuutakalkulaator {
+module Timetrack {
   requires javafx.controls;
   requires javafx.fxml;
   opens gui to javafx.fxml;
