@@ -1,13 +1,16 @@
 package gui;
 
-import data.fileAccess;
+import data.FileAccess;
 import javafx.fxml.FXML;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import logic.timeCalculator;
 
-import java.io.File;
+import javafx.stage.Stage;
+import logic.TimeCalculator;
+
+
 import java.io.IOException;
 import java.time.LocalTime;
 
@@ -16,8 +19,6 @@ import java.time.LocalTime;
  */
 public class Controller {
 
-    @FXML
-    BarChart<String, Number> projectGraph;
 
     @FXML
     private Label uiButton;
@@ -26,13 +27,13 @@ public class Controller {
     private ProjectsTabController projectsTabController; // if we need to get something from projectsTabController
     // Not 100% sure if this is necessary
 
-    // File to read from.
-    private final File file = new File("records.csv");
+    @FXML
+    private GraphTabController graphTabController;
 
     @FXML
     private void initialize() {
-    }
 
+    }
     /**
      * Method updateButton gets a current time by calling "returnTime" method from data.fileAccess class.
      * Then it saves current time as an entry to the "records.csv" file.
@@ -42,27 +43,31 @@ public class Controller {
      */
     public void updateButton() throws IOException {
         // Object from logic layer for calculating current time.
-        var currentTime = new timeCalculator();
+        var currentTime = new TimeCalculator();
         // Object from data layer for reading and writing to file.
-        var data = new fileAccess();
+        var data = new FileAccess();
         // Getting current time.
         LocalTime timeStampToShow = currentTime.returnTime();
         // Adding that time to file.
-        data.addRecordToFile(file, timeStampToShow);
+        data.addRecordToFile(timeStampToShow);
         // Updating graph based on the entry.
-        updateGraph(data.howManyRecords(file));
+        notifyGraphTab();
+    }
+    public void notifyGraphTab() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GraphTab.fxml"));
+        loader.load();
+        GraphTabController graphController = loader.getController();
+        graphController.updateGraph();
+        System.out.println(graphController);
+
     }
 
-    /**
-     * Method for updating the graph.
-     * @param numberOfRecords how many entries in a file.
-     */
-    public void updateGraph(int numberOfRecords) {
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Entry:" + numberOfRecords);
-        series1.getData().add(new XYChart.Data("project", numberOfRecords));
-        projectGraph.getData().add(series1);
-    }
+
+
+
+
+
+
 
 
 }

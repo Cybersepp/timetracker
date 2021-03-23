@@ -13,7 +13,7 @@ compileTestJava.options.encoding = 'UTF-8'
 
 
 application {
-    mainClassName = 'gui.Timetrack'
+    mainClassName = 'gui.TimeTrack'
 }
 
 javafx {

@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Timetrack extends Application {
+public class TimeTrack extends Application {
   // Main class for starting the app.
   @Override
   public void start(Stage primaryStage) throws Exception {

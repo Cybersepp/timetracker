@@ -33,11 +33,7 @@
 -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -50,10 +46,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.Controller">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
   <children>
       <MenuBar>
         <menus>
@@ -84,7 +78,7 @@
                            <content>
                               <AnchorPane prefHeight="721.0" prefWidth="448.0">
                                  <children>
-                                    <fx:include fx:id="projectsTab"  prefHeight="721.0" prefWidth="448.0" source="ProjectsTab.fxml" />
+                                    <fx:include fx:id="projectsTab" prefHeight="721.0" prefWidth="448.0" source="ProjectsTab.fxml" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -104,22 +98,7 @@
         </ScrollPane>
         <AnchorPane prefHeight="549.0" prefWidth="478.0">
           <children>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Graph overview" textAlignment="CENTER" wrapText="false">
-              <font>
-                <Font size="18.0" fx:id="x1" />
-              </font>
-              <textFill>
-                <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
-              </textFill>
-            </Label>
-                  <BarChart fx:id="projectGraph" layoutY="75.0" prefHeight="400.0" prefWidth="445.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </BarChart>
+            <fx:include fx:id="graphTab" prefWidth="448.0" source="GraphTab.fxml" />
           </children>
         </AnchorPane>
       </items>

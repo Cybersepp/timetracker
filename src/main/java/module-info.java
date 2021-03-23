@@ -1,4 +1,4 @@
-module Timetrack {
+module TimeTrack {
   requires javafx.controls;
   requires javafx.fxml;
   opens gui to javafx.fxml;
