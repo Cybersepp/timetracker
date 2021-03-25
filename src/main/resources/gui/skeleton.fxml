@@ -134,7 +134,7 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button fx:id="recordButton1" alignment="CENTER" mnemonicParsing="false" onAction="#updateButton" prefHeight="26.0" prefWidth="104.0" text="Add Project...">
+            <Button fx:id="addProjectButton" alignment="CENTER" mnemonicParsing="false" onAction="#addProject" prefHeight="26.0" prefWidth="104.0" text="Add Project...">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
