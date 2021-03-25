@@ -8,6 +8,7 @@ public class ProjectsTabController {
 
     @FXML
     private TreeView<String> projectsTree;
+    TreeItem<String> projects = null;
 
     @FXML
     private void initialize() {
@@ -97,4 +98,48 @@ public class ProjectsTabController {
         // TODO add configuration specific to all tasks
     }
 
+    /**
+     * Method for archiving projects.
+     * @param root the root of the project.
+     * @param project the instance of a project that is about to be archived.
+     * @param archive the archive branch.
+     */
+    public void archiveProject(TreeItem<String> root, TreeItem<String> project, TreeItem<String> archive){
+        root.getChildren().remove(project);
+        archive.getChildren().add(project);
+        // TODO archived projects are unable to start recordings
+        // TODO check if the project is a project and not a task?
+    }
+
+    /**
+     * Method for marking a task as done and crossing it out.
+     * @param project the branch of the project which the task is situated on.
+     * @param task the instance of a task that is about to be crossed out / be marked as done.
+     */
+    public void markTaskAsDone(TreeItem<String> project, TreeItem<String> task){
+        // TODO mark task as done and cross it out
+        // TODO done tasks should not be able to add any recordings
+        // TODO crossed out tasks should be at the end of the project's task list
+    }
+
+    /**
+     * Method for removing items from the tree
+     * @param root the root of the removable item
+     * @param item the item that is about to be removed from the root
+     */
+    public void deleteItem(TreeItem<String> root, TreeItem<String> item) {
+        root.getChildren().remove(item);
+        // TODO should send out a warning message if there are any recordings associated with the item
+        // TODO should also delete all history that is associated with this item
+    }
+
+
+    public void changeItemName() {
+        // TODO find a way to change project / task name and keep it's data intact (tasks, time spent)
+    }
+
+    //Richard hello new method here
+    public TreeItem<String> getMainTree() {
+        return projects;
+    }
 }

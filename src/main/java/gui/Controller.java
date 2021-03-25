@@ -4,7 +4,8 @@ import data.FileAccess;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import logic.TimeCalculator;
+import javafx.scene.control.TreeItem;
+import logic.timeCalculator;
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -51,6 +52,24 @@ public class Controller {
         graphTabController.updateGraph();
         System.out.println(graphTabController);
 
+
+
+    public void addProject() {
+        String projectName = GUIElemHandler.textDialog("New Project", "Project", "Add a new project:");
+
+        TreeItem<String> mainProjectTree = projectsTabController.getMainTree();
+        projectsTabController.createProject(mainProjectTree,  projectName);
+    }
+
+    /**
+     * Method for updating the graph.
+     * @param numberOfRecords how many entries in a file.
+     */
+    public void updateGraph(int numberOfRecords) {
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Entry:" + numberOfRecords);
+        series1.getData().add(new XYChart.Data("project", numberOfRecords));
+        projectGraph.getData().add(series1);
     }
 
     public void changeHistoryAndGraph() {
