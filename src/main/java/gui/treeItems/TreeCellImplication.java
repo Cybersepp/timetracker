@@ -1,4 +1,4 @@
-package gui;
+package gui.treeItems;
 
 import javafx.scene.control.TreeCell;
 
