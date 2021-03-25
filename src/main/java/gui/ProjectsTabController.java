@@ -8,13 +8,14 @@ public class ProjectsTabController {
 
     @FXML
     private TreeView<String> projectsTree;
+    TreeItem<String> projects = null;
 
     @FXML
     private void initialize() {
 
         // Test items for tree view
         // Root
-        TreeItem<String> projects = new TreeItem<>("Projects");
+        this.projects = new TreeItem<>("Projects");
 
         // Project items
         TreeItem<String> project1 = createProject(projects, "Project1");
@@ -132,5 +133,10 @@ public class ProjectsTabController {
 
     public void changeItemName() {
         // TODO find a way to change project / task name and keep it's data intact (tasks, time spent)
+    }
+
+    //Richard hello new method here
+    public TreeItem<String> getMainTree() {
+        return projects;
     }
 }
