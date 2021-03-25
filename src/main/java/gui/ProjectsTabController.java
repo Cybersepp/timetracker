@@ -1,5 +1,6 @@
 package gui;
 
+import gui.treeItems.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -18,9 +19,8 @@ public class ProjectsTabController {
 
         // Visible roots
         RootTreeItem projects = new RootTreeItem("Active projects");
-        RootTreeItem archived = new RootTreeItem("Archived");
+        ArchivedRootTreeItem archived = new ArchivedRootTreeItem("Archived");
         root.getChildren().addAll(projects, archived);
-        // TODO visible roots should not be editable nor deletable branches
 
         // Project items
         ProjectTreeItem project1 = new ProjectTreeItem("Project1");
@@ -51,17 +51,17 @@ public class ProjectsTabController {
 
         // Archived items
 
-        ProjectTreeItem archivedProject1 = new ProjectTreeItem("ArchivedProject1");
-        ProjectTreeItem archivedProject2 = new ProjectTreeItem("ArchivedProject2");
+        ArchivedProjectTreeItem archivedProject1 = new ArchivedProjectTreeItem("ArchivedProject1");
+        ArchivedProjectTreeItem archivedProject2 = new ArchivedProjectTreeItem("ArchivedProject2");
         archived.getChildren().addAll(archivedProject1, archivedProject2);
 
-        TaskTreeItem aTask1 = new TaskTreeItem("ArchivedTask1");
+        ArchivedTaskTreeItem aTask1 = new ArchivedTaskTreeItem("ArchivedTask1");
         archivedProject1.getChildren().add(aTask1);
-        TaskTreeItem aTask2 = new TaskTreeItem("ArchivedTask2");
+        ArchivedTaskTreeItem aTask2 = new ArchivedTaskTreeItem("ArchivedTask2");
         archivedProject1.getChildren().add(aTask2);
-        TaskTreeItem aTask3 = new TaskTreeItem("ArchivedTask3");
+        ArchivedTaskTreeItem aTask3 = new ArchivedTaskTreeItem("ArchivedTask3");
         archivedProject2.getChildren().add(aTask3);
-        TaskTreeItem aTask4 = new TaskTreeItem("ArchivedTask4");
+        ArchivedTaskTreeItem aTask4 = new ArchivedTaskTreeItem("ArchivedTask4");
         archivedProject2.getChildren().add(aTask4);
 
 
