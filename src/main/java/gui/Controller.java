@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import logic.timeCalculator;
 
 import java.io.File;
@@ -53,6 +54,15 @@ public class Controller {
         updateGraph(data.howManyRecords(file));
         // For lulz forcing label "Project X" to show current time.
         uiButton.setText(String.valueOf(timeStampToShow));
+    }
+
+
+
+    public void addProject() {
+        String projectName = GUIElemHandler.textDialog("New Project", "Project", "Add a new project:");
+
+        TreeItem<String> mainProjectTree = projectsTabController.getMainTree();
+        projectsTabController.createProject(mainProjectTree,  projectName);
     }
 
     /**
