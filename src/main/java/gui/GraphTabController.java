@@ -3,17 +3,17 @@ package gui;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.input.MouseEvent;
+
 
 public class GraphTabController {
+
     @FXML
     BarChart<String, Number> projectGraph;
 
     @FXML
     private void initialize() {
+
     }
-
-
     /**
      * Method for updating the graph.
      */
@@ -24,8 +24,5 @@ public class GraphTabController {
         projectGraph.getData().add(series1);
     }
 
-    public void labelClicked(MouseEvent mouseEvent) {
-        updateGraph();
-        System.out.println(this);
-    }
+
 }

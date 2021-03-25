@@ -2,14 +2,9 @@ package gui;
 
 import data.FileAccess;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-
-import javafx.stage.Stage;
 import logic.TimeCalculator;
-
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -19,13 +14,14 @@ import java.time.LocalTime;
  */
 public class Controller {
 
+    @FXML
+    private Button historyAndGraphButton;
 
     @FXML
     private Label uiButton;
 
     @FXML
     private ProjectsTabController projectsTabController; // if we need to get something from projectsTabController
-    // Not 100% sure if this is necessary
 
     @FXML
     private GraphTabController graphTabController;
@@ -42,32 +38,29 @@ public class Controller {
      * @throws IOException meh
      */
     public void updateButton() throws IOException {
-        // Object from logic layer for calculating current time.
-        var currentTime = new TimeCalculator();
         // Object from data layer for reading and writing to file.
         var data = new FileAccess();
         // Getting current time.
-        LocalTime timeStampToShow = currentTime.returnTime();
+        LocalTime timeStampToShow = TimeCalculator.returnTime();
         // Adding that time to file.
         data.addRecordToFile(timeStampToShow);
         // Updating graph based on the entry.
         notifyGraphTab();
     }
-    public void notifyGraphTab() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GraphTab.fxml"));
-        loader.load();
-        GraphTabController graphController = loader.getController();
-        graphController.updateGraph();
-        System.out.println(graphController);
+    public void notifyGraphTab()  {
+        graphTabController.updateGraph();
+        System.out.println(graphTabController);
 
     }
 
+    public void changeHistoryAndGraph() {
+        //TODO Change graph tab to history tab.
+        switch (historyAndGraphButton.getText()) {
+            case "GRAPH": historyAndGraphButton.setText("HISTORY"); break;
+            case "HISTORY": historyAndGraphButton.setText("GRAPH"); break;
+        }
 
 
 
-
-
-
-
-
+    }
 }

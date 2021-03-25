@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GraphTabController">
     <children>
-    <Label fx:id="graphLabel" alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" onMouseClicked="#labelClicked" prefHeight="32.0" prefWidth="254.0" style="&#10;" text="GRAPH OVERVIEW" textAlignment="CENTER" wrapText="false">
+    <Label fx:id="graphLabel" alignment="CENTER" layoutX="40.0" layoutY="14.0" minWidth="60.0" prefHeight="32.0" prefWidth="254.0" style="&#10;" text="GRAPH OVERVIEW" textAlignment="CENTER" wrapText="false">
          <font>
             <Font name="Ubuntu Condensed" size="35.0" />
          </font>
