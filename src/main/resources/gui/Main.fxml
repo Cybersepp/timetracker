@@ -42,7 +42,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="gui.MainController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
   <children>
       <AnchorPane prefHeight="572.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
          <children>
@@ -74,8 +74,9 @@
                         </TabPane>
                      </content>
               </ScrollPane>
-              <AnchorPane prefHeight="520.0" prefWidth="587.0">
+              <AnchorPane fx:id="rightSideWindow" prefHeight="520.0" prefWidth="587.0">
                 <children>
+                    <fx:include fx:id="historyTab" prefWidth="448.0" source="HistoryTab.fxml" />
                   <fx:include fx:id="graphTab" prefWidth="448.0" source="GraphTab.fxml" />
                 </children>
               </AnchorPane>

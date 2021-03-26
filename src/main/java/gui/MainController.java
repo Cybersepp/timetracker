@@ -4,6 +4,7 @@ import data.FileAccess;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import logic.TimeCalculator;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -13,28 +14,41 @@ import java.time.LocalTime;
  */
 public class MainController {
 
-    @FXML
-    private Button historyAndGraphButton;
+    // ---- CONTROLLER INSTANCES ----
 
     @FXML
-    private Label uiButton;
-
-    @FXML
-    private ProjectsTabController projectsTabController; // if we need to get something from projectsTabController
+    private ProjectsTabController projectsTabController;
 
     @FXML
     private GraphTabController graphTabController;
 
+    // ---- WINDOWS ----
+
+    @FXML
+    private AnchorPane rightSideWindow;
+
+    @FXML
+    private AnchorPane graphTab;
+
+    @FXML
+    private AnchorPane historyTab;
+
+    // ---- UI ELEMENTS ----
+
+    @FXML
+    private Button historyAndGraphButton;
+
+
     @FXML
     private void initialize() {
+        // It's not pretty, but upon initialization it removes history tab so they wouldn't overlap.
+        rightSideWindow.getChildren().remove(historyTab);
 
     }
     /**
-     * Method updateButton gets a current time by calling "returnTime" method from data.fileAccess class.
-     * Then it saves current time as an entry to the "records.csv" file.
-     * Then it updates the graph based on how many entries there are in the file by calling
-     * data.howManyRecords from fileAccess class and adds that entry number to the graph as an independent bar.
-     * @throws IOException meh
+     * Method updateButton saves an entry to "records.csv" and then updates the graph based on the entry.
+     * (Right now every entry is equal to the other).
+     * @throws IOException In case something goes wrong with IO.
      */
     public void updateButton() throws IOException {
         // Object from data layer for reading and writing to file.
@@ -55,14 +69,29 @@ public class MainController {
 //        projectsTabController.createProject(mainProjectTree,  projectName);
 //    }
 
+    /**
+     * If button shows "History", then change window from Graph tab to History tab and vice versa.
+     */
     public void changeHistoryAndGraph() {
-        //TODO Change graph tab to history tab.
         switch (historyAndGraphButton.getText()) {
-            case "GRAPH": historyAndGraphButton.setText("HISTORY"); break;
-            case "HISTORY": historyAndGraphButton.setText("GRAPH"); break;
+            case "GRAPH":
+                historyAndGraphButton.setText("HISTORY");
+                changeRightWindow(historyTab, graphTab);
+                break;
+            case "HISTORY":
+                historyAndGraphButton.setText("GRAPH");
+                changeRightWindow(graphTab, historyTab);
+                break;
         }
+    }
 
-
-
+    /**
+     * Method for switching between tabs of the Anchorpane "rightSideWindow".
+     * @param tabToRemove Anchorpane to be removed.
+     * @param tabToAdd Anchorpane to be added.
+     */
+    public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
+        rightSideWindow.getChildren().remove(tabToRemove);
+        rightSideWindow.getChildren().add(tabToAdd);
     }
 }
