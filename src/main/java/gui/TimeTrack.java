@@ -10,7 +10,7 @@ public class TimeTrack extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    Parent root = FXMLLoader.load(getClass().getResource("skeleton.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
     primaryStage.setTitle("timetrack");
     primaryStage.show();
     primaryStage.setScene(new Scene(root));

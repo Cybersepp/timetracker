@@ -4,16 +4,14 @@ import data.FileAccess;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
 import logic.TimeCalculator;
-
 import java.io.IOException;
 import java.time.LocalTime;
 
 /**
- * Controller class is made for functionality of the UI elements.
+ * MainController class is made for functionality of the UI elements.
  */
-public class Controller {
+public class MainController {
 
     @FXML
     private Button historyAndGraphButton;
@@ -56,7 +54,6 @@ public class Controller {
 //        TreeItem<String> mainProjectTree = projectsTabController.getMainTree();
 //        projectsTabController.createProject(mainProjectTree,  projectName);
 //    }
-
 
     public void changeHistoryAndGraph() {
         //TODO Change graph tab to history tab.
