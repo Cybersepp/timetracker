@@ -44,9 +44,9 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
   <children>
-      <AnchorPane prefHeight="572.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+      <AnchorPane prefHeight="531.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
          <children>
-          <SplitPane dividerPositions="0.5" focusTraversable="true" layoutX="22.0" layoutY="15.0" prefHeight="522.0" prefWidth="856.0">
+          <SplitPane fx:id="splitPane" dividerPositions="1.0" focusTraversable="true" layoutX="22.0" layoutY="15.0" prefHeight="522.0" prefWidth="856.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="5.0">
             <items>
               <ScrollPane prefHeight="510.0" prefWidth="277.0">
                      <content>
@@ -74,7 +74,7 @@
                         </TabPane>
                      </content>
               </ScrollPane>
-              <AnchorPane fx:id="rightSideWindow" prefHeight="520.0" prefWidth="587.0">
+              <AnchorPane fx:id="rightSideWindow" maxHeight="475.0" maxWidth="587.0" minHeight="475.0" minWidth="587.0" prefHeight="475.0" prefWidth="587.0">
                 <children>
                     <fx:include fx:id="historyTab" prefWidth="448.0" source="HistoryTab.fxml" />
                   <fx:include fx:id="graphTab" prefWidth="448.0" source="GraphTab.fxml" />
@@ -84,14 +84,14 @@
           </SplitPane>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="49.0" prefWidth="900.0" VBox.vgrow="NEVER">
+      <AnchorPane prefHeight="53.0" prefWidth="900.0" VBox.vgrow="NEVER">
          <children>
-            <Button fx:id="recordButton" alignment="CENTER" layoutX="22.0" layoutY="-13.0" mnemonicParsing="false" onAction="#updateButton" prefHeight="38.0" prefWidth="113.0" text="RECORD">
+            <Button fx:id="recordButton" alignment="CENTER" layoutX="22.0" layoutY="6.0" mnemonicParsing="false" onAction="#updateButton" prefHeight="38.0" prefWidth="113.0" text="RECORD">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="historyAndGraphButton" alignment="CENTER" layoutX="766.0" layoutY="-13.0" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" text="HISTORY">
+            <Button fx:id="historyAndGraphButton" alignment="CENTER" layoutX="766.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" text="HISTORY">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>

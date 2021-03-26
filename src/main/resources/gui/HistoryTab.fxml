@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="historyTab" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HistoryTabController">
+<AnchorPane fx:id="historyTab" minHeight="475.0" minWidth="587.0" prefHeight="475.0" prefWidth="587.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HistoryTabController">
     <children>
-    <Label fx:id="historyLabel" alignment="CENTER" layoutX="40.0" layoutY="14.0" minWidth="60.0" prefHeight="41.0" prefWidth="369.0" style="&#10;" text="HISTORY OVERVIEW" textAlignment="CENTER" wrapText="false">
+      <ScrollPane layoutX="-2.0" layoutY="61.0" prefHeight="412.0" prefWidth="563.0">
+         <content>
+            <TableView minHeight="475.0" minWidth="461.0" prefHeight="624.0" prefWidth="542.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="43.0" prefWidth="349.0" text="HISTORY OVERVIEW">
          <font>
-            <Font name="Ubuntu Condensed" size="35.0" />
+            <Font size="29.0" />
          </font>
-    </Label>
+      </Label>
 
     </children>
 </AnchorPane>

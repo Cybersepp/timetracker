@@ -3,9 +3,9 @@ package gui;
 import data.FileAccess;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import logic.TimeCalculator;
+
 import java.io.IOException;
 import java.time.LocalTime;
 
@@ -41,8 +41,10 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        // It's not pretty, but upon initialization it removes history tab so they wouldn't overlap.
-        rightSideWindow.getChildren().remove(historyTab);
+        // I know it's retarded, sorry.
+        historyTab.setOpacity(0);
+        historyTab.setDisable(true);
+
 
     }
     /**
@@ -73,14 +75,15 @@ public class MainController {
      * If button shows "History", then change window from Graph tab to History tab and vice versa.
      */
     public void changeHistoryAndGraph() {
+
         switch (historyAndGraphButton.getText()) {
             case "GRAPH":
-                historyAndGraphButton.setText("HISTORY");
                 changeRightWindow(historyTab, graphTab);
+                historyAndGraphButton.setText("HISTORY");
                 break;
             case "HISTORY":
-                historyAndGraphButton.setText("GRAPH");
                 changeRightWindow(graphTab, historyTab);
+                historyAndGraphButton.setText("GRAPH");
                 break;
         }
     }
@@ -91,7 +94,11 @@ public class MainController {
      * @param tabToAdd Anchorpane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
-        rightSideWindow.getChildren().remove(tabToRemove);
-        rightSideWindow.getChildren().add(tabToAdd);
+        // I know it's retarded. sorry.
+        tabToRemove.setOpacity(0);
+        tabToRemove.setDisable(true);
+        tabToAdd.setOpacity(1);
+        tabToAdd.setDisable(false);
+
     }
 }
