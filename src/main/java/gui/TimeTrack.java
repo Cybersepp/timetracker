@@ -13,6 +13,8 @@ public class TimeTrack extends Application {
     Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
     primaryStage.setTitle("timetrack");
     primaryStage.show();
+    primaryStage.setMinHeight(600);
+    primaryStage.setMinWidth(900);
     primaryStage.setScene(new Scene(root));
   }
 

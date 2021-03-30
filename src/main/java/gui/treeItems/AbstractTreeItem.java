@@ -1,10 +1,9 @@
 package gui.treeItems;
 
+import gui.popups.CreateItemPopup;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
 
@@ -28,22 +27,18 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
     private MenuItem createProject() {
         MenuItem addProject = new MenuItem("Create project");
-        addProject.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                ProjectTreeItem newProject = new ProjectTreeItem("Return CCCP to former glory");
-                getChildren().add(newProject);
-            }
+        addProject.setOnAction(e -> {
+            CreateItemPopup createItemPopup = new CreateItemPopup();
+            createItemPopup.popup(this, "project");
         });
         return addProject;
     }
 
     private MenuItem createTask() {
         MenuItem addTask = new MenuItem("add task");
-        addTask.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                TaskTreeItem newTask = new TaskTreeItem("pick cotton");
-                getChildren().add(newTask);
-            }
+        addTask.setOnAction(e -> {
+            CreateItemPopup createItemPopup = new CreateItemPopup();
+            createItemPopup.popup(this,"task");
         });
         return addTask;
     }
