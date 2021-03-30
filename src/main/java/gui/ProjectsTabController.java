@@ -1,5 +1,6 @@
 package gui;
 
+import gui.popups.CreateItemPopup;
 import gui.treeItems.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
@@ -7,6 +8,7 @@ import javafx.scene.control.TreeView;
 
 public class ProjectsTabController {
 
+    private RootTreeItem projects;
     @FXML
     private TreeView<String> projectsTree;
 
@@ -18,7 +20,7 @@ public class ProjectsTabController {
         TreeItem<String> root = new TreeItem<>("Projects");
 
         // Visible roots
-        RootTreeItem projects = new RootTreeItem("Active projects");
+        projects = new RootTreeItem("Active projects");
         ArchivedRootTreeItem archived = new ArchivedRootTreeItem("Archived");
         root.getChildren().addAll(projects, archived);
 
@@ -84,17 +86,9 @@ public class ProjectsTabController {
         // TODO return some value that can be used using selectItem() method
     }
 
-    /**
-     * Method for creating a new tree item in the tab and making it a child of an existing item.
-     * @param root the branch of the project which the item is situated on.
-     * @param itemName the name of the created item.
-     */
-    private TreeItem<String> createItem(TreeItem<String> root, String itemName){
-        TreeItem<String> item = new TreeItem<>(itemName);
-        root.getChildren().add(item);
-        return item;
-        // TODO add configuration specific to all projects
-        // TODO add configuration specific to all tasks
+    public void createProject(){
+        CreateItemPopup createItemPopup = new CreateItemPopup();
+        createItemPopup.popup(projects, "project");
     }
 
 }
