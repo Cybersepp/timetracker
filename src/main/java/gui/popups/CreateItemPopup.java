@@ -57,6 +57,7 @@ public class CreateItemPopup implements Popup{
         stage.setTitle("Create a " + type);
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
+            // TODO create warning popup if textField is empty or a project / task with the given name already exists
             if (type.equals("project")) {
                 createProjectBranch(treeItem, textField);
             }
