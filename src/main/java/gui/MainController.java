@@ -38,6 +38,12 @@ public class MainController {
     @FXML
     private Button historyAndGraphButton;
 
+    @FXML
+    private Button recordButton;
+
+    @FXML
+    private Button endRecordButton;
+
 
     @FXML
     private void initialize() {
@@ -53,14 +59,28 @@ public class MainController {
      * @throws IOException In case something goes wrong with IO.
      */
     public void updateButton() throws IOException {
+
+        recordButton.setDisable(true);
+        recordButton.setOpacity(0);
         // Object from data layer for reading and writing to file.
         var data = new FileAccess();
         // Getting current time.
         LocalTime timeStampToShow = TimeCalculator.returnTime();
         // Adding that time to file.
-        data.addRecordToFile(timeStampToShow);
         // Updating graph based on the entry.
         graphTabController.updateGraph();
+
+        endRecordButton.setDisable(false);
+        endRecordButton.setOpacity(1);
+    }
+
+    public void updateEndButton() {
+        endRecordButton.setDisable(true);
+        endRecordButton.setOpacity(0);
+
+        recordButton.setDisable(false);
+        recordButton.setOpacity(1);
+
     }
 
 
