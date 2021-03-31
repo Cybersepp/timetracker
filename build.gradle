@@ -19,3 +19,7 @@ application {
 javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
+
+dependencies {
+    compile 'com.github.cliftonlabs:json-simple:3.1.1'
+}
