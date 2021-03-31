@@ -1,6 +1,8 @@
 package gui;
 
+import data.DataHandler;
 import data.FileAccess;
+import data.Record;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -14,7 +16,10 @@ import java.time.LocalTime;
  */
 public class MainController {
 
+
     // ---- CONTROLLER INSTANCES ----
+
+    private final Record record = new Record();
 
     @FXML
     private ProjectsTabController projectsTabController;
@@ -62,13 +67,8 @@ public class MainController {
 
         recordButton.setDisable(true);
         recordButton.setOpacity(0);
-        // Object from data layer for reading and writing to file.
-        var data = new FileAccess();
-        // Getting current time.
-        LocalTime timeStampToShow = TimeCalculator.returnTime();
-        // Adding that time to file.
-        // Updating graph based on the entry.
-        graphTabController.updateGraph();
+
+        record.setRecordStart();
 
         endRecordButton.setDisable(false);
         endRecordButton.setOpacity(1);
@@ -77,6 +77,14 @@ public class MainController {
     public void updateEndButton() {
         endRecordButton.setDisable(true);
         endRecordButton.setOpacity(0);
+
+        record.setRecordEnd();
+
+        String recordInfo = record.getRecordInfo();
+        DataHandler.currentlyChosenTask.addRecord(recordInfo);
+
+        System.out.println("Record: " + recordInfo + " was added to task " + DataHandler.currentlyChosenTask.getName() +
+                " which belongs to project " + DataHandler.currentlyChosenTask.getBelongs());
 
         recordButton.setDisable(false);
         recordButton.setOpacity(1);
