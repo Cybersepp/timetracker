@@ -15,11 +15,14 @@ public class Project implements Data{
         this.creationDate = creationDate;
     }
 
-    public void addTask(Task task) {
+    public void addTask(Task task)
+    {
         taskList.add(task);
+        DataHandler.addTask(task);
     }
 
     public String getName() {
         return projectName;
     }
+
 }
