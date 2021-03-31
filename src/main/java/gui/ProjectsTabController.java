@@ -1,5 +1,7 @@
 package gui;
 
+import data.Data;
+import data.DataHandler;
 import gui.popups.CreateItemPopup;
 import gui.treeItems.*;
 import javafx.fxml.FXML;
@@ -81,7 +83,9 @@ public class ProjectsTabController {
     public void selectItem() {
         TreeItem<String> activity = projectsTree.getSelectionModel().getSelectedItem();
         if (activity != null) {
-            System.out.println(activity.getValue());
+//            System.out.println(activity.getValue());
+            DataHandler.currentlyChosenTask = DataHandler.getTaskByName(activity.getValue());
+            DataHandler.showCurrentlyChosen();
         }
         // TODO return some value that can be used using selectItem() method
     }
