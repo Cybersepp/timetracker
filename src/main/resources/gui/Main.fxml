@@ -86,6 +86,11 @@
       </AnchorPane>
       <AnchorPane prefHeight="53.0" prefWidth="900.0" VBox.vgrow="NEVER">
          <children>
+            <Button fx:id="endRecordButton" alignment="CENTER" layoutX="22.0" layoutY="6.0" mnemonicParsing="false" onAction="#updateEndButton" prefHeight="38.0" prefWidth="113.0" text="END">
+               <font>
+                  <Font name="Ubuntu Condensed" size="20.0" />
+               </font>
+            </Button>
             <Button fx:id="recordButton" alignment="CENTER" layoutX="22.0" layoutY="6.0" mnemonicParsing="false" onAction="#updateButton" prefHeight="38.0" prefWidth="113.0" text="RECORD">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
