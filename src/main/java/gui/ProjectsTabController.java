@@ -55,21 +55,21 @@ public class ProjectsTabController {
         project1.getChildren().add(task2);
         Task newTask12 = new Task("Demo Task 2", LocalDateTime.now(), "Project One");
 
-        TaskTreeItem task3 = new TaskTreeItem("Demo Task 1");
+        TaskTreeItem task3 = new TaskTreeItem("Demo Task 3");
         project2.getChildren().add(task3);
-        Task newTask21 = new Task("Demo Task 1", LocalDateTime.now(), "Project Two");
+        Task newTask21 = new Task("Demo Task 3", LocalDateTime.now(), "Project Two");
 
-        TaskTreeItem task4 = new TaskTreeItem("Demo Task 2");
+        TaskTreeItem task4 = new TaskTreeItem("Demo Task 4");
         project2.getChildren().add(task4);
-        Task newTask22 = new Task("Demo Task 2", LocalDateTime.now(), "Project Two");
+        Task newTask22 = new Task("Demo Task 4", LocalDateTime.now(), "Project Two");
 
-        TaskTreeItem task5 = new TaskTreeItem("Demo Task 1");
+        TaskTreeItem task5 = new TaskTreeItem("Demo Task 5");
         project3.getChildren().add(task5);
-        Task newTask31 = new Task("Demo Task 1", LocalDateTime.now(), "Project Three");
+        Task newTask31 = new Task("Demo Task 5", LocalDateTime.now(), "Project Three");
 
-        TaskTreeItem task6 = new TaskTreeItem("Demo Task 2");
+        TaskTreeItem task6 = new TaskTreeItem("Demo Task 6");
         project3.getChildren().add(task6);
-        Task newTask32 = new Task("Demo Task 2", LocalDateTime.now(), "Project Three");
+        Task newTask32 = new Task("Demo Task 6", LocalDateTime.now(), "Project Three");
 
         newProject1.addTask(newTask11);
         newProject1.addTask(newTask12);
@@ -112,7 +112,7 @@ public class ProjectsTabController {
     public void selectItem() {
         TreeItem<String> activity = projectsTree.getSelectionModel().getSelectedItem();
         if (activity != null) {
-//            System.out.println(activity.getValue());
+            System.out.println(activity.getParent().getValue());
             try {
                 DataHandler.currentlyChosenTask = DataHandler.getTaskByName(activity.getValue());
                 DataHandler.showCurrentlyChosen();
