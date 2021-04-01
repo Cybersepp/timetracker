@@ -2,31 +2,34 @@ package data;
 
 import java.io.*;
 import java.time.LocalTime;
+import java.io.FileWriter;
+import java.util.List;
 
 /**
  * fileAccess method takes path of the file and given time and writes in on a new line in .csv file.
  */
 public class FileAccess {
-    private final File fileName = new File("records.csv");
 
-    public void addRecordToFile(LocalTime time) throws IOException {
-        try (var writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            writer.write(time + "\n");
-        }
-    }
+    public static void saveData() {
+        try (FileWriter fw = new FileWriter("records.txt", false)) {
+            List<Task> taskList = DataHandler.getTaskList();
 
-    /**
-     * howManyRecords method calculates how many entries are in a given file.
-     * @returns an integer which indicates how many entries there are in the file.
-     * @throws IOException
-     */
-    public int howManyRecords() throws IOException {
-        int counter = 0;
-        try (var reader = new BufferedReader(new FileReader(fileName))) {
-            while (reader.readLine() != null) {
-                counter++;
+            for (Task task : taskList) {
+                List<String> taskRecords = task.getRecords();
+
+                if (taskRecords.isEmpty()) continue;
+
+                taskRecords.forEach(r -> {
+                    try {
+                        fw.write(task.getBelongs() + ", " + task.getName() + ": " + r + "\n");
+                    } catch (IOException ignored) { }
+                });
+
             }
+
+        } catch (IOException e) {
+            System.out.println("File updating error.");
         }
-        return counter;
     }
+
 }
