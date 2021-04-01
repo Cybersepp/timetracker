@@ -3,6 +3,7 @@ package gui;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
+import data.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +21,8 @@ public class MainController {
     // ---- CONTROLLER INSTANCES ----
 
     private final Record record = new Record();
+
+    private Task currentlyRecordedTask;
 
     @FXML
     private ProjectsTabController projectsTabController;
@@ -70,6 +73,8 @@ public class MainController {
 
         record.setRecordStart();
 
+        currentlyRecordedTask = DataHandler.currentlyChosenTask;
+
         endRecordButton.setDisable(false);
         endRecordButton.setOpacity(1);
     }
@@ -81,10 +86,12 @@ public class MainController {
         record.setRecordEnd();
 
         String recordInfo = record.getRecordInfo();
-        DataHandler.currentlyChosenTask.addRecord(recordInfo);
+        currentlyRecordedTask.addRecord(recordInfo);
 
-        System.out.println("Record: " + recordInfo + " was added to task " + DataHandler.currentlyChosenTask.getName() +
-                " which belongs to project " + DataHandler.currentlyChosenTask.getBelongs());
+        System.out.println("Record: " + recordInfo + " was added to task " +  currentlyRecordedTask.getName() +
+                " which belongs to project " +  currentlyRecordedTask.getBelongs());
+
+        FileAccess.saveData();
 
         recordButton.setDisable(false);
         recordButton.setOpacity(1);
