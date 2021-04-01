@@ -28,4 +28,8 @@ public class Task implements Data{
     public String getBelongs() {
         return belongs;
     }
+
+    public List<String> getRecords() {
+        return records;
+    }
 }
