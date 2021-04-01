@@ -46,4 +46,11 @@ public abstract class DataHandler {
     public static void showCurrentlyChosen() {
         System.out.println(currentlyChosenTask.getName());
     }
+
+    public static List<Project> getProjectList() {
+        return projectList;
+    }
+    public static List<Task> getTaskList() {
+        return taskList;
+    }
 }
