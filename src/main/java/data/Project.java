@@ -25,4 +25,8 @@ public class Project implements Data{
         return projectName;
     }
 
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
 }
