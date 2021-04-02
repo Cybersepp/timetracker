@@ -12,7 +12,11 @@ public final class TreeCellImplication extends TreeCell<String> {
             setText(null);
             setGraphic(null);
         } else {
-            setText(getItem() == null ? "" : getItem());
+            if (getItem() == null) {
+                setText("");
+            } else {
+                setText(getItem());
+            }
             setGraphic(getTreeItem().getGraphic());
             setContextMenu( ((AbstractTreeItem) getTreeItem()).getMenu());
         }

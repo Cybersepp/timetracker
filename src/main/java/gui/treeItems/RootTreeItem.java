@@ -11,6 +11,10 @@ public class RootTreeItem extends AbstractTreeItem {
 
     @Override
     public ContextMenu getMenu() {
+
+        if (isArchived()) {
+            return new ContextMenu();
+        }
         MenuItem addProject = this.createItem("project");
         return new ContextMenu(addProject);
     }

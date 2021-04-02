@@ -14,7 +14,17 @@ import java.time.LocalDateTime;
 
 public class ProjectsTabController {
 
-    private RootTreeItem projects;
+    private static final RootTreeItem projects = new RootTreeItem("Active projects");
+    private static final RootTreeItem archived = new RootTreeItem("Archived");
+
+    public static RootTreeItem getProjects() {
+        return projects;
+    }
+
+    public static RootTreeItem getArchived() {
+        return archived;
+    }
+
     @FXML
     private TreeView<String> projectsTree;
 
@@ -22,12 +32,10 @@ public class ProjectsTabController {
     private void initialize() {
 
         // Test items for tree view
+
         // Root
         TreeItem<String> root = new TreeItem<>("Projects");
-
-        // Visible roots
-        projects = new RootTreeItem("Active projects");
-        ArchivedRootTreeItem archived = new ArchivedRootTreeItem("Archived");
+        archived.setArchived(true);
         root.getChildren().addAll(projects, archived);
 
         // Project items
@@ -83,19 +91,24 @@ public class ProjectsTabController {
 
         // Archived items
 
-        ArchivedProjectTreeItem archivedProject1 = new ArchivedProjectTreeItem("ArchivedProject1");
-        ArchivedProjectTreeItem archivedProject2 = new ArchivedProjectTreeItem("ArchivedProject2");
+        ProjectTreeItem archivedProject1 = new ProjectTreeItem("ArchivedProject1");
+        ProjectTreeItem archivedProject2 = new ProjectTreeItem("ArchivedProject2");
+        archivedProject1.setArchived(true);
+        archivedProject2.setArchived(true);
         archived.getChildren().addAll(archivedProject1, archivedProject2);
 
-        ArchivedTaskTreeItem aTask1 = new ArchivedTaskTreeItem("ArchivedTask1");
+        TaskTreeItem aTask1 = new TaskTreeItem("ArchivedTask1");
         archivedProject1.getChildren().add(aTask1);
-        ArchivedTaskTreeItem aTask2 = new ArchivedTaskTreeItem("ArchivedTask2");
+        TaskTreeItem aTask2 = new TaskTreeItem("ArchivedTask2");
         archivedProject1.getChildren().add(aTask2);
-        ArchivedTaskTreeItem aTask3 = new ArchivedTaskTreeItem("ArchivedTask3");
+        TaskTreeItem aTask3 = new TaskTreeItem("ArchivedTask3");
         archivedProject2.getChildren().add(aTask3);
-        ArchivedTaskTreeItem aTask4 = new ArchivedTaskTreeItem("ArchivedTask4");
+        TaskTreeItem aTask4 = new TaskTreeItem("ArchivedTask4");
         archivedProject2.getChildren().add(aTask4);
-
+        aTask1.setArchived(true);
+        aTask2.setArchived(true);
+        aTask3.setArchived(true);
+        aTask4.setArchived(true);
 
 
         // tree configuration

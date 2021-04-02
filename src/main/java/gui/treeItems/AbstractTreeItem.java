@@ -1,21 +1,28 @@
 package gui.treeItems;
 
+import gui.ProjectsTabController;
 import gui.popups.CreateItemPopup;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
+
+    private boolean archived = false;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 
     public abstract ContextMenu getMenu();
 
     protected MenuItem changeName() {
         MenuItem changeName = new MenuItem("change name");
-        changeName.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                // TODO set name to a new name
-                // TODO find a way to change project / task name and keep it's data intact (tasks, time spent)
-            }
+        changeName.setOnAction(e -> {
+            this.setValue("Changed name");
+            // TODO set name to a new name using popup
         });
         return changeName;
     }
@@ -45,47 +52,36 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
     protected MenuItem deleteItem(String text) {
         MenuItem deleteTask = new MenuItem(text);
-        deleteTask.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                // TODO should send out a warning message if there are any recordings associated with the item
-                // TODO should also delete all history that is associated with this item
-                // TODO Maybe should have also delete shortcut?
-            }
+        deleteTask.setOnAction(e -> {
+            this.getParent().getChildren().remove(this);
+            // TODO should send out a warning message if there are any recordings associated with the item
+            // TODO should also delete all history that is associated with this item
+            // TODO Maybe should have also delete shortcut?
         });
         return deleteTask;
     }
 
     protected MenuItem archive() {
         MenuItem archive = new MenuItem("archive project");
-        archive.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                // TODO replace active project to archived project without losing any daya
-                // TODO archived projects are unable to start recordings
-            }
+        archive.setOnAction(e -> {
+            this.getParent().getChildren().remove(this);
+            ProjectsTabController.getArchived().getChildren().add(this);
+
+            this.setArchived(true);
+            // TODO archived projects are unable to start recordings
+            // TODO changing archived value for project, should also change value for tasks (might need to overwrite getChildren or do a List of children)
         });
         return archive;
     }
 
-    protected MenuItem unarchive() {
-        MenuItem unarchive = new MenuItem("unarchive");
-        unarchive.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                // TODO replace archived project to active project without losing any data
-                // TODO unarchived projects should have done tasks intact and all data intact
-            }
-        });
-        return unarchive;
-    }
+    protected MenuItem unArchive() {
+        MenuItem unArchive = new MenuItem("unarchive");
+        unArchive.setOnAction(e -> {
+            this.getParent().getChildren().remove(this);
+            ProjectsTabController.getProjects().getChildren().add(this);
 
-    protected MenuItem markAsDone() {
-        MenuItem markAsDone = new MenuItem("mark as done");
-        markAsDone.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                // TODO mark task as done and cross it out
-                // TODO done tasks should not be able to add any recordings
-                // TODO crossed out tasks should be at the end of the project's task list
-            }
+            this.setArchived(false);
         });
-        return markAsDone;
+        return unArchive;
     }
 }
