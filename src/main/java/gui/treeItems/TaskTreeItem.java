@@ -19,6 +19,24 @@ public class TaskTreeItem extends AbstractTreeItem {
         this.setValue(name);
     }
 
+    private MenuItem markAsDone() {
+        MenuItem markAsDone = new MenuItem("mark as done");
+        markAsDone.setOnAction(e -> {
+            if (isDone()) {
+                this.setValue(this.getValue().substring(5));
+                this.setDone(false);
+            }
+            else {
+                this.setValue("Done " + this.getValue());
+                this.setDone(true);
+            }
+            // TODO mark task as done and cross it out
+            // TODO done tasks should not be able to add any recordings
+            // TODO crossed out tasks should be at the end of the project's task list
+        });
+        return markAsDone;
+    }
+
     @Override
     public ContextMenu getMenu() {
 

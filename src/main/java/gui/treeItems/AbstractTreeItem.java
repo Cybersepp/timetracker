@@ -22,8 +22,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
         MenuItem changeName = new MenuItem("change name");
         changeName.setOnAction(e -> {
             this.setValue("Changed name");
-            // TODO set name to a new name
-            // TODO find a way to change project / task name and keep it's data intact (tasks, time spent)
+            // TODO set name to a new name using popup
         });
         return changeName;
     }
@@ -70,7 +69,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
             this.setArchived(true);
             // TODO archived projects are unable to start recordings
-            // TODO changing archived value for project, should also change value for tasks
+            // TODO changing archived value for project, should also change value for tasks (might need to overwrite getChildren or do a List of children)
         });
         return archive;
     }
@@ -84,16 +83,5 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
             this.setArchived(false);
         });
         return unArchive;
-    }
-
-    protected MenuItem markAsDone() {
-        MenuItem markAsDone = new MenuItem("mark as done");
-        markAsDone.setOnAction(e -> {
-            this.setValue("Done " + this.getValue());
-            // TODO mark task as done and cross it out
-            // TODO done tasks should not be able to add any recordings
-            // TODO crossed out tasks should be at the end of the project's task list
-        });
-        return markAsDone;
     }
 }
