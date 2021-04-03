@@ -40,11 +40,16 @@ public class FileAccess {
 
     public static Map<String, Float> getProjectData() throws IOException {
 
+        File records = new File("records.txt");
+        if (!records.exists()) {
+            records.createNewFile();
+        }
+
         // TODO divison by 60 is quite ugly, I think we should change it somewhere to hours.
         String strCurrentLine;
         Map<String, Float> projects = new HashMap<>();
 
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("records.txt"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(records))) {
             while ((strCurrentLine = fileReader.readLine()) != null) {
                 String[] recordProperties = strCurrentLine.split(", ");
                 String projectName = recordProperties[0];

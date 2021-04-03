@@ -58,6 +58,7 @@ public class MainController {
     @FXML
     private void initialize() throws IOException {
         // I know it's retarded, sorry.
+
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
         graphTabController.initUpdateGraph();
