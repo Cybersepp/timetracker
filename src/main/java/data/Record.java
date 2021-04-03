@@ -34,6 +34,7 @@ public class Record {
         return recordEnd.format(formatter);
     }
 
+    public String getDurationInSec() { return durationInSec;}
 
     public String getRecordInfo() {
         return getRecordStart() + ", " + getRecordEnd() + ", " + durationInSec;

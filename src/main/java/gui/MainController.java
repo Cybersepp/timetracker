@@ -7,22 +7,19 @@ import data.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import logic.TimeCalculator;
 
 import java.io.IOException;
-import java.time.LocalTime;
 
 /**
- * MainController class is made for functionality of the UI elements.
+ * MainController class is made for functionality of the UI elements (Not MVC sorry).
  */
 public class MainController {
 
 
+    //TODO bad practice "hiding" tabs from the user by simpli disabling window/button and setting opacity to 0, will
+    // to change
+
     // ---- CONTROLLER INSTANCES ----
-
-    private final Record record = new Record();
-
-    private Task currentlyRecordedTask;
 
     @FXML
     private ProjectsTabController projectsTabController;
@@ -52,12 +49,18 @@ public class MainController {
     @FXML
     private Button endRecordButton;
 
+    // ---- DAO ----
+
+    private final Record record = new Record();
+
+    private Task currentlyRecordedTask;
 
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
         // I know it's retarded, sorry.
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
+        graphTabController.initUpdateGraph();
 
 
     }
@@ -66,7 +69,7 @@ public class MainController {
      * (Right now every entry is equal to the other).
      * @throws IOException In case something goes wrong with IO.
      */
-    public void updateButton() throws IOException {
+    public void updateButton() {
 
         recordButton.setDisable(true);
         recordButton.setOpacity(0);
@@ -79,7 +82,9 @@ public class MainController {
         endRecordButton.setOpacity(1);
     }
 
-    public void updateEndButton() {
+    public void updateEndButton() throws IOException {
+
+        graphTabController.clearGraph();
         endRecordButton.setDisable(true);
         endRecordButton.setOpacity(0);
 
@@ -88,10 +93,12 @@ public class MainController {
         String recordInfo = record.getRecordInfo();
         currentlyRecordedTask.addRecord(recordInfo);
 
+        graphTabController.initUpdateGraph();
+
         System.out.println("Record: " + recordInfo + " was added to task " +  currentlyRecordedTask.getName() +
                 " which belongs to project " +  currentlyRecordedTask.getBelongs());
 
-        FileAccess.saveData();
+        FileAccess.saveRecordData();
 
         recordButton.setDisable(false);
         recordButton.setOpacity(1);
