@@ -13,9 +13,13 @@ compileTestJava.options.encoding = 'UTF-8'
 
 
 application {
-    mainClassName = 'gui.TimeTrack'
+    mainClassName = 'gui.Main'
 }
 
 javafx {
     modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    compile 'com.github.cliftonlabs:json-simple:3.1.1'
 }

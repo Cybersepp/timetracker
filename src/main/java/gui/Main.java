@@ -6,15 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class TimeTrack extends Application {
+public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
     Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
     primaryStage.setTitle("timetrack");
     primaryStage.show();
+    primaryStage.setMinHeight(600);
+    primaryStage.setMinWidth(900);
     primaryStage.setScene(new Scene(root));
   }
+
 
 
   public static void main(String[] args) {
