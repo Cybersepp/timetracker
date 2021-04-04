@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="historyTab" minHeight="475.0" minWidth="587.0" prefHeight="475.0" prefWidth="587.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HistoryTabController">
+<AnchorPane fx:id="historyTab" minHeight="475.0" minWidth="587.0" prefHeight="475.0" prefWidth="587.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.controllers.HistoryTabController">
     <children>
       <ScrollPane layoutX="-2.0" layoutY="61.0" prefHeight="412.0" prefWidth="563.0">
          <content>

@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
@@ -22,7 +22,7 @@ public class GraphTabController {
     /**
      * Method for updating the graph.
      */
-    public void initUpdateGraph() throws IOException {
+    public void updateGraph() throws IOException {
 
         Map<String, Float> projectNameAndTime =  getProjectData();
 

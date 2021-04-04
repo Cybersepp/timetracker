@@ -1,6 +1,6 @@
 package gui.popups;
 
-import gui.treeItems.AbstractTreeItem;
+import logic.treeItems.AbstractTreeItem;
 
 public interface Popup {
 

@@ -1,6 +1,6 @@
-package gui.treeItems;
+package logic.treeItems;
 
-import gui.ProjectsTabController;
+import gui.controllers.ProjectsTabController;
 import gui.popups.CreateItemPopup;
 import javafx.scene.control.*;
 

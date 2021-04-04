@@ -41,11 +41,11 @@ public class FileAccess {
     public static Map<String, Float> getProjectData() throws IOException {
 
         File records = new File("records.txt");
-        if (!records.exists()) {
-            records.createNewFile();
+        if (records.createNewFile()) {
+            System.out.println("created new data file");
         }
 
-        // TODO divison by 60 is quite ugly, I think we should change it somewhere to hours.
+        // TODO division by 60 is quite ugly, should change it to hours.
         String strCurrentLine;
         Map<String, Float> projects = new HashMap<>();
 

@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import data.DataHandler;
 import data.FileAccess;
@@ -7,6 +7,7 @@ import data.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import logic.treeItems.TaskTreeItem;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class MainController {
 
 
-    //TODO bad practice "hiding" tabs from the user by simpli disabling window/button and setting opacity to 0, will
+    //TODO bad practice "hiding" tabs from the user by simply disabling window/button and setting opacity to 0, need
     // to change
 
     // ---- CONTROLLER INSTANCES ----
@@ -61,26 +62,27 @@ public class MainController {
 
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-        graphTabController.initUpdateGraph();
+        graphTabController.updateGraph();
 
 
     }
-    /**
-     * Method updateButton saves an entry to "records.csv" and then updates the graph based on the entry.
-     * (Right now every entry is equal to the other).
-     * @throws IOException In case something goes wrong with IO.
-     */
-    public void updateButton() {
 
-        recordButton.setDisable(true);
-        recordButton.setOpacity(0);
+    public void updateButton() { // TODO this updateButton should be one method only, not two separate
 
-        record.setRecordStart();
+        if (projectsTabController.selectItem() == null) {
+            System.out.println("No task has been selected");
+        }
+        else if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
+            recordButton.setDisable(true);
+            recordButton.setOpacity(0);
 
-        currentlyRecordedTask = DataHandler.currentlyChosenTask;
+            record.setRecordStart();
 
-        endRecordButton.setDisable(false);
-        endRecordButton.setOpacity(1);
+            currentlyRecordedTask = DataHandler.currentlyChosenTask;
+
+            endRecordButton.setDisable(false);
+            endRecordButton.setOpacity(1);
+        }
     }
 
     public void updateEndButton() throws IOException {
@@ -94,7 +96,7 @@ public class MainController {
         String recordInfo = record.getRecordInfo();
         currentlyRecordedTask.addRecord(recordInfo);
 
-        graphTabController.initUpdateGraph();
+        graphTabController.updateGraph();
 
         System.out.println("Record: " + recordInfo + " was added to task " +  currentlyRecordedTask.getName() +
                 " which belongs to project " +  currentlyRecordedTask.getBelongs());
@@ -105,14 +107,6 @@ public class MainController {
         recordButton.setOpacity(1);
 
     }
-
-
-//    public void addProject() {
-//        String projectName = GUIElemHandler.textDialog("New Project", "Project", "Add a new project:");
-//
-//        TreeItem<String> mainProjectTree = projectsTabController.getMainTree();
-//        projectsTabController.createProject(mainProjectTree,  projectName);
-//    }
 
     /**
      * If button shows "History", then change window from Graph tab to History tab and vice versa.
@@ -132,9 +126,9 @@ public class MainController {
     }
 
     /**
-     * Method for switching between tabs of the Anchorpane "rightSideWindow".
-     * @param tabToRemove Anchorpane to be removed.
-     * @param tabToAdd Anchorpane to be added.
+     * Method for switching between tabs of the AnchorPane "rightSideWindow".
+     * @param tabToRemove AnchorPane to be removed.
+     * @param tabToAdd AnchorPane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
         // I know it's retarded. sorry.

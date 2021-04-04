@@ -1,15 +1,13 @@
-package gui;
+package gui.controllers;
 
-import data.Data;
 import data.DataHandler;
 import gui.popups.CreateItemPopup;
-import gui.treeItems.*;
+import logic.treeItems.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import data.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 
 public class ProjectsTabController {
@@ -31,12 +29,12 @@ public class ProjectsTabController {
     @FXML
     private void initialize() {
 
-        // Test items for tree view
-
         // Root
         TreeItem<String> root = new TreeItem<>("Projects");
         archived.setArchived(true);
         root.getChildren().addAll(projects, archived);
+
+        // -------- Demo items for tree view ----------------
 
         // Project items
         ProjectTreeItem project1 = new ProjectTreeItem("Project One");
@@ -110,22 +108,22 @@ public class ProjectsTabController {
         aTask3.setArchived(true);
         aTask4.setArchived(true);
 
+        // ------------------ Demo items end for tree view -----------------------
 
         // tree configuration
         projectsTree.setShowRoot(false);
         projectsTree.setRoot(root);
         projectsTree.setCellFactory(p -> new TreeCellImplication());
-        // Test items end for tree view
-
     }
 
     /**
      * Method for selecting projects and project tasks and sending out value.
+     * @return selected treeItem on treeView
      */
-    public void selectItem() {
+    public TreeItem<String> selectItem() {
         TreeItem<String> activity = projectsTree.getSelectionModel().getSelectedItem();
         if (activity != null) {
-            System.out.println(activity.getParent().getValue());
+            System.out.println(activity.getValue());
             try {
                 DataHandler.currentlyChosenTask = DataHandler.getTaskByName(activity.getValue());
                 DataHandler.showCurrentlyChosen();
@@ -133,7 +131,7 @@ public class ProjectsTabController {
                 System.out.println("This is not a task");
             }
         }
-        // TODO return some value that can be used using selectItem() method
+        return activity;
     }
 
     public void createProject(){

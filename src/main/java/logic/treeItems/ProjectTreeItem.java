@@ -1,9 +1,11 @@
-package gui.treeItems;
+package logic.treeItems;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 public class ProjectTreeItem extends AbstractTreeItem {
+
+    // TODO add list of children and other fields so the data.Project and data.Task classes would not be needed
 
     public ProjectTreeItem(String name) {
         this.setValue(name);

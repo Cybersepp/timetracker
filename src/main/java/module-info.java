@@ -1,7 +1,7 @@
-module TimeTrack {
+module Main {
   requires javafx.controls;
   requires javafx.fxml;
     requires json.simple;
-    opens gui to javafx.fxml;
+    opens gui.controllers to javafx.fxml;
   exports gui;
 }

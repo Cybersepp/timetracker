@@ -8,6 +8,7 @@ public abstract class DataHandler {
     private static List<Task> taskList = new ArrayList<>();
     public static Task currentlyChosenTask;
 
+    // TODO getProjectByName, getTaskByName, checkName are a bit inefficent and can be optimized
     public static Project getProjectByName(String name) {
         for (Project project : projectList) {
             if (project.getName().equals(name)) return project;

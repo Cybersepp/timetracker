@@ -1,4 +1,4 @@
-package gui.treeItems;
+package logic.treeItems;
 
 import javafx.scene.control.TreeCell;
 
