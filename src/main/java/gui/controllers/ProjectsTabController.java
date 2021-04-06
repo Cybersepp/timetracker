@@ -135,8 +135,8 @@ public class ProjectsTabController {
     }
 
     public void createProject(){
-        CreateItemPopup createItemPopup = new CreateItemPopup();
-        createItemPopup.popup(projects, "project");
+        CreateItemPopup createItemPopup = new CreateItemPopup(projects, "project");
+        createItemPopup.popup();
     }
 
 }

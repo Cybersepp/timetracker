@@ -35,8 +35,8 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     private MenuItem createProject() {
         MenuItem addProject = new MenuItem("Create project");
         addProject.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup();
-            createItemPopup.popup(this, "project");
+            CreateItemPopup createItemPopup = new CreateItemPopup(this, "project");
+            createItemPopup.popup();
         });
         return addProject;
     }
@@ -44,8 +44,8 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     private MenuItem createTask() {
         MenuItem addTask = new MenuItem("add task");
         addTask.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup();
-            createItemPopup.popup(this,"task");
+            CreateItemPopup createItemPopup = new CreateItemPopup(this, "task");
+            createItemPopup.popup();
         });
         return addTask;
     }

@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import data.Project;
@@ -21,15 +20,19 @@ import data.DataHandler;
 
 import java.time.LocalDateTime;
 
-public class CreateItemPopup implements Popup{
+public class CreateItemPopup extends AbstractPopup{
 
-    public void popup(AbstractTreeItem treeItem, String type) {
+    private final AbstractTreeItem treeItem;
+    private final String type;
+
+    public CreateItemPopup(AbstractTreeItem treeItem, String type) {
+        this.treeItem = treeItem;
+        this.type = type;
+    }
+
+    public void popup() {
         Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setMinWidth(300);
-        window.setMaxWidth(450);
-        window.setMinHeight(250);
-        window.setMaxHeight(375);
+        defaultWindowSettings(window, 250, 300, 375, 450);
 
         Label label = new Label("Name your " + type);
         label.setFont(Font.font ("Verdana", FontWeight.BOLD, 16));
@@ -63,14 +66,19 @@ public class CreateItemPopup implements Popup{
         stage.setTitle("Create a " + type);
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
+            if (textField.getText().trim().isEmpty()) {
+                new WarningPopup("You have no set a name for the " + type + "!").popup();
+            }
+            else {
+                if (type.equals("project")) {
+                    createProjectBranch(treeItem, textField);
+                }
+                if (type.equals("task")) {
+                    createTaskLeaf(treeItem, textField);
+                }
+                stage.close();
+            }
             // TODO create warning popup if textField is empty or a project / task with the given name already exists
-            if (type.equals("project")) {
-                createProjectBranch(treeItem, textField);
-            }
-            if (type.equals("task")) {
-                createTaskLeaf(treeItem, textField);
-            }
-            stage.close();
         });
     }
 
