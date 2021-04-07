@@ -67,8 +67,9 @@ public class CreateItemPopup extends AbstractPopup{
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
             if (textField.getText().trim().isEmpty()) {
-                new WarningPopup("You have no set a name for the " + type + "!").popup();
+                new WarningPopup("You have not set a name for the " + type + "!").popup();
             }
+            // TODO create warning popup if textField is a project / task with the given name already exists (else if)
             else {
                 if (type.equals("project")) {
                     createProjectBranch(treeItem, textField);
@@ -78,7 +79,7 @@ public class CreateItemPopup extends AbstractPopup{
                 }
                 stage.close();
             }
-            // TODO create warning popup if textField is empty or a project / task with the given name already exists
+
         });
     }
 

@@ -6,7 +6,11 @@ import javafx.scene.control.*;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
 
-    private boolean archived = false;
+    protected boolean archived = false;
+
+    public AbstractTreeItem(String value) {
+        this.setValue(value);
+    }
 
     public boolean isArchived() {
         return archived;

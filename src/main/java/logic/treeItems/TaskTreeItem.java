@@ -3,9 +3,27 @@ package logic.treeItems;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class TaskTreeItem extends AbstractTreeItem {
 
     private boolean done = false;
+    private final LocalDateTime creationDate;
+    private List<String> records;
+
+    public TaskTreeItem(String value) {
+        super(value);
+        this.creationDate = LocalDateTime.now();
+    }
+
+    public TaskTreeItem(String value, LocalDateTime creationDate, boolean archived, boolean done, List<String> records) {
+        super(value);
+        this.creationDate = creationDate;
+        this.archived = archived;
+        this.done = done;
+        this.records = records;
+    }
 
     public boolean isDone() {
         return done;
@@ -13,10 +31,6 @@ public class TaskTreeItem extends AbstractTreeItem {
 
     public void setDone(boolean done) {
         this.done = done;
-    }
-
-    public TaskTreeItem(String name) {
-        this.setValue(name);
     }
 
     private MenuItem markAsDone() {
