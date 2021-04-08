@@ -2,9 +2,9 @@
 Simple and easy-to-use time tracking application.
 
 Group members:
-- Georg Šumailov
-- Richard Kuklane
-- Nikita Bahhir
+- Georg Šumailov (cybersepp)
+- Richard Kuklane (rikuklane)
+- Nikita Bahhir (nbahh)
 
 (Upcoming) functionality:
 - User can add new projects and subtasks of the project.

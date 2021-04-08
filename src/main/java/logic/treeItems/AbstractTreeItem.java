@@ -6,7 +6,11 @@ import javafx.scene.control.*;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
 
-    private boolean archived = false;
+    protected boolean archived = false;
+
+    protected AbstractTreeItem(String value) {
+        this.setValue(value);
+    }
 
     public boolean isArchived() {
         return archived;
@@ -16,6 +20,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
         this.archived = archived;
     }
 
+    // ---------------- GUI and interactive methods ------------------------
     public abstract ContextMenu getMenu();
 
     protected MenuItem changeName() {
@@ -35,8 +40,8 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     private MenuItem createProject() {
         MenuItem addProject = new MenuItem("Create project");
         addProject.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup();
-            createItemPopup.popup(this, "project");
+            CreateItemPopup createItemPopup = new CreateItemPopup(this, "project");
+            createItemPopup.popup();
         });
         return addProject;
     }
@@ -44,8 +49,8 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     private MenuItem createTask() {
         MenuItem addTask = new MenuItem("add task");
         addTask.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup();
-            createItemPopup.popup(this,"task");
+            CreateItemPopup createItemPopup = new CreateItemPopup(this, "task");
+            createItemPopup.popup();
         });
         return addTask;
     }

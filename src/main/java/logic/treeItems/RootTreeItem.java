@@ -1,14 +1,41 @@
 package logic.treeItems;
 
+import data.DataHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RootTreeItem extends AbstractTreeItem {
 
-    public RootTreeItem(String name) {
-        this.setValue(name);
+    private List<ProjectTreeItem> juniors = new ArrayList<>();
+
+    public List<ProjectTreeItem> getJuniors() {
+        return juniors;
     }
 
+    // TODO Should we override List add and remove (and also quite many methods more) so the following two methods would not be needed?
+    public void addJunior(ProjectTreeItem junior) {
+        this.juniors.add(junior);
+        this.getChildren().add(junior);
+    }
+
+    public void removeJunior(ProjectTreeItem junior) {
+        this.juniors.remove(junior);
+        this.getChildren().remove(junior);
+    }
+
+    public RootTreeItem(String value) {
+        super(value);
+    }
+
+    public RootTreeItem(String value, List<ProjectTreeItem> children) {
+        super(value);
+        this.juniors = children;
+    }
+
+    // ------------ GUI -------------------
     @Override
     public ContextMenu getMenu() {
 
