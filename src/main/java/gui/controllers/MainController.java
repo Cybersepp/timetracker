@@ -3,7 +3,6 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
-import data.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -54,7 +53,7 @@ public class MainController {
 
     private final Record record = new Record();
 
-    private Task currentlyRecordedTask;
+    private final DataHandler dataHandler = new DataHandler();
 
     @FXML
     private void initialize() throws IOException {
@@ -69,23 +68,25 @@ public class MainController {
 
     public void updateButton() { // TODO this updateButton should be one method only, not two separate
 
-        if (projectsTabController.selectItem() == null) {
-            System.out.println("No task has been selected");
-        }
-        else if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
+        if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
             recordButton.setDisable(true);
             recordButton.setOpacity(0);
 
+            dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
             record.setRecordStart();
-
-            currentlyRecordedTask = DataHandler.currentlyChosenTask;
 
             endRecordButton.setDisable(false);
             endRecordButton.setOpacity(1);
         }
+
+        else {
+            System.out.println("No task has been selected");
+        }
     }
 
     public void updateEndButton() throws IOException {
+
+        TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
 
         graphTabController.clearGraph();
         endRecordButton.setDisable(true);
@@ -94,12 +95,12 @@ public class MainController {
         record.setRecordEnd();
 
         String recordInfo = record.getRecordInfo();
-        currentlyRecordedTask.addRecord(recordInfo);
+        currentTask.getRecords().add(recordInfo);
 
         graphTabController.updateGraph();
 
-        System.out.println("Record: " + recordInfo + " was added to task " +  currentlyRecordedTask.getName() +
-                " which belongs to project " +  currentlyRecordedTask.getBelongs());
+        System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
+                " which belongs to project " +  currentTask.getParent().getValue());
 
         FileAccess.saveRecordData();
 

@@ -3,27 +3,16 @@ package logic.treeItems;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskTreeItem extends AbstractTreeItem {
 
     private boolean done = false;
     private final LocalDateTime creationDate;
-    private List<String> records;
-
-    public TaskTreeItem(String value) {
-        super(value);
-        this.creationDate = LocalDateTime.now();
-    }
-
-    public TaskTreeItem(String value, LocalDateTime creationDate, boolean archived, boolean done, List<String> records) {
-        super(value);
-        this.creationDate = creationDate;
-        this.archived = archived;
-        this.done = done;
-        this.records = records;
-    }
+    private List<String> records = new ArrayList<>();
 
     public boolean isDone() {
         return done;
@@ -33,6 +22,30 @@ public class TaskTreeItem extends AbstractTreeItem {
         this.done = done;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public List<String> getRecords() {
+        return records;
+    }
+
+    // ------------------ Constructor for creating a task while reading from file -------------------
+    public TaskTreeItem(String value, LocalDateTime creationDate, boolean archived, boolean done, List<String> records) {
+        super(value);
+        this.creationDate = creationDate;
+        this.archived = archived;
+        this.done = done;
+        this.records = records;
+    }
+
+    // ------------ Constructor for creating a task ---------------
+    public TaskTreeItem(String value) {
+        super(value);
+        this.creationDate = LocalDateTime.now();
+    }
+
+    // ------------------ GUI ----------------------
     private MenuItem markAsDone() {
         MenuItem markAsDone = new MenuItem("mark as done");
         markAsDone.setOnAction(e -> {

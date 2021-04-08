@@ -14,12 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import data.Project;
-import data.Task;
-import data.DataHandler;
-
-import java.time.LocalDateTime;
-
 public class CreateItemPopup extends AbstractPopup{
 
     private final AbstractTreeItem treeItem;
@@ -84,26 +78,14 @@ public class CreateItemPopup extends AbstractPopup{
     }
 
     private void createProjectBranch(AbstractTreeItem treeItem, TextField textField){
-        String projectName = textField.getText();
-        ProjectTreeItem newProject = new ProjectTreeItem(projectName);
+
+        ProjectTreeItem newProject = new ProjectTreeItem(textField.getText());
         treeItem.getChildren().add(newProject);
-
-        Project projectObj = new Project(projectName, LocalDateTime.now());
-        DataHandler.addProject(projectObj);
-        DataHandler.showProjects();
-
     }
 
     private void createTaskLeaf(AbstractTreeItem treeItem, TextField textField) {
-        String taskName = textField.getText();
+
         TaskTreeItem newTask = new TaskTreeItem(textField.getText());
         treeItem.getChildren().add(newTask);
-
-        String projectName = treeItem.getValue();
-        Task taskObj = new Task(taskName, LocalDateTime.now(), projectName);
-        DataHandler.addTask(taskObj);
-        DataHandler.getProjectByName(projectName).addTask(taskObj);
-
-        System.out.println("Task " + taskName + " was added to " + projectName + " project.");
     }
 }

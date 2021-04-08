@@ -1,5 +1,10 @@
 package data;
 
+import gui.controllers.ProjectsTabController;
+import gui.popups.WarningPopup;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.TaskTreeItem;
+
 import java.io.*;
 import java.time.LocalTime;
 import java.io.FileWriter;
@@ -18,23 +23,26 @@ public class FileAccess {
 
     public static void saveRecordData() {
         try (FileWriter fw = new FileWriter("records.txt", true)) {
-            List<Task> taskList = DataHandler.getTaskList();
 
-            for (Task task : taskList) {
-                List<String> taskRecords = task.getRecords();
+            for (ProjectTreeItem project : ProjectsTabController.getProjects().getJuniors()) {
+                for(TaskTreeItem task : project.getJuniors()) {
+                    List<String> taskRecords = task.getRecords();
 
-                if (taskRecords.isEmpty()) continue;
+                    if (taskRecords.isEmpty()) continue;
 
-                taskRecords.forEach(r -> {
-                    try {
-                        fw.write(task.getBelongs() + ", " + task.getName() + ", " + r + "\n");
-                    } catch (IOException ignored) { }
-                });
-
+                    taskRecords.forEach(r -> {
+                        try {
+                            fw.write(task.getParent().getValue() + ", " + task.getValue() + ", " + r + "\n");
+                        } catch (IOException ignored) { }
+                    });
+                }
             }
 
+
+
         } catch (IOException e) {
-            System.out.println("File updating error.");
+            // TODO is this good enough of a catch?
+            new WarningPopup("File updating error.");
         }
     }
 

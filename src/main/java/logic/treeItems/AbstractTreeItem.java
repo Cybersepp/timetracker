@@ -8,7 +8,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
     protected boolean archived = false;
 
-    public AbstractTreeItem(String value) {
+    protected AbstractTreeItem(String value) {
         this.setValue(value);
     }
 
@@ -20,6 +20,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
         this.archived = archived;
     }
 
+    // ---------------- GUI and interactive methods ------------------------
     public abstract ContextMenu getMenu();
 
     protected MenuItem changeName() {

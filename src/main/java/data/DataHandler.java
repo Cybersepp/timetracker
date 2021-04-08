@@ -1,57 +1,47 @@
 package data;
 
+import gui.controllers.ProjectsTabController;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.TaskTreeItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DataHandler {
-    private static List<Project> projectList = new ArrayList<>();
-    private static List<Task> taskList = new ArrayList<>();
-    public static Task currentlyChosenTask;
+public class DataHandler {
 
-    // TODO getProjectByName, getTaskByName, checkName are a bit inefficent and can be optimized
-    public static Project getProjectByName(String name) {
-        for (Project project : projectList) {
-            if (project.getName().equals(name)) return project;
+    private TaskTreeItem currentlyChosenTask;
 
-        }
-        return null;
+    public TaskTreeItem getCurrentlyChosenTask() {
+        return currentlyChosenTask;
     }
 
-    public static Task getTaskByName(String name) {
-        for (Task task : taskList) {
-            if (task.getName().equals(name)) return task;
-
-        }
-        return null;
+    public void setCurrentlyChosenTask(TaskTreeItem currentlyChosenTask) {
+        this.currentlyChosenTask = currentlyChosenTask;
     }
 
-    public static boolean checkName(String name) {
-        for (Project project : projectList) {
-            if (project.getName().equals(name)) return true;
-        }
-        return false;
-    }
+    // TODO Nikita read this below
 
-    public static void addProject(Project project) {
-        projectList.add(project);
-    }
+    /*
+        So i am going to write a little explanation how to get everything you had here before
 
-    public static void addTask(Task task) {
-        taskList.add(task);
-    }
+        * First of all if you tap on a project/task/root you can access it with ProjectsTabController SelectItem() method
+        * List of Projects: RootTreeItem.getJuniors() (there are two root items "archived" and "active projects")
+        * List of tasks for a certain project: ProjectTreeItem.getJuniors()
+        * Get a name of a task or project or root: AbstractTreeItem.getValue()
 
+        Then I don't understand why would you need to find some task or project by name, but if you need to use it somewhere
+        then you can just get a list of projects or list of tasks from a certain project in the way I described before
+        and check if that exists there as you can get a projects or tasks name in the list by item.getValue()
+        And same goes for the checkName operation you had here
+
+     */
+
+    // not sure if you actually need this method aswell
     public static void showProjects() {
-        projectList.forEach(t -> System.out.println(t.getName()));
-    }
+        System.out.println("Active Projects:");
+        ProjectsTabController.getProjects().getJuniors().forEach(project -> System.out.println(project.getValue()));
 
-    public static void showCurrentlyChosen() {
-        System.out.println(currentlyChosenTask.getName());
-    }
-
-    public static List<Project> getProjectList() {
-        return projectList;
-    }
-    public static List<Task> getTaskList() {
-        return taskList;
+        System.out.println("Archived Projects:");
+        ProjectsTabController.getArchived().getJuniors().forEach(project -> System.out.println(project.getValue()));
     }
 }
