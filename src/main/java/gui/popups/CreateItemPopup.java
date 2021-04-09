@@ -2,6 +2,7 @@ package gui.popups;
 
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -57,6 +58,7 @@ public class CreateItemPopup extends AbstractPopup{
     }
 
     private void createButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, String type, TextField textField) {
+
         stage.setTitle("Create a " + type);
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
@@ -65,11 +67,12 @@ public class CreateItemPopup extends AbstractPopup{
             }
             // TODO create warning popup if textField is a project / task with the given name already exists (else if)
             else {
-                if (type.equals("project")) {
-                    createProjectBranch(treeItem, textField);
+
+                if (treeItem.getClass().equals(RootTreeItem.class)) {
+                    createProjectBranch((RootTreeItem) treeItem, textField);
                 }
-                if (type.equals("task")) {
-                    createTaskLeaf(treeItem, textField);
+                if (treeItem.getClass().equals(ProjectTreeItem.class)) {
+                    createTaskLeaf((ProjectTreeItem) treeItem, textField);
                 }
                 stage.close();
             }
@@ -77,15 +80,15 @@ public class CreateItemPopup extends AbstractPopup{
         });
     }
 
-    private void createProjectBranch(AbstractTreeItem treeItem, TextField textField){
+    private void createProjectBranch(RootTreeItem root, TextField textField){
 
         ProjectTreeItem newProject = new ProjectTreeItem(textField.getText());
-        treeItem.getChildren().add(newProject);
+        root.addJunior(newProject);
     }
 
-    private void createTaskLeaf(AbstractTreeItem treeItem, TextField textField) {
+    private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
 
         TaskTreeItem newTask = new TaskTreeItem(textField.getText());
-        treeItem.getChildren().add(newTask);
+        project.addJunior(newTask);
     }
 }

@@ -1,7 +1,6 @@
 package logic.treeItems;
 
 import gui.controllers.ProjectsTabController;
-import javafx.concurrent.Task;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -25,8 +24,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
             task.setArchived(newRoot.isArchived());
         }
     }
-
-    // TODO add list of children and other fields so the data.Project and data.Task classes would not be needed
 
     // -------------- DATA -----------------
     public List<TaskTreeItem> getJuniors() {

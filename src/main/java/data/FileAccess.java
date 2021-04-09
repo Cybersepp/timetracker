@@ -31,9 +31,12 @@ public class FileAccess {
                     if (taskRecords.isEmpty()) continue;
 
                     taskRecords.forEach(r -> {
+
                         try {
-                            fw.write(task.getParent().getValue() + ", " + task.getValue() + ", " + r + "\n");
-                        } catch (IOException ignored) { }
+                            fw.write(project.getValue() + ", " + task.getValue() + ", " + r + "\n");
+                        } catch (IOException e) {
+                            new WarningPopup("File updating error: " + e);
+                        }
                     });
                 }
             }
@@ -42,7 +45,7 @@ public class FileAccess {
 
         } catch (IOException e) {
             // TODO is this good enough of a catch?
-            new WarningPopup("File updating error: " + e);
+            new WarningPopup("Could not write to file: " + e);
         }
     }
 
