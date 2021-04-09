@@ -42,7 +42,7 @@ public class FileAccess {
 
         } catch (IOException e) {
             // TODO is this good enough of a catch?
-            new WarningPopup("File updating error.");
+            new WarningPopup("File updating error: " + e);
         }
     }
 

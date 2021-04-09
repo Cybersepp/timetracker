@@ -1,6 +1,7 @@
 package logic.treeItems;
 
-import data.DataHandler;
+import gui.controllers.ProjectsTabController;
+import javafx.concurrent.Task;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -12,6 +13,18 @@ public class ProjectTreeItem extends AbstractTreeItem {
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
     private final LocalDateTime creationDate;
+
+    public void setArchived(RootTreeItem newRoot) {
+        // TODO archived projects should be made unable to start recordings
+        RootTreeItem formerParent = (RootTreeItem) this.getParent();
+        formerParent.removeJunior(this);
+        newRoot.addJunior(this);
+
+        this.setArchived(newRoot.isArchived());
+        for(TaskTreeItem task : this.getJuniors()) {
+            task.setArchived(newRoot.isArchived());
+        }
+    }
 
     // TODO add list of children and other fields so the data.Project and data.Task classes would not be needed
 
@@ -50,6 +63,19 @@ public class ProjectTreeItem extends AbstractTreeItem {
     }
 
     // --------- GUI ------------
+
+    private MenuItem archive() {
+        MenuItem archive = new MenuItem("archive project");
+        archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
+        return archive;
+    }
+
+    private MenuItem unArchive() {
+        MenuItem unArchive = new MenuItem("unarchive");
+        unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
+        return unArchive;
+    }
+
     @Override
     public ContextMenu getMenu() {
 

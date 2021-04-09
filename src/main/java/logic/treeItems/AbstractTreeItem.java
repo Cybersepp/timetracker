@@ -1,6 +1,5 @@
 package logic.treeItems;
 
-import gui.controllers.ProjectsTabController;
 import gui.popups.CreateItemPopup;
 import javafx.scene.control.*;
 
@@ -16,7 +15,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
         return archived;
     }
 
-    public void setArchived(boolean archived) {
+    protected void setArchived(boolean archived) {
         this.archived = archived;
     }
 
@@ -64,29 +63,5 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
             // TODO Maybe should have also delete shortcut?
         });
         return deleteTask;
-    }
-
-    protected MenuItem archive() {
-        MenuItem archive = new MenuItem("archive project");
-        archive.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            ProjectsTabController.getArchived().getChildren().add(this);
-
-            this.setArchived(true);
-            // TODO archived projects are unable to start recordings
-            // TODO changing archived value for project, should also change value for tasks (might need to overwrite getChildren or do a List of children)
-        });
-        return archive;
-    }
-
-    protected MenuItem unArchive() {
-        MenuItem unArchive = new MenuItem("unarchive");
-        unArchive.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            ProjectsTabController.getProjects().getChildren().add(this);
-
-            this.setArchived(false);
-        });
-        return unArchive;
     }
 }

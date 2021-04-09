@@ -1,11 +1,7 @@
 package data;
 
 import gui.controllers.ProjectsTabController;
-import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DataHandler {
 

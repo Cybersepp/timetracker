@@ -1,19 +1,18 @@
 package gui.controllers;
 
-import data.DataHandler;
 import gui.popups.CreateItemPopup;
 import logic.treeItems.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import data.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class ProjectsTabController {
 
     private static final RootTreeItem projects = new RootTreeItem("Active projects");
-    private static final RootTreeItem archived = new RootTreeItem("Archived");
+    private static final RootTreeItem archived = new RootTreeItem("Archived", true);
 
     public static RootTreeItem getProjects() {
         return projects;
@@ -31,7 +30,6 @@ public class ProjectsTabController {
 
         // Root
         TreeItem<String> root = new TreeItem<>("Projects");
-        archived.setArchived(true);
         root.getChildren().addAll(projects, archived);
 
         // -------- Demo items for tree view ----------------
@@ -66,25 +64,21 @@ public class ProjectsTabController {
 
         // Archived items
 
-        ProjectTreeItem archivedProject1 = new ProjectTreeItem("ArchivedProject1");
-        ProjectTreeItem archivedProject2 = new ProjectTreeItem("ArchivedProject2");
-        archivedProject1.setArchived(true);
-        archivedProject2.setArchived(true);
+        // String value, List<TaskTreeItem> juniors, LocalDateTime creationDate, boolean archived
+        var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), LocalDateTime.now(), true);
+        var archivedProject2 = new ProjectTreeItem("ArchivedProject2", new ArrayList<>(), LocalDateTime.now(), true);
         archived.addJunior(archivedProject1);
         archived.addJunior(archivedProject2);
 
-        TaskTreeItem aTask1 = new TaskTreeItem("ArchivedTask1");
+        // String value, LocalDateTime creationDate, boolean archived, boolean done, List<String> records
+        var aTask1 = new TaskTreeItem("ArchivedTask1", LocalDateTime.now(), true, false, new ArrayList<>());
         archivedProject1.addJunior(aTask1);
-        TaskTreeItem aTask2 = new TaskTreeItem("ArchivedTask2");
+        var aTask2 = new TaskTreeItem("ArchivedTask2", LocalDateTime.now(), true, false, new ArrayList<>());
         archivedProject1.addJunior(aTask2);
-        TaskTreeItem aTask3 = new TaskTreeItem("ArchivedTask3");
+        var aTask3 = new TaskTreeItem("ArchivedTask3", LocalDateTime.now(), true, false, new ArrayList<>());
         archivedProject2.addJunior(aTask3);
-        TaskTreeItem aTask4 = new TaskTreeItem("ArchivedTask4");
+        var aTask4 = new TaskTreeItem("ArchivedTask4", LocalDateTime.now(), true, false, new ArrayList<>());
         archivedProject2.addJunior(aTask4);
-        aTask1.setArchived(true);
-        aTask2.setArchived(true);
-        aTask3.setArchived(true);
-        aTask4.setArchived(true);
 
         // ------------------ Demo items end for tree view -----------------------
 
