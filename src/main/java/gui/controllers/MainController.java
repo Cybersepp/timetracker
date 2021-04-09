@@ -6,9 +6,11 @@ import data.Record;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import logic.treeItems.TaskTreeItem;
+import logic.Treeitems.TaskTreeItem;
 
 import java.io.IOException;
+
+import static data.FileAccess.getProjectData;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -61,53 +63,40 @@ public class MainController {
 
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-        graphTabController.updateGraph();
-
-
+        graphTabController.updateGraph(getProjectData());
     }
 
-    public void updateButton() { // TODO this updateButton should be one method only, not two separate
+    public void updateRecordButton() throws IOException {
 
-        if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
-            recordButton.setDisable(true);
-            recordButton.setOpacity(0);
+        switch (recordButton.getText()) {
 
-            dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
-            record.setRecordStart();
+            case "RECORD":
+                if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
+                    recordButton.setText("END");
+                    dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
+                    record.setRecordStart();
+                }
+                else {
+                    // TODO use logger
+                    System.out.println("No task has been selected");
+                }
+                break;
 
-            endRecordButton.setDisable(false);
-            endRecordButton.setOpacity(1);
+            case "END":
+                TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
+                recordButton.setText("RECORD");
+                graphTabController.clearGraph();
+                record.setRecordEnd();
+                String recordInfo = record.getRecordInfo();
+                currentTask.getRecords().add(recordInfo);
+                //System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
+                //        " which belongs to project " +  currentTask.getParent().getValue());
+                FileAccess.saveRecordData();
+                graphTabController.updateGraph(getProjectData());
+                break;
         }
-
-        else {
-            System.out.println("No task has been selected");
-        }
     }
 
-    public void updateEndButton() throws IOException {
-
-        TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
-
-        graphTabController.clearGraph();
-        endRecordButton.setDisable(true);
-        endRecordButton.setOpacity(0);
-
-        record.setRecordEnd();
-
-        String recordInfo = record.getRecordInfo();
-        currentTask.getRecords().add(recordInfo);
-
-        graphTabController.updateGraph();
-
-        System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
-                " which belongs to project " +  currentTask.getParent().getValue());
-
-        FileAccess.saveRecordData();
-
-        recordButton.setDisable(false);
-        recordButton.setOpacity(1);
-
-    }
 
     /**
      * If button shows "History", then change window from Graph tab to History tab and vice versa.
@@ -125,7 +114,6 @@ public class MainController {
                 break;
         }
     }
-
     /**
      * Method for switching between tabs of the AnchorPane "rightSideWindow".
      * @param tabToRemove AnchorPane to be removed.

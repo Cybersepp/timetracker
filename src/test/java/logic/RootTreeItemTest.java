@@ -1,7 +1,7 @@
 package logic;
 
-import logic.treeItems.ProjectTreeItem;
-import logic.treeItems.RootTreeItem;
+import logic.Treeitems.ProjectTreeItem;
+import logic.Treeitems.RootTreeItem;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

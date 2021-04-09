@@ -1,4 +1,4 @@
-package logic.treeItems;
+package logic.Treeitems;
 
 import gui.popups.CreateItemPopup;
 import javafx.scene.control.*;

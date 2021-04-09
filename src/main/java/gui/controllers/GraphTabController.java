@@ -22,9 +22,7 @@ public class GraphTabController {
     /**
      * Method for updating the graph.
      */
-    public void updateGraph() throws IOException {
-
-        Map<String, Float> projectNameAndTime =  getProjectData();
+    public void updateGraph(Map<String, Float> projectNameAndTime) throws IOException {
 
         projectNameAndTime.forEach((projectName,time) -> {
             XYChart.Series series = new XYChart.Series();

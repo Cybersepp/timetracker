@@ -1,4 +1,4 @@
-package logic.treeItems;
+package logic.Treeitems;
 
 import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;

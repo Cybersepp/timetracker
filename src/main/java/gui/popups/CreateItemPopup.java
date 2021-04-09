@@ -1,9 +1,9 @@
 package gui.popups;
 
-import logic.treeItems.AbstractTreeItem;
-import logic.treeItems.ProjectTreeItem;
-import logic.treeItems.RootTreeItem;
-import logic.treeItems.TaskTreeItem;
+import logic.Treeitems.AbstractTreeItem;
+import logic.Treeitems.ProjectTreeItem;
+import logic.Treeitems.RootTreeItem;
+import logic.Treeitems.TaskTreeItem;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

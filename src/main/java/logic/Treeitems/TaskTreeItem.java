@@ -1,4 +1,4 @@
-package logic.treeItems;
+package logic.Treeitems;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
