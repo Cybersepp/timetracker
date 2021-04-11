@@ -1,5 +1,6 @@
 package data;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import gui.controllers.ProjectsTabController;
 import gui.popups.WarningPopup;
@@ -37,8 +38,8 @@ public class FileAccess {
             }
 
             ObjectMapper mapper = new ObjectMapper();
-            ObjectWriter writter = mapper.writer(new DefaultPrettyPrinter());
-            writter.writeValue(Paths.get("data.json").toFile(), dataMap);
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            writer.writeValue(Paths.get("data.json").toFile(), dataMap);
         } catch (Exception e) {
             new WarningPopup("Could not write to file: " + e);
         }
@@ -59,31 +60,15 @@ public class FileAccess {
 
     }
 
-    public static Map<String, Float> getProjectData() throws IOException {
+    public static Map<String, Object> getProjectData() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> dataMap = objectMapper.readValue(Paths.get("data.json").toFile(),
+                    new TypeReference<Map<String, Object>>() {});
 
-        File records = new File("records.txt");
-        if (records.createNewFile()) {
-            System.out.println("created new data file");
-        }
-
-        // TODO division by 60 is quite ugly, should change it to hours.
-        String strCurrentLine;
-        Map<String, Float> projects = new HashMap<>();
-
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(records))) {
-            while ((strCurrentLine = fileReader.readLine()) != null) {
-                String[] recordProperties = strCurrentLine.split(", ");
-                String projectName = recordProperties[0];
-                Float timeSpentProject = Float.parseFloat(recordProperties[4]);
-
-                if (projects.containsKey(projectName)) {
-                    Float oldTime = projects.get(projectName);
-                    projects.replace(projectName, (timeSpentProject / 60) + oldTime);
-                } else {
-                    projects.put(projectName, timeSpentProject / 60);
-                }
-            }
-            return projects;
+            return dataMap;
+        } catch (IOException e) {
+            return null;
         }
     }
 
