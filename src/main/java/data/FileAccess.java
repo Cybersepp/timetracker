@@ -1,78 +1,68 @@
 package data;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import gui.controllers.ProjectsTabController;
 import gui.popups.WarningPopup;
 import logic.Treeitems.ProjectTreeItem;
 import logic.Treeitems.TaskTreeItem;
 
 import java.io.*;
-import java.io.FileWriter;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * fileAccess method takes path of the file and given time and writes in on a new line in .txt file.
- */
+import com.fasterxml.jackson.databind.*;
+
 public class FileAccess {
 
     public FileAccess() {
         // util classes
     }
 
-    public static void saveRecordData() {
-        try (FileWriter fw = new FileWriter("records.txt", true)) {
+    public static void saveData() {
+        try {
+            Map<String, Object> dataMap = new HashMap<>();
 
-            for (ProjectTreeItem project : ProjectsTabController.getProjects().getJuniors()) {
-                for(TaskTreeItem task : project.getJuniors()) {
-                    List<String> taskRecords = task.getRecords();
+            List<ProjectTreeItem> currentProjects = ProjectsTabController.getProjects().getJuniors();
 
-                    if (taskRecords.isEmpty()) continue;
-
-                    taskRecords.forEach(r -> {
-
-                        try {
-                            fw.write(project.getValue() + ", " + task.getValue() + ", " + r + "\n");
-                        } catch (IOException e) {
-                            new WarningPopup("File updating error: " + e);
-                        }
-                    });
-                }
+            for (ProjectTreeItem project : currentProjects) {
+                dataMap.put(project.getValue(), getTaskMap(project));
             }
 
-
-
-        } catch (IOException e) {
-            // TODO is this good enough of a catch?
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            writer.writeValue(Paths.get("data.json").toFile(), dataMap);
+        } catch (Exception e) {
             new WarningPopup("Could not write to file: " + e);
         }
+
     }
 
-    public static Map<String, Float> getProjectData() throws IOException {
+    public static Map<String, List<String>> getTaskMap(ProjectTreeItem project) {
+        Map<String, List<String>> taskMap = new HashMap<>();
 
-        File records = new File("records.txt");
-        if (records.createNewFile()) {
-            System.out.println("created new data file");
+        List<TaskTreeItem> projectTasks = project.getJuniors();
+
+        for (TaskTreeItem task : projectTasks) {
+            taskMap.put(task.getValue(), task.getRecords());
         }
 
-        // TODO division by 60 is quite ugly, should change it to hours.
-        String strCurrentLine;
-        Map<String, Float> projects = new HashMap<>();
+        return taskMap;
 
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(records))) {
-            while ((strCurrentLine = fileReader.readLine()) != null) {
-                String[] recordProperties = strCurrentLine.split(", ");
-                String projectName = recordProperties[0];
-                Float timeSpentProject = Float.parseFloat(recordProperties[4]);
 
-                if (projects.containsKey(projectName)) {
-                    Float oldTime = projects.get(projectName);
-                    projects.replace(projectName, (timeSpentProject / 60) + oldTime);
-                } else {
-                    projects.put(projectName, timeSpentProject / 60);
-                }
-            }
-            return projects;
+    }
+
+    public static Map<String, Map<String, List<String>>> getProjectData() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            return objectMapper.readValue(Paths.get("data.json").toFile(),
+                    new TypeReference<>() {
+                    });
+        } catch (IOException e) {
+            return null;
         }
     }
 

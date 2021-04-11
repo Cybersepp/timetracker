@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import data.FileAccess;
 import gui.popups.CreateItemPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
@@ -8,6 +9,8 @@ import logic.Treeitems.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectsTabController {
 
@@ -35,32 +38,23 @@ public class ProjectsTabController {
         // -------- Demo items for tree view ----------------
 
         // Project items
-        ProjectTreeItem project1 = new ProjectTreeItem("Project One");
-        projects.addJunior(project1);
 
-        ProjectTreeItem project2 = new ProjectTreeItem("Project Two");
-        projects.addJunior(project2);
+        Map<String, Map<String, List<String>>> dataMap = FileAccess.getProjectData();
 
-        ProjectTreeItem project3 = new ProjectTreeItem("Project Three");
-        projects.addJunior(project3);
+        if (dataMap != null) {
 
-        TaskTreeItem task1 = new TaskTreeItem("Demo Task 1");
-        project1.addJunior(task1);
+            dataMap.forEach((name, taskMap) -> {
+                ProjectTreeItem project = new ProjectTreeItem(name);
 
-        TaskTreeItem task2 = new TaskTreeItem("Demo Task 2");
-        project1.addJunior(task2);
+                taskMap.forEach((taskName, records) -> {
+                    TaskTreeItem task = new TaskTreeItem(taskName);
+                    task.getRecords().addAll(records);
+                    project.addJunior(task);
+                });
 
-        TaskTreeItem task3 = new TaskTreeItem("Demo Task 3");
-        project2.addJunior(task3);
-
-        TaskTreeItem task4 = new TaskTreeItem("Demo Task 4");
-        project2.addJunior(task4);
-
-        TaskTreeItem task5 = new TaskTreeItem("Demo Task 5");
-        project3.addJunior(task5);
-
-        TaskTreeItem task6 = new TaskTreeItem("Demo Task 6");
-        project3.addJunior(task6);
+                projects.addJunior(project);
+            });
+        }
 
         // Archived items
 
