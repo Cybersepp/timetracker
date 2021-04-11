@@ -63,7 +63,7 @@ public class MainController {
 
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-        graphTabController.updateGraph(getProjectData());
+//        graphTabController.updateGraph(getProjectData());
     }
 
     public void updateRecordButton() throws IOException {
@@ -92,7 +92,7 @@ public class MainController {
                 //System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
                 //        " which belongs to project " +  currentTask.getParent().getValue());
                 FileAccess.saveData();
-                graphTabController.updateGraph(getProjectData());
+//                graphTabController.updateGraph(getProjectData());
                 break;
         }
     }
