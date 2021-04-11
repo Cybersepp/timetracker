@@ -10,8 +10,6 @@ import logic.Treeitems.TaskTreeItem;
 
 import java.io.IOException;
 
-import static data.FileAccess.getProjectData;
-
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
  */
@@ -58,15 +56,15 @@ public class MainController {
     private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize()  {
         // I know it's retarded, sorry.
 
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-//        graphTabController.updateGraph(getProjectData());
+        graphTabController.initUpdateGraph();
     }
 
-    public void updateRecordButton() throws IOException {
+    public void updateRecordButton()  {
 
         switch (recordButton.getText()) {
 
@@ -83,16 +81,16 @@ public class MainController {
                 break;
 
             case "END":
+                graphTabController.clearGraph();
                 TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
                 recordButton.setText("RECORD");
-                graphTabController.clearGraph();
                 record.setRecordEnd();
                 String recordInfo = record.getRecordInfo();
                 currentTask.getRecords().add(recordInfo);
                 //System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
                 //        " which belongs to project " +  currentTask.getParent().getValue());
                 FileAccess.saveData();
-//                graphTabController.updateGraph(getProjectData());
+                graphTabController.initUpdateGraph();
                 break;
         }
     }

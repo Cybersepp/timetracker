@@ -50,8 +50,6 @@ public class FileAccess {
         }
 
         return taskMap;
-
-
     }
 
     public static Map<String, Map<String, List<String>>> getProjectData() {
@@ -65,6 +63,5 @@ public class FileAccess {
             return null;
         }
     }
-
 
 }
