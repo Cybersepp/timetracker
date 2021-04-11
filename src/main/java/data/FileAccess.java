@@ -8,19 +8,13 @@ import logic.Treeitems.ProjectTreeItem;
 import logic.Treeitems.TaskTreeItem;
 
 import java.io.*;
-import java.io.FileWriter;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.core.*;
 
-/**
- * fileAccess method takes path of the file and given time and writes in on a new line in .txt file.
- */
 public class FileAccess {
 
     public FileAccess() {
@@ -60,13 +54,13 @@ public class FileAccess {
 
     }
 
-    public static Map<String, Object> getProjectData() {
+    public static Map<String, Map<String, List<String>>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> dataMap = objectMapper.readValue(Paths.get("data.json").toFile(),
-                    new TypeReference<Map<String, Object>>() {});
 
-            return dataMap;
+            return objectMapper.readValue(Paths.get("data.json").toFile(),
+                    new TypeReference<>() {
+                    });
         } catch (IOException e) {
             return null;
         }
