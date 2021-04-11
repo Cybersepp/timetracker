@@ -91,7 +91,7 @@ public class MainController {
                 currentTask.getRecords().add(recordInfo);
                 //System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
                 //        " which belongs to project " +  currentTask.getParent().getValue());
-                FileAccess.saveRecordData();
+                FileAccess.saveData();
                 graphTabController.updateGraph(getProjectData());
                 break;
         }

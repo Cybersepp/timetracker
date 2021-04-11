@@ -1,5 +1,6 @@
 package data;
 
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import gui.controllers.ProjectsTabController;
 import gui.popups.WarningPopup;
 import logic.Treeitems.ProjectTreeItem;
@@ -7,9 +8,14 @@ import logic.Treeitems.TaskTreeItem;
 
 import java.io.*;
 import java.io.FileWriter;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.core.*;
 
 /**
  * fileAccess method takes path of the file and given time and writes in on a new line in .txt file.
@@ -20,32 +26,37 @@ public class FileAccess {
         // util classes
     }
 
-    public static void saveRecordData() {
-        try (FileWriter fw = new FileWriter("records.txt", true)) {
+    public static void saveData() {
+        try {
+            Map<String, Object> dataMap = new HashMap<>();
 
-            for (ProjectTreeItem project : ProjectsTabController.getProjects().getJuniors()) {
-                for(TaskTreeItem task : project.getJuniors()) {
-                    List<String> taskRecords = task.getRecords();
+            List<ProjectTreeItem> currentProjects = ProjectsTabController.getProjects().getJuniors();
 
-                    if (taskRecords.isEmpty()) continue;
-
-                    taskRecords.forEach(r -> {
-
-                        try {
-                            fw.write(project.getValue() + ", " + task.getValue() + ", " + r + "\n");
-                        } catch (IOException e) {
-                            new WarningPopup("File updating error: " + e);
-                        }
-                    });
-                }
+            for (ProjectTreeItem project : currentProjects) {
+                dataMap.put(project.getValue(), getTaskMap(project));
             }
 
-
-
-        } catch (IOException e) {
-            // TODO is this good enough of a catch?
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectWriter writter = mapper.writer(new DefaultPrettyPrinter());
+            writter.writeValue(Paths.get("data.json").toFile(), dataMap);
+        } catch (Exception e) {
             new WarningPopup("Could not write to file: " + e);
         }
+
+    }
+
+    public static Map<String, List<String>> getTaskMap(ProjectTreeItem project) {
+        Map<String, List<String>> taskMap = new HashMap<>();
+
+        List<TaskTreeItem> projectTasks = project.getJuniors();
+
+        for (TaskTreeItem task : projectTasks) {
+            taskMap.put(task.getValue(), task.getRecords());
+        }
+
+        return taskMap;
+
+
     }
 
     public static Map<String, Float> getProjectData() throws IOException {
