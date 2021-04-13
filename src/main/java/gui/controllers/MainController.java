@@ -3,12 +3,17 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
+import javafx.animation.Animation;
+import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import logic.Timer.Timer;
 import logic.Treeitems.TaskTreeItem;
-
-import java.io.IOException;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -38,6 +43,7 @@ public class MainController {
     @FXML
     private AnchorPane historyTab;
 
+
     // ---- UI ELEMENTS ----
 
     @FXML
@@ -47,7 +53,14 @@ public class MainController {
     private Button recordButton;
 
     @FXML
-    private Button endRecordButton;
+    private Label timerId;
+
+    @FXML
+    private Rectangle timeLine;
+
+    Timer timer = null;
+
+    FillTransition fill = null;
 
     // ---- DAO ----
 
@@ -56,16 +69,17 @@ public class MainController {
     private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize()  {
+    private void initialize() {
         // I know it's retarded, sorry.
 
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
         graphTabController.initUpdateGraph();
+
     }
 
-    public void updateRecordButton()  {
-
+    public void updateRecordButton() {
+        //TODO lookin hella ugly, gotta move it out of here!
         switch (recordButton.getText()) {
 
             case "RECORD":
@@ -73,8 +87,11 @@ public class MainController {
                     recordButton.setText("END");
                     dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
                     record.setRecordStart();
-                }
-                else {
+                    timer = new Timer(timerId);
+                    timer.startTimer();
+                    fill = new FillTransition(Duration.millis(1500), timeLine, Color.GREY, Color.RED);
+                    animateRecordButton();
+                } else {
                     // TODO use logger
                     System.out.println("No task has been selected");
                 }
@@ -85,10 +102,10 @@ public class MainController {
                 TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
                 recordButton.setText("RECORD");
                 record.setRecordEnd();
+                timer.endTimer();
+                animateStopRecordButton();
                 String recordInfo = record.getRecordInfo();
                 currentTask.getRecords().add(recordInfo);
-                //System.out.println("Record: " + recordInfo + " was added to task " +  currentTask.getValue() +
-                //        " which belongs to project " +  currentTask.getParent().getValue());
                 FileAccess.saveData();
                 graphTabController.initUpdateGraph();
                 break;
@@ -112,10 +129,12 @@ public class MainController {
                 break;
         }
     }
+
     /**
      * Method for switching between tabs of the AnchorPane "rightSideWindow".
+     *
      * @param tabToRemove AnchorPane to be removed.
-     * @param tabToAdd AnchorPane to be added.
+     * @param tabToAdd    AnchorPane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
         // I know it's retarded. sorry.
@@ -123,6 +142,15 @@ public class MainController {
         tabToRemove.setDisable(true);
         tabToAdd.setOpacity(1);
         tabToAdd.setDisable(false);
+    }
 
+    public void animateRecordButton() {
+        fill.setAutoReverse(true);
+        fill.setCycleCount(Animation.INDEFINITE);
+        fill.play();
+    }
+
+    public void animateStopRecordButton() {
+        fill.stop();
     }
 }
