@@ -9,7 +9,6 @@ import java.util.List;
 public class TaskTreeItem extends AbstractTreeItem {
 
     private boolean done = false;
-    private final LocalDateTime creationDate;
     private List<String> records = new ArrayList<>();
 
     public boolean isDone() {
@@ -20,18 +19,13 @@ public class TaskTreeItem extends AbstractTreeItem {
         this.done = done;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
     public List<String> getRecords() {
         return records;
     }
 
     // ------------------ Constructor for creating a task while reading from file -------------------
-    public TaskTreeItem(String value, LocalDateTime creationDate, boolean archived, boolean done, List<String> records) {
+    public TaskTreeItem(String value, boolean archived, boolean done, List<String> records) {
         super(value);
-        this.creationDate = creationDate;
         this.archived = archived;
         this.done = done;
         this.records = records;
@@ -40,12 +34,11 @@ public class TaskTreeItem extends AbstractTreeItem {
     // ------------ Constructor for creating a task ---------------
     public TaskTreeItem(String value) {
         super(value);
-        this.creationDate = LocalDateTime.now();
     }
 
     // ------------------ GUI ----------------------
     private MenuItem markAsDone() {
-        MenuItem markAsDone = new MenuItem("mark as done");
+        MenuItem markAsDone = new MenuItem("Mark as done");
         markAsDone.setOnAction(e -> {
             if (isDone()) {
                 this.setValue(this.getValue().substring(5));
@@ -66,12 +59,17 @@ public class TaskTreeItem extends AbstractTreeItem {
     public ContextMenu getMenu() {
 
         MenuItem changeName = this.changeName();
-        MenuItem deleteTask = this.deleteItem("delete task");
+        MenuItem deleteTask = this.deleteItem("Delete task");
         if (isArchived()) {
             return new ContextMenu(changeName, deleteTask);
 
         }
         MenuItem markAsDone = this.markAsDone();
         return new ContextMenu(changeName, deleteTask, markAsDone);
+    }
+
+    @Override
+    public String toString() {
+        return "task";
     }
 }

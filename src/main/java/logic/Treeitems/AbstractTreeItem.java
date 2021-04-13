@@ -1,5 +1,6 @@
 package logic.Treeitems;
 
+import gui.popups.ChangeNamePopup;
 import gui.popups.CreateItemPopup;
 import javafx.scene.control.*;
 
@@ -23,10 +24,10 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     public abstract ContextMenu getMenu();
 
     protected MenuItem changeName() {
-        MenuItem changeName = new MenuItem("change name");
+        MenuItem changeName = new MenuItem("Rename");
         changeName.setOnAction(e -> {
-            this.setValue("Changed name");
-            // TODO set name to a new name using popup
+            var changeNamePopup = new ChangeNamePopup(this);
+            changeNamePopup.popup();
         });
         return changeName;
     }
@@ -46,7 +47,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     }
 
     private MenuItem createTask() {
-        MenuItem addTask = new MenuItem("add task");
+        MenuItem addTask = new MenuItem("Add task");
         addTask.setOnAction(e -> {
             CreateItemPopup createItemPopup = new CreateItemPopup(this, "task");
             createItemPopup.popup();

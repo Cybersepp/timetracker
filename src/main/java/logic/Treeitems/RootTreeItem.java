@@ -52,4 +52,8 @@ public class RootTreeItem extends AbstractTreeItem {
         return new ContextMenu(addProject);
     }
 
+    @Override
+    public String toString() {
+        return "root";
+    }
 }

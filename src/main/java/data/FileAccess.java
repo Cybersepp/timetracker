@@ -60,7 +60,7 @@ public class FileAccess {
                     new TypeReference<>() {
                     });
         } catch (IOException e) {
-            return null;
+            return null; // TODO what does this catch method capture? Should it also have a WarningPopup occur?
         }
     }
 
