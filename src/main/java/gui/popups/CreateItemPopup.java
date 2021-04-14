@@ -1,11 +1,11 @@
 package gui.popups;
 
+import javafx.scene.Node;
 import logic.Treeitems.AbstractTreeItem;
 import logic.Treeitems.ProjectTreeItem;
 import logic.Treeitems.RootTreeItem;
 import logic.Treeitems.TaskTreeItem;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,8 +20,7 @@ public class CreateItemPopup extends ActionPopup{
 
     @Override
     public void popup() {
-        Stage window = new Stage();
-        defaultWindowSettings(window, 250, 300, 375, 450);
+        Stage window = addStage();
 
         Label label = this.addLabel("Name your " + type);
         TextField textField = new TextField();
@@ -31,13 +30,10 @@ public class CreateItemPopup extends ActionPopup{
         mainButtonFunctionality(treeItem, createButton, window, textField);
         cancelButton.setOnAction(event -> window.close());
 
-        VBox display = this.addVBox();
-        display.getChildren().addAll(label, textField, createButton, cancelButton);
+        VBox display = addVBox(new Node[]{label, textField, createButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
 
-        Scene scene1= new Scene(display, 300, 250);
-        window.setScene(scene1);
-        window.showAndWait();
+        setScene(window, display);
     }
 
     @Override
@@ -46,7 +42,7 @@ public class CreateItemPopup extends ActionPopup{
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
             if (textField.getText().trim().isEmpty()) {
-                new WarningPopup("You have not set a name for the " + type + "!").popup();
+                new ErrorPopup("You have not set a name for the " + type + "!").popup();
                 // TODO instead of throwing a warning popup, should have the OK button grayed out until something is entered (listener)
             }
             // TODO create warning popup if textField is a project / task with the given name already exists (else if)

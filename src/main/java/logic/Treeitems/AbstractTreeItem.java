@@ -2,7 +2,10 @@ package logic.Treeitems;
 
 import gui.popups.ChangeNamePopup;
 import gui.popups.CreateItemPopup;
+import gui.popups.WarningPopup;
 import javafx.scene.control.*;
+import logic.Treeitems.commands.DeleteProjectCommand;
+import logic.Treeitems.commands.DeleteTaskCommand;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
 
@@ -57,12 +60,30 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
     protected MenuItem deleteItem(String text) {
         MenuItem deleteTask = new MenuItem(text);
-        deleteTask.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            // TODO should send out a warning message if there are any recordings associated with the item
-            // TODO should also delete all history that is associated with this item
-            // TODO Maybe should have also delete shortcut?
-        });
+        deleteTask.setOnAction(e -> deleteAction());
         return deleteTask;
+    }
+
+    private void deleteAction() {
+        if (this.getClass().equals(ProjectTreeItem.class)) {
+
+            if (this.getChildren().isEmpty()) {
+                new DeleteProjectCommand((ProjectTreeItem) this).command();
+            }
+            else {
+                var warningPopup = new WarningPopup("Are you sure you want to delete this project and all of its data?", new DeleteProjectCommand((ProjectTreeItem) this));
+                warningPopup.popup();
+            }
+        }
+        else if (this.getClass().equals(TaskTreeItem.class)) {
+            if (((TaskTreeItem) this).getRecords().isEmpty()) {
+                new DeleteTaskCommand((TaskTreeItem) this).command();
+            }
+            else {
+                var warningPopup = new WarningPopup("Are you sure you want to delete this task and all of its records?", new DeleteTaskCommand((TaskTreeItem) this));
+                warningPopup.popup();
+            }
+        }
+        // TODO Maybe should have also a shortcut for delete (del key)?
     }
 }

@@ -1,7 +1,6 @@
 package gui.popups;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +15,7 @@ public abstract class ActionPopup extends AbstractPopup{
     protected final AbstractTreeItem treeItem;
     protected final String type;
 
-    public ActionPopup(AbstractTreeItem treeItem, String type) {
+    protected ActionPopup(AbstractTreeItem treeItem, String type) {
         this.treeItem = treeItem;
         this.type = type;
     }
@@ -34,13 +33,19 @@ public abstract class ActionPopup extends AbstractPopup{
         return label;
     }
 
-    protected VBox addVBox() {
-        VBox display = new VBox(10);
-        display.setPadding(new Insets(10, 40, 30, 40));
-        display.setAlignment(Pos.CENTER);
-        return display;
-    }
-
     protected abstract void mainButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, TextField textField);
 
+    @Override
+    protected void setScene(Stage stage, VBox vBox) {
+        Scene scene = new Scene(vBox, 300, 250);
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    @Override
+    protected Stage addStage() {
+        var stage = new Stage();
+        defaultWindowSettings(stage, 250, 300, 375, 450);
+        return stage;
+    }
 }

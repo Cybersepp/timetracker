@@ -1,46 +1,44 @@
 package gui.popups;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.Treeitems.commands.Command;
 
-public class WarningPopup extends AbstractPopup{
+public class WarningPopup extends NotificationPopup{
 
-    protected String errorMessage;
+    private final Command command;
 
-    public WarningPopup(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public WarningPopup(String errorMessage, Command command) {
+        super(errorMessage);
+        this.command = command;
     }
 
     @Override
     public void popup() {
 
-        int minHeight = 100;
-        int maxHeight = 100;
-        int minWidth = 400;
-        int maxWidth = 400;
-
         Stage window = new Stage();
         window.setTitle("Warning");
-        defaultWindowSettings(window, minHeight, minWidth, maxHeight, maxWidth);
-        Label label = new Label(errorMessage);
-        label.setFont(Font.font ("Verdana", 12));
-        Button okButton = new Button("OK");
-        okButton.setOnAction(e -> window.close());
 
-        VBox display = new VBox(10);
-        display.setPadding(new Insets(10, 40, 30, 40));
-        display.setSpacing(10);
-        display.getChildren().addAll(label, okButton);
-        display.setAlignment(Pos.CENTER);
+        Label label = addLabel(errorMessage);
+        Button yesButton = addButton("Yes");
+        yesButton.setOnAction(e -> yesFunction(window));
+        Button noButton = addButton("No");
+        noButton.setOnAction(e -> window.close());
 
-        Scene scene1= new Scene(display, minWidth, minHeight);
-        window.setScene(scene1);
-        window.showAndWait();
+        HBox hBox = new HBox(10);
+        hBox.getChildren().addAll(yesButton, noButton);
+
+        VBox vBox = addVBox(new Node[]{label, hBox});
+
+        setScene(window, vBox);
+    }
+
+    private void yesFunction(Stage stage) {
+        command.command();
+        stage.close();
     }
 }
