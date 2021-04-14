@@ -1,5 +1,6 @@
 package gui.popups;
 
+import data.FileAccess;
 import javafx.scene.Node;
 import logic.Treeitems.AbstractTreeItem;
 import logic.Treeitems.ProjectTreeItem;
@@ -54,6 +55,7 @@ public class CreateItemPopup extends ActionPopup{
                 if (treeItem.getClass().equals(ProjectTreeItem.class)) {
                     createTaskLeaf((ProjectTreeItem) treeItem, textField);
                 }
+                FileAccess.saveData();
                 stage.close();
             }
 

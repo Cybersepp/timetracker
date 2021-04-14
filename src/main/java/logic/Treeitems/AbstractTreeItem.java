@@ -4,8 +4,8 @@ import gui.popups.ChangeNamePopup;
 import gui.popups.CreateItemPopup;
 import gui.popups.WarningPopup;
 import javafx.scene.control.*;
-import logic.Treeitems.commands.DeleteProjectCommand;
-import logic.Treeitems.commands.DeleteTaskCommand;
+import logic.commands.DeleteProjectCommand;
+import logic.commands.DeleteTaskCommand;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
 

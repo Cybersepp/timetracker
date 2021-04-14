@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.Treeitems.commands.Command;
+import logic.commands.Command;
 
 public class WarningPopup extends NotificationPopup{
 

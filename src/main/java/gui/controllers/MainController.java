@@ -83,18 +83,23 @@ public class MainController {
         switch (recordButton.getText()) {
 
             case "RECORD":
-                if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
-                    recordButton.setText("END");
-                    dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
-                    record.setRecordStart();
-                    timer = new Timer(timerId);
-                    timer.startTimer();
-                    fill = new FillTransition(Duration.millis(1500), timeLine, Color.GREY, Color.RED);
-                    animateRecordButton();
-                } else {
+                if(projectsTabController.selectItem() == null) {
                     // TODO use logger
-                    System.out.println("No task has been selected");
+                    break;
                 }
+
+                if (!projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
+                    // TODO use logger
+                    break;
+                }
+
+                recordButton.setText("END");
+                dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
+                record.setRecordStart();
+                timer = new Timer(timerId);
+                timer.startTimer();
+                fill = new FillTransition(Duration.millis(1500), timeLine, Color.GREY, Color.RED);
+                animateRecordButton();
                 break;
 
             case "END":

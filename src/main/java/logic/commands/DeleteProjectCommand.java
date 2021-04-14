@@ -1,4 +1,4 @@
-package logic.Treeitems.commands;
+package logic.commands;
 
 import data.FileAccess;
 import logic.Treeitems.ProjectTreeItem;

@@ -1,5 +1,6 @@
 package gui.popups;
 
+import data.FileAccess;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -46,6 +47,7 @@ public class ChangeNamePopup extends ActionPopup{
             else {
                 treeItem.setValue(textField.getText());
                 stage.close();
+                FileAccess.saveData();
             }
 
         });
