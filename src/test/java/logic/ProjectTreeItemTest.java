@@ -42,7 +42,7 @@ public class ProjectTreeItemTest {
         var project = new ProjectTreeItem("Project");
         var task = new TaskTreeItem("Task");
         project.addJunior(task);
-        assertTrue(project.getJuniors().contains(task));
+        assertTrue(project.getJuniors().contains(task) && project.getChildren().contains(task));
     }
 
     @Test
@@ -59,12 +59,12 @@ public class ProjectTreeItemTest {
         var task = new TaskTreeItem("Task");
         project.addJunior(task);
         project.removeJunior(task);
-        assertFalse(project.getJuniors().contains(task));
+        assertFalse(project.getJuniors().contains(task) && project.getChildren().contains(task));
     }
 
     @Test
     void noProjectInListWhileCreating() {
         var project = new RootTreeItem("Project");
-        assertTrue(project.getJuniors().isEmpty());
+        assertTrue(project.getJuniors().isEmpty() && project.getChildren().isEmpty());
     }
 }

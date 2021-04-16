@@ -6,7 +6,7 @@ import logic.Treeitems.TaskTreeItem;
 
 public class DeleteTaskCommand implements Command{
 
-    private TaskTreeItem task;
+    private final TaskTreeItem task;
 
     public DeleteTaskCommand(TaskTreeItem task) {
         this.task = task;

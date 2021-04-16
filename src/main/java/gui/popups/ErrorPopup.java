@@ -15,7 +15,7 @@ public class ErrorPopup extends NotificationPopup{
     @Override
     public void popup() {
 
-        Stage window = new Stage();
+        Stage window = addStage();
         window.setTitle("Error");
 
         Label label = addLabel(errorMessage);

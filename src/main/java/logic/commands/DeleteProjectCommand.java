@@ -6,7 +6,7 @@ import logic.Treeitems.RootTreeItem;
 
 public class DeleteProjectCommand implements Command{
 
-    private ProjectTreeItem project;
+    private final ProjectTreeItem project;
 
     public DeleteProjectCommand(ProjectTreeItem project) {
         this.project = project;

@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import logic.Treeitems.AbstractTreeItem;
 
@@ -20,6 +21,13 @@ public abstract class ActionPopup extends AbstractPopup{
         this.type = type;
     }
 
+    @Override
+    protected Stage addStage() {
+        var stage = new Stage();
+        defaultWindowSettings(stage, 250, 300, 375, 450);
+        return stage;
+    }
+
     protected Button addButton(String name) {
         Button button = new Button(name);
         button.setFont(Font.font ("Verdana", 14));
@@ -29,7 +37,9 @@ public abstract class ActionPopup extends AbstractPopup{
 
     protected Label addLabel(String name) {
         Label label = new Label(name);
-        label.setFont(Font.font ("Verdana", FontWeight.BOLD, 16));
+        label.setFont(Font.font ("Verdana", FontWeight.BOLD, 15));
+        label.setWrapText(true);
+        label.setTextAlignment(TextAlignment.CENTER);
         return label;
     }
 
@@ -40,12 +50,5 @@ public abstract class ActionPopup extends AbstractPopup{
         Scene scene = new Scene(vBox, 300, 250);
         stage.setScene(scene);
         stage.showAndWait();
-    }
-
-    @Override
-    protected Stage addStage() {
-        var stage = new Stage();
-        defaultWindowSettings(stage, 250, 300, 375, 450);
-        return stage;
     }
 }

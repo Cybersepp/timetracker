@@ -23,7 +23,9 @@ public abstract class AbstractPopup implements Popup{
     }
 
     protected void defaultWindowSettings(Stage window) {
-        defaultWindowSettings(window, 100, 400, 100, 400);
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setResizable(false);
     }
 
     protected VBox addVBox(Node[] nodes) {

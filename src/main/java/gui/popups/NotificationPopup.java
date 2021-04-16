@@ -1,10 +1,13 @@
 package gui.popups;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public abstract class NotificationPopup extends AbstractPopup{
@@ -17,27 +20,31 @@ public abstract class NotificationPopup extends AbstractPopup{
 
     @Override
     protected Stage addStage() {
-        Stage stage = new Stage();
+        var stage = new Stage();
         defaultWindowSettings(stage);
         return stage;
     }
 
     @Override
-    protected void setScene(Stage stage, VBox vBox) {
-        Scene scene= new Scene(vBox, 400, 100);
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    @Override
     protected Button addButton(String name) {
-        return new Button(name);
+        var button = new Button(name);
+        button.setPrefWidth(50);
+        return button;
     }
 
     @Override
     protected Label addLabel(String name) {
         Label label = new Label(name);
         label.setFont(Font.font ("Verdana", 12));
+        label.setWrapText(true);
+        label.setTextAlignment(TextAlignment.CENTER);
         return label;
+    }
+
+    @Override
+    protected void setScene(Stage stage, VBox vBox) {
+        Scene scene= new Scene(vBox, 400, 120);
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 }

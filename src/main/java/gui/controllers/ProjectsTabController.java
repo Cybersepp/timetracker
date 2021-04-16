@@ -79,16 +79,14 @@ public class ProjectsTabController {
      * @return selected treeItem on treeView
      */
     public AbstractTreeItem selectItem() {
-        AbstractTreeItem activity = (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
-        if (activity != null) {
-            System.out.println(activity.getValue());
-        }
-        return activity;
+        return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Create project button functionality
+     */
     public void createProject(){
-        CreateItemPopup createItemPopup = new CreateItemPopup(projects, "project");
-        createItemPopup.popup();
+        new CreateItemPopup(projects, "project").popup();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package gui.popups;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,7 +21,7 @@ public class WarningPopup extends NotificationPopup{
     @Override
     public void popup() {
 
-        Stage window = new Stage();
+        Stage window = addStage();
         window.setTitle("Warning");
 
         Label label = addLabel(errorMessage);
@@ -30,6 +31,7 @@ public class WarningPopup extends NotificationPopup{
         noButton.setOnAction(e -> window.close());
 
         HBox hBox = new HBox(10);
+        hBox.setPadding(new Insets(0, 40, 0, 100));
         hBox.getChildren().addAll(yesButton, noButton);
 
         VBox vBox = addVBox(new Node[]{label, hBox});
