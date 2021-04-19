@@ -21,7 +21,7 @@
                   <Insets left="40.0" />
                </padding>
           </Label>
-          <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
+          <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="50.0" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
               <xAxis>
                   <CategoryAxis prefHeight="50.0" prefWidth="543.0" side="BOTTOM" />
               </xAxis>
