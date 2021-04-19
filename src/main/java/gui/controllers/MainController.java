@@ -35,9 +35,6 @@ public class MainController {
     // ---- WINDOWS ----
 
     @FXML
-    private AnchorPane rightSideWindow;
-
-    @FXML
     private AnchorPane graphTab;
 
     @FXML
