@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.controllers.HistoryTabController">
+<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
     <children>
-      <ScrollPane layoutX="-2.0" layoutY="61.0" prefHeight="480.0" prefWidth="600.0">
+      <ScrollPane layoutX="-2.0" layoutY="61.0" prefHeight="480.0" prefWidth="590.0">
          <content>
-            <TableView minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="585.0">
+            <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="575.0">
               <columns>
-                <TableColumn minWidth="60.0" prefWidth="120.0" text="PROJECT" />
-                <TableColumn minWidth="60.0" prefWidth="116.0" text="START" />
-                  <TableColumn minWidth="60.0" prefWidth="116.0" text="END" />
-                  <TableColumn minWidth="60.0" prefWidth="116.0" text="DURATION" />
-                  <TableColumn minWidth="60.0" prefWidth="120.0" text="DESCRIPTION" />
+                <TableColumn maxWidth="160.0" minWidth="60.0" prefWidth="120.0" text="PROJECT" />
+                <TableColumn maxWidth="160.0" minWidth="60.0" prefWidth="110.0" text="START" />
+                  <TableColumn maxWidth="160.0" minWidth="0.0" prefWidth="107.0" text="END" />
+                  <TableColumn maxWidth="160.0" minWidth="40.0" prefWidth="119.0" text="DURATION" />
+                  <TableColumn maxWidth="160.0" minWidth="0.0" prefWidth="115.0" text="DESCRIPTION" />
               </columns>
             </TableView>
          </content>
