@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.controllers.GraphTabController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GraphTabController">
     <children>
       <VBox prefHeight="540.0" prefWidth="600.0">
          <children>
@@ -21,14 +21,14 @@
                   <Insets left="40.0" />
                </padding>
           </Label>
-          <BarChart fx:id="projectGraph" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
+          <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
               <xAxis>
                   <CategoryAxis prefHeight="50.0" prefWidth="543.0" side="BOTTOM" />
               </xAxis>
               <yAxis>
                   <NumberAxis side="LEFT" />
               </yAxis>
-          </BarChart>
+          </StackedBarChart>
          </children>
       </VBox>
 

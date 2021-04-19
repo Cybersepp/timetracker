@@ -105,6 +105,7 @@ public class MainController {
                 recordButton.setText("RECORD");
                 record.setRecordEnd();
                 timer.endTimer();
+                timeLine.setFill(Color.GREY);
                 animateStopRecordButton();
                 String recordInfo = record.getRecordInfo();
                 currentTask.getRecords().add(recordInfo);

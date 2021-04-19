@@ -1,17 +1,13 @@
 package gui.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import logic.Treeitems.ProjectTreeItem;
 import logic.Treeitems.RootTreeItem;
 import logic.Treeitems.TaskTreeItem;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static data.FileAccess.getProjectData;
 
@@ -22,11 +18,13 @@ public class GraphTabController {
 
     List<XYChart.Series> allSeries = new ArrayList<>();
 
+
+
     @FXML
     private ProjectsTabController projectsTabController;
 
     @FXML
-    BarChart<String, Number> projectGraph;
+    StackedBarChart<String, Number> projectGraph;
 
     @FXML
     private void initialize() {
@@ -39,15 +37,15 @@ public class GraphTabController {
         RootTreeItem root = projectsTabController.getProjects();
         List<ProjectTreeItem> projects = root.getJuniors();
 
+
         projects.forEach(projectTreeItem -> {
+            XYChart.Series series = new XYChart.Series();
             float projectTime = calculateProjectTime(projectTreeItem);
             String projectName = projectTreeItem.getValue();
-            System.out.println(projectName + projectTime);
-            XYChart.Series series = new XYChart.Series();
             series.getData().add(new XYChart.Data(projectName, projectTime));
             allSeries.add(series);
-
             projectGraph.getData().add(series);
+
         });
     }
 
