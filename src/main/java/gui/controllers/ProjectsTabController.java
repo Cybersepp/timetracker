@@ -5,7 +5,11 @@ import gui.popups.CreateItemPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
 import logic.Treeitems.*;
+import logic.commands.DeleteProjectCommand;
+import logic.commands.DeleteTaskCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +76,18 @@ public class ProjectsTabController {
         projectsTree.setShowRoot(false);
         projectsTree.setRoot(root);
         projectsTree.setCellFactory(p -> new TreeCellImplication());
+
+        // "DEL" function on projects and tasks
+        projectsTree.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.DELETE) {
+                if (selectItem().getClass() == ProjectTreeItem.class) {
+                    new DeleteProjectCommand((ProjectTreeItem) selectItem()).commandControl();
+                }
+                else if (selectItem().getClass() == TaskTreeItem.class) {
+                    new DeleteTaskCommand((TaskTreeItem) selectItem()).commandControl();
+                }
+            }
+        });
     }
 
     /**
@@ -81,6 +97,8 @@ public class ProjectsTabController {
     public AbstractTreeItem selectItem() {
         return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
+
+
 
     /**
      * Create project button functionality

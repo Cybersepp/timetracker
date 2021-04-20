@@ -28,6 +28,17 @@ public abstract class ActionPopup extends AbstractPopup{
         return stage;
     }
 
+    protected TextField addTextField() {
+        TextField textField = new TextField();
+        textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
+            int maxLength = 25;
+            if (textField.getText().length() >= maxLength) {
+                textField.setText(textField.getText().substring(0, maxLength));
+            }
+        });
+        return textField;
+    }
+
     protected Button addButton(String name) {
         Button button = new Button(name);
         button.setFont(Font.font ("Verdana", 14));

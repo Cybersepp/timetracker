@@ -66,24 +66,10 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
     private void deleteAction() {
         if (this.getClass().equals(ProjectTreeItem.class)) {
-
-            if (this.getChildren().isEmpty()) {
-                new DeleteProjectCommand((ProjectTreeItem) this).command();
-            }
-            else {
-                var warningPopup = new WarningPopup("Are you sure you want to delete this project and all of its data?", new DeleteProjectCommand((ProjectTreeItem) this));
-                warningPopup.popup();
-            }
+            new DeleteProjectCommand((ProjectTreeItem) this).commandControl();
         }
         else if (this.getClass().equals(TaskTreeItem.class)) {
-            if (((TaskTreeItem) this).getRecords().isEmpty()) {
-                new DeleteTaskCommand((TaskTreeItem) this).command();
-            }
-            else {
-                var warningPopup = new WarningPopup("Are you sure you want to delete this task and all of its records?", new DeleteTaskCommand((TaskTreeItem) this));
-                warningPopup.popup();
-            }
+            new DeleteTaskCommand((TaskTreeItem) this).commandControl();
         }
-        // TODO Maybe should have also a shortcut for delete (del key)?
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Treeitems.AbstractTreeItem;
@@ -21,12 +22,14 @@ public class ChangeNamePopup extends ActionPopup{
         Stage window = addStage();
 
         Label label = this.addLabel("Rename " + type + " " + "'" + treeItem.getValue() + "'");
-        TextField textField = new TextField();
+        TextField textField = addTextField();
 
         Button changeButton = addButton("Change name");
         Button cancelButton = addButton("Cancel");
         mainButtonFunctionality(treeItem, changeButton, window, textField);
         cancelButton.setOnAction(event -> window.close());
+        changeButton.setDefaultButton(true);
+        cancelButton.setCancelButton(true);
 
         VBox display = addVBox(new Node[]{label, textField, changeButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
@@ -45,7 +48,15 @@ public class ChangeNamePopup extends ActionPopup{
             }
             // TODO create warning popup if textField is a project / task with the given name already exists (else if)
             else {
-                treeItem.setValue(textField.getText());
+                final var sameName = treeItem.getChildren().stream()
+                        .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
+                        .map(TreeItem::getValue)
+                        .findFirst();
+                if (sameName.isPresent()) {
+                    new ErrorPopup("A " + type + " with the same name already exists!").popup();
+                    return;
+                }
+                treeItem.setValue(textField.getText().trim());
                 stage.close();
                 FileAccess.saveData();
             }

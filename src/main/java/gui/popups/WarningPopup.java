@@ -29,6 +29,7 @@ public class WarningPopup extends NotificationPopup{
         yesButton.setOnAction(e -> yesFunction(window));
         Button noButton = addButton("No");
         noButton.setOnAction(e -> window.close());
+        noButton.setCancelButton(true);
 
         HBox hBox = new HBox(10);
         hBox.setPadding(new Insets(0, 40, 0, 100));

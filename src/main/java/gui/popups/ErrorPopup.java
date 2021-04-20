@@ -21,6 +21,8 @@ public class ErrorPopup extends NotificationPopup{
         Label label = addLabel(errorMessage);
         Button okButton = addButton("OK");
         okButton.setOnAction(e -> window.close());
+        okButton.setDefaultButton(true);
+        okButton.setCancelButton(true);
 
         VBox display = addVBox(new Node[]{label, okButton});
 
