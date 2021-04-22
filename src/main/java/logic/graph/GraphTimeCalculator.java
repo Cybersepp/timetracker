@@ -37,12 +37,15 @@ public class GraphTimeCalculator {
 
             long diffInMillies = Math.abs(initialDate.getTime() - recordDate.getTime());
             long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            System.out.println("INITIAL: " + initialDate + " ][GIVEN: " + recordDate + " --- DIFFERENCE: " + diff);
 
             if (diff > days) {
                 break;
             }
-            projectData.put(record.getProjectName(), record.getDurationInSec());
+            int time = projectData.getOrDefault(record.getProjectName(), 0);
+            projectData.put(record.getProjectName(), record.getDurationInSec() + time);
         }
+        System.out.println(projectData.toString());
         return projectData;
     }
 }
