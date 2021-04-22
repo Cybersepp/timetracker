@@ -3,7 +3,7 @@ package data;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import gui.controllers.ProjectsTabController;
-import gui.popups.WarningPopup;
+import gui.popups.ErrorPopup;
 import logic.Treeitems.ProjectTreeItem;
 import logic.Treeitems.TaskTreeItem;
 
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.*;
 public class FileAccess {
 
     public FileAccess() {
-        // util classes
+        // util methods
     }
 
     public static void saveData() {
@@ -35,7 +35,7 @@ public class FileAccess {
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
             writer.writeValue(Paths.get("data.json").toFile(), dataMap);
         } catch (Exception e) {
-            new WarningPopup("Could not write to file: " + e);
+            new ErrorPopup("Could not write to file: " + e);
         }
 
     }
@@ -71,7 +71,7 @@ public class FileAccess {
                     new TypeReference<>() {
                     });
         } catch (IOException e) {
-            return null;
+            return null; // TODO what does this catch method capture? Should it also have a WarningPopup occur?
         }
     }
 

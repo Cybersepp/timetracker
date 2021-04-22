@@ -1,7 +1,11 @@
 package logic.Treeitems;
 
+import gui.popups.ChangeNamePopup;
 import gui.popups.CreateItemPopup;
+import gui.popups.WarningPopup;
 import javafx.scene.control.*;
+import logic.commands.DeleteProjectCommand;
+import logic.commands.DeleteTaskCommand;
 
 public abstract class AbstractTreeItem extends TreeItem<String> {
 
@@ -23,10 +27,10 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     public abstract ContextMenu getMenu();
 
     protected MenuItem changeName() {
-        MenuItem changeName = new MenuItem("change name");
+        MenuItem changeName = new MenuItem("Rename");
         changeName.setOnAction(e -> {
-            this.setValue("Changed name");
-            // TODO set name to a new name using popup
+            var changeNamePopup = new ChangeNamePopup(this);
+            changeNamePopup.popup();
         });
         return changeName;
     }
@@ -46,7 +50,7 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     }
 
     private MenuItem createTask() {
-        MenuItem addTask = new MenuItem("add task");
+        MenuItem addTask = new MenuItem("Add task");
         addTask.setOnAction(e -> {
             CreateItemPopup createItemPopup = new CreateItemPopup(this, "task");
             createItemPopup.popup();
@@ -56,12 +60,16 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
 
     protected MenuItem deleteItem(String text) {
         MenuItem deleteTask = new MenuItem(text);
-        deleteTask.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            // TODO should send out a warning message if there are any recordings associated with the item
-            // TODO should also delete all history that is associated with this item
-            // TODO Maybe should have also delete shortcut?
-        });
+        deleteTask.setOnAction(e -> deleteAction());
         return deleteTask;
+    }
+
+    private void deleteAction() {
+        if (this.getClass().equals(ProjectTreeItem.class)) {
+            new DeleteProjectCommand((ProjectTreeItem) this).commandControl();
+        }
+        else if (this.getClass().equals(TaskTreeItem.class)) {
+            new DeleteTaskCommand((TaskTreeItem) this).commandControl();
+        }
     }
 }

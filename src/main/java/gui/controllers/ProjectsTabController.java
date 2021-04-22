@@ -5,9 +5,11 @@ import gui.popups.CreateItemPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
 import logic.Treeitems.*;
+import logic.commands.DeleteProjectCommand;
+import logic.commands.DeleteTaskCommand;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +37,6 @@ public class ProjectsTabController {
         TreeItem<String> root = new TreeItem<>("Projects");
         root.getChildren().addAll(projects, archived);
 
-        // -------- Demo items for tree view ----------------
-
-        // Project items
-
         Map<String, Map<String, List<String>>> dataMap = FileAccess.getProjectData();
 
         if (dataMap != null) {
@@ -56,22 +54,20 @@ public class ProjectsTabController {
             });
         }
 
-        // Archived items
+        // -------- Demo items for tree view ----------------
 
-        // String value, List<TaskTreeItem> juniors, LocalDateTime creationDate, boolean archived
-        var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), LocalDateTime.now(), true);
-        var archivedProject2 = new ProjectTreeItem("ArchivedProject2", new ArrayList<>(), LocalDateTime.now(), true);
+        var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), true);
+        var archivedProject2 = new ProjectTreeItem("ArchivedProject2", new ArrayList<>(), true);
         archived.addJunior(archivedProject1);
         archived.addJunior(archivedProject2);
 
-        // String value, LocalDateTime creationDate, boolean archived, boolean done, List<String> records
-        var aTask1 = new TaskTreeItem("ArchivedTask1", LocalDateTime.now(), true, false, new ArrayList<>());
+        var aTask1 = new TaskTreeItem("ArchivedTask1", true, false, new ArrayList<>());
         archivedProject1.addJunior(aTask1);
-        var aTask2 = new TaskTreeItem("ArchivedTask2", LocalDateTime.now(), true, false, new ArrayList<>());
+        var aTask2 = new TaskTreeItem("ArchivedTask2", true, false, new ArrayList<>());
         archivedProject1.addJunior(aTask2);
-        var aTask3 = new TaskTreeItem("ArchivedTask3", LocalDateTime.now(), true, false, new ArrayList<>());
+        var aTask3 = new TaskTreeItem("ArchivedTask3", true, false, new ArrayList<>());
         archivedProject2.addJunior(aTask3);
-        var aTask4 = new TaskTreeItem("ArchivedTask4", LocalDateTime.now(), true, false, new ArrayList<>());
+        var aTask4 = new TaskTreeItem("ArchivedTask4", true, false, new ArrayList<>());
         archivedProject2.addJunior(aTask4);
 
         // ------------------ Demo items end for tree view -----------------------
@@ -80,6 +76,18 @@ public class ProjectsTabController {
         projectsTree.setShowRoot(false);
         projectsTree.setRoot(root);
         projectsTree.setCellFactory(p -> new TreeCellImplication());
+
+        // "DEL" function on projects and tasks
+        projectsTree.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.DELETE) {
+                if (selectItem().getClass() == ProjectTreeItem.class) {
+                    new DeleteProjectCommand((ProjectTreeItem) selectItem()).commandControl();
+                }
+                else if (selectItem().getClass() == TaskTreeItem.class) {
+                    new DeleteTaskCommand((TaskTreeItem) selectItem()).commandControl();
+                }
+            }
+        });
     }
 
     /**
@@ -87,16 +95,21 @@ public class ProjectsTabController {
      * @return selected treeItem on treeView
      */
     public AbstractTreeItem selectItem() {
-        AbstractTreeItem activity = (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
-        if (activity != null) {
-            System.out.println(activity.getValue());
-        }
-        return activity;
+        return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
 
+
+
+    /**
+     * Create project button functionality
+     */
     public void createProject(){
-        CreateItemPopup createItemPopup = new CreateItemPopup(projects, "project");
-        createItemPopup.popup();
+        new CreateItemPopup(projects, "project").popup();
+    }
+
+    @Override
+    public String toString() {
+        return "project";
     }
 
 }

@@ -12,7 +12,7 @@ public class RootTreeItemTest {
         var root = new RootTreeItem("Root");
         var test = new ProjectTreeItem("Test");
         root.addJunior(test);
-        assertTrue(root.getJuniors().contains(test));
+        assertTrue(root.getJuniors().contains(test) && root.getChildren().contains(test));
     }
 
     @Test
@@ -29,13 +29,13 @@ public class RootTreeItemTest {
         var test = new ProjectTreeItem("Test");
         root.addJunior(test);
         root.removeJunior(test);
-        assertFalse(root.getJuniors().contains(test));
+        assertFalse(root.getJuniors().contains(test) && root.getChildren().contains(test));
     }
 
     @Test
     void noProjectInListWhileCreating() {
         var root = new RootTreeItem("Root");
-        assertTrue(root.getJuniors().isEmpty());
+        assertTrue(root.getJuniors().isEmpty() && root.getChildren().isEmpty());
     }
 
 }

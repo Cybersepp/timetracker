@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BarChart?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="100.0" prefWidth="200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.controllers.GraphTabController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GraphTabController">
     <children>
-    <Label fx:id="graphLabel" alignment="CENTER" layoutX="40.0" layoutY="14.0" minWidth="60.0" prefHeight="32.0" prefWidth="254.0" style="&#10;" text="GRAPH OVERVIEW" textAlignment="CENTER" wrapText="false">
-         <font>
-            <Font name="Ubuntu Condensed" size="35.0" />
-         </font>
-    </Label>
-    <BarChart fx:id="projectGraph" layoutY="73.0" prefHeight="402.0" prefWidth="587.0">
-        <xAxis>
-            <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-            <NumberAxis side="LEFT" />
-        </yAxis>
-    </BarChart>
+      <VBox prefHeight="540.0" prefWidth="600.0">
+         <children>
+          <Label fx:id="graphLabel" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" style="&#10;" text="GRAPH OVERVIEW" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <padding>
+                  <Insets left="40.0" />
+               </padding>
+          </Label>
+          <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="50.0" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
+              <xAxis>
+                  <CategoryAxis prefHeight="50.0" prefWidth="543.0" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                  <NumberAxis side="LEFT" />
+              </yAxis>
+          </StackedBarChart>
+         </children>
+      </VBox>
 
     </children>
 </AnchorPane>

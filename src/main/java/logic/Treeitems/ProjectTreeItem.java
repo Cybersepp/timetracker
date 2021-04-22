@@ -4,14 +4,12 @@ import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectTreeItem extends AbstractTreeItem {
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
-    private final LocalDateTime creationDate;
 
     public void setArchived(RootTreeItem newRoot) {
         // TODO archived projects should be made unable to start recordings
@@ -41,34 +39,28 @@ public class ProjectTreeItem extends AbstractTreeItem {
         this.getChildren().remove(junior);
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
     // ---------- Constructor for reading from file ------------------
-    public ProjectTreeItem(String value, List<TaskTreeItem> juniors, LocalDateTime creationDate, boolean archived) {
+    public ProjectTreeItem(String value, List<TaskTreeItem> juniors, boolean archived) {
         super(value);
         this.juniors = juniors;
-        this.creationDate = creationDate;
         this.archived = archived;
     }
 
     // ---------- Constructor for creating a project ------------------
     public ProjectTreeItem(String value) {
         super(value);
-        this.creationDate = LocalDateTime.now();
     }
 
     // --------- GUI ------------
 
     private MenuItem archive() {
-        MenuItem archive = new MenuItem("archive project");
+        MenuItem archive = new MenuItem("Archive");
         archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
         return archive;
     }
 
     private MenuItem unArchive() {
-        MenuItem unArchive = new MenuItem("unarchive");
+        MenuItem unArchive = new MenuItem("Unarchive");
         unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
         return unArchive;
     }
@@ -77,7 +69,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
     public ContextMenu getMenu() {
 
         MenuItem changeName = changeName();
-        MenuItem deleteProject = deleteItem("delete project");
+        MenuItem deleteProject = deleteItem("Delete project");
 
         if (isArchived()) {
             MenuItem unArchive = unArchive();
@@ -87,5 +79,10 @@ public class ProjectTreeItem extends AbstractTreeItem {
         MenuItem addTask = createItem("task");
         MenuItem archive = archive();
         return new ContextMenu(addTask, changeName, deleteProject, archive);
+    }
+
+    @Override
+    public String toString() {
+        return "project";
     }
 }
