@@ -1,5 +1,6 @@
 package gui.popups;
 
+import data.FileAccess;
 import logic.Treeitems.AbstractTreeItem;
 import logic.Treeitems.ProjectTreeItem;
 import logic.Treeitems.RootTreeItem;
@@ -84,11 +85,13 @@ public class CreateItemPopup extends AbstractPopup{
 
         ProjectTreeItem newProject = new ProjectTreeItem(textField.getText());
         root.addJunior(newProject);
+        FileAccess.saveData();
     }
 
     private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
 
         TaskTreeItem newTask = new TaskTreeItem(textField.getText());
         project.addJunior(newTask);
+        FileAccess.saveData();
     }
 }

@@ -40,16 +40,27 @@ public class FileAccess {
 
     }
 
-    public static Map<String, List<String>> getTaskMap(ProjectTreeItem project) {
-        Map<String, List<String>> taskMap = new HashMap<>();
+    public static Map<String, Object> getTaskMap(ProjectTreeItem project) {
+        Map<String, Object> taskMap = new HashMap<>();
 
         List<TaskTreeItem> projectTasks = project.getJuniors();
 
+        taskMap.put("isArchived", project.isArchived());
+
         for (TaskTreeItem task : projectTasks) {
-            taskMap.put(task.getValue(), task.getRecords());
+            taskMap.put(task.getValue(), getTaskAttributesMap(task));
         }
 
         return taskMap;
+    }
+
+    public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
+        Map<String, Object> taskAttributesMap = new HashMap<>();
+
+        taskAttributesMap.put("isDone", task.isDone());
+        taskAttributesMap.put("Records", task.getRecords());
+
+        return taskAttributesMap;
     }
 
     public static Map<String, Map<String, List<String>>> getProjectData() {
