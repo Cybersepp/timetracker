@@ -37,7 +37,6 @@ public class FileAccess {
         } catch (Exception e) {
             new ErrorPopup("Could not write to file: " + e);
         }
-
     }
 
     public static Map<String, Object> getTaskMap(ProjectTreeItem project) {
@@ -50,7 +49,6 @@ public class FileAccess {
         for (TaskTreeItem task : projectTasks) {
             taskMap.put(task.getValue(), getTaskAttributesMap(task));
         }
-
         return taskMap;
     }
 
@@ -74,5 +72,4 @@ public class FileAccess {
             return null; // TODO what does this catch method capture? Should it also have a WarningPopup occur?
         }
     }
-
 }

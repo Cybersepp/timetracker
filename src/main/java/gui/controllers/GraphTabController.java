@@ -31,13 +31,12 @@ public class GraphTabController {
 
     }
     /**
-     * Method for updating the graph.
+     * Method for updating the logic.graph.
      */
     public void initUpdateGraph()  {
+        clearGraph();
         RootTreeItem root = projectsTabController.getProjects();
         List<ProjectTreeItem> projects = root.getJuniors();
-
-
         projects.forEach(projectTreeItem -> {
             XYChart.Series series = new XYChart.Series();
             float projectTime = calculateProjectTime(projectTreeItem);
@@ -65,10 +64,18 @@ public class GraphTabController {
         return time;
     }
 
+    public void updateGraph(Map<String, Integer> projectData) {
+        clearGraph();
+        for (String project : projectData.keySet()) {
+            XYChart.Series series = new XYChart.Series();
+            series.getData().add(new XYChart.Data(project, projectData.get(project)));
+            allSeries.add(series);
+            projectGraph.getData().add(series);
+        }
+    }
+
     public void clearGraph() {
         projectGraph.getData().clear();
     }
-
-
 
 }
