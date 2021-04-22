@@ -11,25 +11,19 @@
     <children>
       <ScrollPane layoutX="-2.0" layoutY="61.0" prefHeight="480.0" prefWidth="590.0">
          <content>
-            <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="575.0">
+            <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="575.0">
               <columns>
-                <TableColumn maxWidth="160.0" minWidth="60.0" prefWidth="120.0" text="PROJECT" />
-                <TableColumn maxWidth="160.0" minWidth="60.0" prefWidth="110.0" text="START" />
-                  <TableColumn maxWidth="160.0" minWidth="0.0" prefWidth="107.0" text="END" />
-                  <TableColumn maxWidth="160.0" minWidth="40.0" prefWidth="119.0" text="DURATION" />
-                  <TableColumn maxWidth="160.0" minWidth="0.0" prefWidth="115.0" text="DESCRIPTION" />
+                <TableColumn fx:id="projectColumn" editable="false" maxWidth="160.0" minWidth="60.0" prefWidth="123.0" text="PROJECT" />
+                <TableColumn fx:id="taskColumn" editable="false" maxWidth="177.0" minWidth="60.0" prefWidth="155.0" text="TASK" />
+                  <TableColumn fx:id="startColumn" editable="false" maxWidth="229.0" minWidth="0.0" prefWidth="192.0" sortType="DESCENDING" text="START" />
+                  <TableColumn fx:id="durationColumn" editable="false" maxWidth="237.0" minWidth="40.0" prefWidth="104.0" text="DURATION" />
               </columns>
             </TableView>
          </content>
       </ScrollPane>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="43.0" prefWidth="349.0" text="HISTORY OVERVIEW">
+      <Label fx:id="historyLabel" layoutX="178.0" layoutY="14.0" prefHeight="28.0" prefWidth="230.0" text="HISTORY OVERVIEW">
          <font>
-            <Font size="29.0" />
-         </font>
-      </Label>
-      <Label layoutX="331.0" layoutY="14.0" prefHeight="43.0" prefWidth="228.0" text="Work in progress..">
-         <font>
-            <Font size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
 

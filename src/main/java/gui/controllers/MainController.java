@@ -32,6 +32,10 @@ public class MainController {
     @FXML
     private GraphTabController graphTabController;
 
+    @FXML
+    private HistoryTabController historyTabController;
+
+
     // ---- WINDOWS ----
 
     @FXML
@@ -68,7 +72,8 @@ public class MainController {
     @FXML
     private void initialize() {
         // I know it's retarded, sorry.
-
+        historyTabController.init(this);
+        projectsTabController.init(this);
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
         graphTabController.initUpdateGraph();
@@ -80,23 +85,18 @@ public class MainController {
         switch (recordButton.getText()) {
 
             case "RECORD":
-                if(projectsTabController.selectItem() == null) {
+                if (projectsTabController.selectItem() == null) {
                     // TODO use logger
                     break;
                 }
-
                 if (!projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
                     // TODO use logger
                     break;
                 }
-
                 recordButton.setText("END");
                 dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
                 record.setRecordStart();
-                timer = new Timer(timerId);
-                timer.startTimer();
-                fill = new FillTransition(Duration.millis(1500), timeLine, Color.GREY, Color.RED);
-                animateRecordButton();
+                startTimer();
                 break;
 
             case "END":
@@ -104,9 +104,7 @@ public class MainController {
                 TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
                 recordButton.setText("RECORD");
                 record.setRecordEnd();
-                timer.endTimer();
-                timeLine.setFill(Color.GREY);
-                animateStopRecordButton();
+                stopTimer();
                 String recordInfo = record.getRecordInfo();
                 currentTask.getRecords().add(recordInfo);
                 FileAccess.saveData();
@@ -156,4 +154,31 @@ public class MainController {
     public void animateStopRecordButton() {
         fill.stop();
     }
+
+    public void stopTimer() {
+        timer.endTimer();
+        timeLine.setFill(Color.GREY);
+        animateStopRecordButton();
+    }
+
+    public void startTimer() {
+        timer = new Timer(timerId);
+        timer.startTimer();
+        fill = new FillTransition(Duration.millis(1500), timeLine, Color.GREY, Color.RED);
+        animateRecordButton();
+    }
+
+    public HistoryTabController getHistoryTabController() {
+        return historyTabController;
+    }
+
+    public ProjectsTabController getProjectsTabController() {
+        return projectsTabController;
+    }
+
+    public GraphTabController getGraphTabController() {
+        return graphTabController;
+    }
 }
+
+

@@ -7,12 +7,15 @@ import javafx.scene.control.*;
 import logic.commands.DeleteProjectCommand;
 import logic.commands.DeleteTaskCommand;
 
-public abstract class AbstractTreeItem extends TreeItem<String> {
+public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
 
     protected boolean archived = false;
 
     protected AbstractTreeItem(String value) {
         this.setValue(value);
+
+
+
     }
 
     public boolean isArchived() {

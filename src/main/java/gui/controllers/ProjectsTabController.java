@@ -3,13 +3,18 @@ package gui.controllers;
 import data.FileAccess;
 import gui.popups.CreateItemPopup;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import logic.Treeitems.*;
 import logic.commands.DeleteProjectCommand;
 import logic.commands.DeleteTaskCommand;
+import logic.graph.GraphTimeCalculator;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +32,29 @@ public class ProjectsTabController {
         return archived;
     }
 
+
     @FXML
     private TreeView<String> projectsTree;
+
+    // ----------- GRAPH TIME OPTIONS ------------------
+    @FXML
+    private MenuItem lastWeek;
+
+    @FXML
+    private MenuItem lastMonth;
+
+    @FXML
+    private MenuItem lastYear;
+
+    @FXML
+    private MenuItem allTime;
+
+    private MainController mainController;
+
+    private HistoryTabController historyTabController;
+
+    private GraphTabController graphTabController;
+
 
     @FXML
     private void initialize() {
@@ -52,6 +78,7 @@ public class ProjectsTabController {
 
                 projects.addJunior(project);
             });
+
         }
 
         // -------- Demo items for tree view ----------------
@@ -82,8 +109,7 @@ public class ProjectsTabController {
             if (event.getCode() == KeyCode.DELETE) {
                 if (selectItem().getClass() == ProjectTreeItem.class) {
                     new DeleteProjectCommand((ProjectTreeItem) selectItem()).commandControl();
-                }
-                else if (selectItem().getClass() == TaskTreeItem.class) {
+                } else if (selectItem().getClass() == TaskTreeItem.class) {
                     new DeleteTaskCommand((TaskTreeItem) selectItem()).commandControl();
                 }
             }
@@ -92,18 +118,17 @@ public class ProjectsTabController {
 
     /**
      * Method for selecting projects and project tasks and sending out value.
+     *
      * @return selected treeItem on treeView
      */
     public AbstractTreeItem selectItem() {
         return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
 
-
-
     /**
      * Create project button functionality
      */
-    public void createProject(){
+    public void createProject() {
         new CreateItemPopup(projects, "project").popup();
     }
 
@@ -112,4 +137,28 @@ public class ProjectsTabController {
         return "project";
     }
 
+    public void init(MainController main) {
+        mainController = main;
+    }
+
+    public void graphForLastWeek() throws ParseException {
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(7);
+    }
+
+    public void graphForLastMonth() throws ParseException {
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(30);
+    }
+
+    public void graphForLastYear() throws ParseException {
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(365);
+    }
+
+    public void graphForAllTime() {
+        graphTabController = mainController.getGraphTabController();
+        graphTabController.initUpdateGraph();
+
+    }
 }
