@@ -3,6 +3,7 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
+import data.RecordEntryData;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
@@ -77,7 +78,18 @@ public class MainController {
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
         graphTabController.initUpdateGraph();
+    }
 
+    public HistoryTabController getHistoryTabController() {
+        return historyTabController;
+    }
+
+    public ProjectsTabController getProjectsTabController() {
+        return projectsTabController;
+    }
+
+    public GraphTabController getGraphTabController() {
+        return graphTabController;
     }
 
     public void updateRecordButton() {
@@ -107,6 +119,7 @@ public class MainController {
                 stopTimer();
                 String recordInfo = record.getRecordInfo();
                 currentTask.getRecords().add(recordInfo);
+                addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
                 FileAccess.saveData();
                 graphTabController.initUpdateGraph();
                 break;
@@ -168,16 +181,11 @@ public class MainController {
         animateRecordButton();
     }
 
-    public HistoryTabController getHistoryTabController() {
-        return historyTabController;
-    }
+    public void addToHistory(TaskTreeItem currentTask, String start, String duration) {
+        String projectName = currentTask.getParent().getValue();
+        String taskName = currentTask.getValue();
+        historyTabController.addRecord(new RecordEntryData(projectName, taskName, start, duration));
 
-    public ProjectsTabController getProjectsTabController() {
-        return projectsTabController;
-    }
-
-    public GraphTabController getGraphTabController() {
-        return graphTabController;
     }
 }
 
