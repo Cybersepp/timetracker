@@ -1,100 +1,87 @@
 package gui.popups;
 
+import data.FileAccess;
+import javafx.scene.Node;
+import javafx.scene.control.TreeItem;
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import data.Project;
-import data.Task;
-import data.DataHandler;
+public class CreateItemPopup extends ActionPopup{
 
-import java.time.LocalDateTime;
+    public CreateItemPopup(AbstractTreeItem treeItem, String type) {
+        super(treeItem, type);
+    }
 
-public class CreateItemPopup implements Popup{
+    @Override
+    public void popup() {
+        Stage window = addStage();
 
-    public void popup(AbstractTreeItem treeItem, String type) {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setMinWidth(300);
-        window.setMaxWidth(450);
-        window.setMinHeight(250);
-        window.setMaxHeight(375);
-
-        Label label = new Label("Name your " + type);
-        label.setFont(Font.font ("Verdana", FontWeight.BOLD, 16));
-        TextField textField = new TextField();
+        Label label = this.addLabel("Name your " + type);
+        TextField textField = addTextField();
 
         Button createButton = addButton("Create " + type);
         Button cancelButton = addButton("Cancel");
-        createButtonFunctionality(treeItem, createButton, window, type, textField);
+        mainButtonFunctionality(treeItem, createButton, window, textField);
+        createButton.setDefaultButton(true);
+        cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
-        VBox display = new VBox(10);
-        display.setPadding(new Insets(10, 40, 30, 40));
-        display.setSpacing(10);
-        display.getChildren().addAll(label, textField, createButton, cancelButton);
-        display.setAlignment(Pos.CENTER);
+        VBox display = addVBox(new Node[]{label, textField, createButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
 
-        Scene scene1= new Scene(display, 300, 250);
-        window.setScene(scene1);
-        window.showAndWait();
+        setScene(window, display);
     }
 
-    private Button addButton(String name) {
-        Button button = new Button(name);
-        button.setFont(Font.font ("Verdana", 14));
-        button.setMaxWidth(Double.MAX_VALUE);
-        return button;
-    }
-
-    private void createButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, String type, TextField textField) {
+    @Override
+    protected void mainButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, TextField textField) {
         stage.setTitle("Create a " + type);
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
-            // TODO create warning popup if textField is empty or a project / task with the given name already exists
-            if (type.equals("project")) {
-                createProjectBranch(treeItem, textField);
+            if (textField.getText().trim().isEmpty()) {
+                new ErrorPopup("You have not set a name for the " + type + "!").popup();
+                // TODO instead of throwing a warning popup, should have the OK button grayed out until something is entered (listener)
             }
-            if (type.equals("task")) {
-                createTaskLeaf(treeItem, textField);
+            else {
+                final var sameName = treeItem.getChildren().stream()
+                        .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
+                        .map(TreeItem::getValue)
+                        .findFirst();
+                if (sameName.isPresent()) {
+                    new ErrorPopup("A " + type + " with the same name already exists!").popup();
+                    return;
+                }
+
+                if (treeItem.getClass().equals(RootTreeItem.class)) {
+                    createProjectBranch((RootTreeItem) treeItem, textField);
+                }
+                else if (treeItem.getClass().equals(ProjectTreeItem.class)) {
+                    createTaskLeaf((ProjectTreeItem) treeItem, textField);
+                }
+
+                FileAccess.saveData();
+                stage.close();
             }
-            stage.close();
+
         });
     }
 
-    private void createProjectBranch(AbstractTreeItem treeItem, TextField textField){
-        String projectName = textField.getText();
-        ProjectTreeItem newProject = new ProjectTreeItem(projectName);
-        treeItem.getChildren().add(newProject);
+    private void createProjectBranch(RootTreeItem root, TextField textField){
 
-        Project projectObj = new Project(projectName, LocalDateTime.now());
-        DataHandler.addProject(projectObj);
-        DataHandler.showProjects();
-
+        ProjectTreeItem newProject = new ProjectTreeItem(textField.getText().trim());
+        root.addJunior(newProject);
     }
 
-    private void createTaskLeaf(AbstractTreeItem treeItem, TextField textField) {
-        String taskName = textField.getText();
-        TaskTreeItem newTask = new TaskTreeItem(textField.getText());
-        treeItem.getChildren().add(newTask);
+    private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
 
-        String projectName = treeItem.getValue();
-        Task taskObj = new Task(taskName, LocalDateTime.now(), projectName);
-        DataHandler.addTask(taskObj);
-        DataHandler.getProjectByName(projectName).addTask(taskObj);
-
-        System.out.println("Task " + taskName + " was added to " + projectName + " project.");
+        TaskTreeItem newTask = new TaskTreeItem(textField.getText().trim());
+        project.addJunior(newTask);
     }
 }

@@ -1,15 +1,16 @@
 package data;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Record {
+
     private LocalDateTime recordStart;
     private LocalDateTime recordEnd;
     private String durationInSec;
+
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void setRecordStart() {
@@ -34,9 +35,12 @@ public class Record {
         return recordEnd.format(formatter);
     }
 
-    public String getDurationInSec() { return durationInSec;}
+    public String getDurationInSec() {
+        return durationInSec;
+    }
 
     public String getRecordInfo() {
         return getRecordStart() + ", " + getRecordEnd() + ", " + durationInSec;
     }
+
 }

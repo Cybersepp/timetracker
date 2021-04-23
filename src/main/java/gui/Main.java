@@ -13,12 +13,10 @@ public class Main extends Application {
     Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
     primaryStage.setTitle("timetrack");
     primaryStage.show();
-    primaryStage.setMinHeight(600);
-    primaryStage.setMinWidth(900);
+    primaryStage.setMinHeight(670);
+    primaryStage.setMinWidth(970);
     primaryStage.setScene(new Scene(root));
   }
-
-
 
   public static void main(String[] args) {
     launch(args);

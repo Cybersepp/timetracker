@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 
 // I thought it would be a decent idea to dedicate a class to create and handle

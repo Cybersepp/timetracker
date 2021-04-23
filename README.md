@@ -6,10 +6,10 @@ Group members:
 - Richard Kuklane (rikuklane)
 - Nikita Bahhir (nbahh)
 
-(Upcoming) functionality:
-- User can add new projects and subtasks of the project.
+Functionality:
+- User can add new projects and tasks of the project.
 - User can switch between the projects. 
-- User can start timer of a chosen project.
-- If the user forgot to start the timer they can add a completed task later(with duration). 
+- User can record time spent on a certain project.
 - User can see their recorded data visualized in graphs in chosen intervals. 
-- A small to-do list or calendar for activities.
+- User can choose graph to show recorded data for a certain interval.
+- User can get an overview of each record entry in the history tab.

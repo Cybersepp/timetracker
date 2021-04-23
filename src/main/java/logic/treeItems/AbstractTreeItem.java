@@ -1,28 +1,37 @@
 package logic.treeItems;
 
-import gui.controllers.ProjectsTabController;
+import gui.popups.ChangeNamePopup;
 import gui.popups.CreateItemPopup;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import logic.commands.DeleteProjectCommand;
+import logic.commands.DeleteTaskCommand;
 
-public abstract class AbstractTreeItem extends TreeItem<String> {
+public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
 
-    private boolean archived = false;
+    protected boolean archived = false;
+
+    protected AbstractTreeItem(String value) {
+        this.setValue(value);
+    }
 
     public boolean isArchived() {
         return archived;
     }
 
-    public void setArchived(boolean archived) {
+    protected void setArchived(boolean archived) {
         this.archived = archived;
     }
 
+    // ---------------- GUI and interactive methods ------------------------
     public abstract ContextMenu getMenu();
 
     protected MenuItem changeName() {
-        MenuItem changeName = new MenuItem("change name");
+        MenuItem changeName = new MenuItem("Rename");
         changeName.setOnAction(e -> {
-            this.setValue("Changed name");
-            // TODO set name to a new name using popup
+            var changeNamePopup = new ChangeNamePopup(this);
+            changeNamePopup.popup();
         });
         return changeName;
     }
@@ -35,53 +44,33 @@ public abstract class AbstractTreeItem extends TreeItem<String> {
     private MenuItem createProject() {
         MenuItem addProject = new MenuItem("Create project");
         addProject.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup();
-            createItemPopup.popup(this, "project");
+            CreateItemPopup createItemPopup = new CreateItemPopup(this, "project");
+            createItemPopup.popup();
         });
         return addProject;
     }
 
     private MenuItem createTask() {
-        MenuItem addTask = new MenuItem("add task");
+        MenuItem addTask = new MenuItem("Add task");
         addTask.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup();
-            createItemPopup.popup(this,"task");
+            CreateItemPopup createItemPopup = new CreateItemPopup(this, "task");
+            createItemPopup.popup();
         });
         return addTask;
     }
 
     protected MenuItem deleteItem(String text) {
         MenuItem deleteTask = new MenuItem(text);
-        deleteTask.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            // TODO should send out a warning message if there are any recordings associated with the item
-            // TODO should also delete all history that is associated with this item
-            // TODO Maybe should have also delete shortcut?
-        });
+        deleteTask.setOnAction(e -> deleteAction());
         return deleteTask;
     }
 
-    protected MenuItem archive() {
-        MenuItem archive = new MenuItem("archive project");
-        archive.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            ProjectsTabController.getArchived().getChildren().add(this);
-
-            this.setArchived(true);
-            // TODO archived projects are unable to start recordings
-            // TODO changing archived value for project, should also change value for tasks (might need to overwrite getChildren or do a List of children)
-        });
-        return archive;
-    }
-
-    protected MenuItem unArchive() {
-        MenuItem unArchive = new MenuItem("unarchive");
-        unArchive.setOnAction(e -> {
-            this.getParent().getChildren().remove(this);
-            ProjectsTabController.getProjects().getChildren().add(this);
-
-            this.setArchived(false);
-        });
-        return unArchive;
+    private void deleteAction() {
+        if (this.getClass().equals(ProjectTreeItem.class)) {
+            new DeleteProjectCommand((ProjectTreeItem) this).commandControl();
+        }
+        else if (this.getClass().equals(TaskTreeItem.class)) {
+            new DeleteTaskCommand((TaskTreeItem) this).commandControl();
+        }
     }
 }

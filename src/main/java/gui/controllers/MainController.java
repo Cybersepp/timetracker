@@ -3,13 +3,18 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
-import data.Task;
+import data.RecordEntryData;
+import javafx.animation.Animation;
+import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import logic.timer.Timer;
 import logic.treeItems.TaskTreeItem;
-
-import java.io.IOException;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -28,16 +33,18 @@ public class MainController {
     @FXML
     private GraphTabController graphTabController;
 
-    // ---- WINDOWS ----
-
     @FXML
-    private AnchorPane rightSideWindow;
+    private HistoryTabController historyTabController;
+
+
+    // ---- WINDOWS ----
 
     @FXML
     private AnchorPane graphTab;
 
     @FXML
     private AnchorPane historyTab;
+
 
     // ---- UI ELEMENTS ----
 
@@ -48,65 +55,77 @@ public class MainController {
     private Button recordButton;
 
     @FXML
-    private Button endRecordButton;
+    private Label timerId;
+
+    @FXML
+    private Rectangle timeLine;
+
+    Timer timer = null;
+
+    FillTransition fill = null;
 
     // ---- DAO ----
 
     private final Record record = new Record();
 
-    private Task currentlyRecordedTask;
+    private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
         // I know it's retarded, sorry.
-
+        historyTabController.init(this);
+        projectsTabController.init(this);
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-        graphTabController.updateGraph();
-
-
+        graphTabController.initUpdateGraph();
     }
 
-    public void updateButton() { // TODO this updateButton should be one method only, not two separate
+    public HistoryTabController getHistoryTabController() {
+        return historyTabController;
+    }
 
-        if (projectsTabController.selectItem() == null) {
-            System.out.println("No task has been selected");
+    public ProjectsTabController getProjectsTabController() {
+        return projectsTabController;
+    }
+
+    public GraphTabController getGraphTabController() {
+        return graphTabController;
+    }
+
+    public void updateRecordButton() {
+        //TODO lookin hella ugly, gotta move it out of here!
+        switch (recordButton.getText()) {
+
+            case "RECORD":
+                if (projectsTabController.selectItem() == null || !projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)
+                         ) {
+                    //TODO if no project is selected create a project and task and start recording there
+                    //TODO if project is selected without task, create task and start recording there
+                    //TODO also display a quick message (that would disappear after 1-2s) (possible?)
+
+                    break;
+                }
+                recordButton.setText("END");
+                dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
+                record.setRecordStart();
+                startTimer();
+                break;
+
+            case "END":
+                graphTabController.clearGraph();
+                TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
+                recordButton.setText("RECORD");
+                record.setRecordEnd();
+                stopTimer();
+                String recordInfo = record.getRecordInfo();
+                currentTask.getRecords().add(recordInfo);
+                addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
+                FileAccess.saveData();
+                graphTabController.initUpdateGraph();
+                break;
         }
-        else if (projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
-            recordButton.setDisable(true);
-            recordButton.setOpacity(0);
-
-            record.setRecordStart();
-
-            currentlyRecordedTask = DataHandler.currentlyChosenTask;
-
-            endRecordButton.setDisable(false);
-            endRecordButton.setOpacity(1);
-        }
     }
 
-    public void updateEndButton() throws IOException {
-
-        graphTabController.clearGraph();
-        endRecordButton.setDisable(true);
-        endRecordButton.setOpacity(0);
-
-        record.setRecordEnd();
-
-        String recordInfo = record.getRecordInfo();
-        currentlyRecordedTask.addRecord(recordInfo);
-
-        graphTabController.updateGraph();
-
-        System.out.println("Record: " + recordInfo + " was added to task " +  currentlyRecordedTask.getName() +
-                " which belongs to project " +  currentlyRecordedTask.getBelongs());
-
-        FileAccess.saveRecordData();
-
-        recordButton.setDisable(false);
-        recordButton.setOpacity(1);
-
-    }
 
     /**
      * If button shows "History", then change window from Graph tab to History tab and vice versa.
@@ -127,8 +146,9 @@ public class MainController {
 
     /**
      * Method for switching between tabs of the AnchorPane "rightSideWindow".
+     *
      * @param tabToRemove AnchorPane to be removed.
-     * @param tabToAdd AnchorPane to be added.
+     * @param tabToAdd    AnchorPane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
         // I know it's retarded. sorry.
@@ -136,6 +156,37 @@ public class MainController {
         tabToRemove.setDisable(true);
         tabToAdd.setOpacity(1);
         tabToAdd.setDisable(false);
+    }
+
+    public void animateRecordButton() {
+        fill.setAutoReverse(true);
+        fill.setCycleCount(Animation.INDEFINITE);
+        fill.play();
+    }
+
+    public void animateStopRecordButton() {
+        fill.stop();
+    }
+
+    public void stopTimer() {
+        timer.endTimer();
+        timeLine.setFill(Color.GREY);
+        animateStopRecordButton();
+    }
+
+    public void startTimer() {
+        timer = new Timer(timerId);
+        timer.startTimer();
+        fill = new FillTransition(Duration.millis(1500), timeLine, Color.GREY, Color.RED);
+        animateRecordButton();
+    }
+
+    public void addToHistory(TaskTreeItem currentTask, String start, String duration) {
+        String projectName = currentTask.getParent().getValue();
+        String taskName = currentTask.getValue();
+        historyTabController.addRecord(new RecordEntryData(projectName, taskName, start, duration));
 
     }
 }
+
+

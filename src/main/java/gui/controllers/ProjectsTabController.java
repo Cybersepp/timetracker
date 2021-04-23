@@ -1,19 +1,26 @@
 package gui.controllers;
 
-import data.DataHandler;
+import data.FileAccess;
 import gui.popups.CreateItemPopup;
-import logic.treeItems.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import data.*;
+import javafx.scene.input.KeyCode;
+import logic.commands.DeleteProjectCommand;
+import logic.commands.DeleteTaskCommand;
+import logic.treeItems.*;
+import logic.treeItems.TreeCellFactory;
 
-import java.time.LocalDateTime;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectsTabController {
 
     private static final RootTreeItem projects = new RootTreeItem("Active projects");
-    private static final RootTreeItem archived = new RootTreeItem("Archived");
+    private static final RootTreeItem archived = new RootTreeItem("Archived", true);
 
     public static RootTreeItem getProjects() {
         return projects;
@@ -23,120 +30,136 @@ public class ProjectsTabController {
         return archived;
     }
 
+
     @FXML
     private TreeView<String> projectsTree;
+
+    // ----------- GRAPH TIME OPTIONS ------------------
+    @FXML
+    private MenuItem lastWeek;
+
+    @FXML
+    private MenuItem lastMonth;
+
+    @FXML
+    private MenuItem lastYear;
+
+    @FXML
+    private MenuItem allTime;
+
+    private MainController mainController;
+
+    private HistoryTabController historyTabController;
+
+    private GraphTabController graphTabController;
+
 
     @FXML
     private void initialize() {
 
         // Root
         TreeItem<String> root = new TreeItem<>("Projects");
-        archived.setArchived(true);
         root.getChildren().addAll(projects, archived);
+
+        Map<String, Map<String, List<String>>> dataMap = FileAccess.getProjectData();
+
+        if (dataMap != null) {
+
+            dataMap.forEach((name, taskMap) -> {
+                ProjectTreeItem project = new ProjectTreeItem(name);
+
+                taskMap.forEach((taskName, records) -> {
+                    TaskTreeItem task = new TaskTreeItem(taskName);
+                    task.getRecords().addAll(records);
+                    project.addJunior(task);
+                });
+
+                projects.addJunior(project);
+            });
+
+        }
 
         // -------- Demo items for tree view ----------------
 
-        // Project items
-        ProjectTreeItem project1 = new ProjectTreeItem("Project One");
-        projects.getChildren().add(project1);
-        Project newProject1 = new Project("Project One", LocalDateTime.now());
+        var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), true);
+        var archivedProject2 = new ProjectTreeItem("ArchivedProject2", new ArrayList<>(), true);
+        archived.addJunior(archivedProject1);
+        archived.addJunior(archivedProject2);
 
-        ProjectTreeItem project2 = new ProjectTreeItem("Project Two");
-        projects.getChildren().add(project2);
-        Project newProject2 = new Project("Project Two", LocalDateTime.now());
-
-        ProjectTreeItem project3 = new ProjectTreeItem("Project Three");
-        projects.getChildren().add(project3);
-        Project newProject3 = new Project("Project Three", LocalDateTime.now());
-
-        DataHandler.addProject(newProject1);
-        DataHandler.addProject(newProject2);
-        DataHandler.addProject(newProject3);
-
-        TaskTreeItem task1 = new TaskTreeItem("Demo Task 1");
-        project1.getChildren().add(task1);
-        Task newTask11 = new Task("Demo Task 1", LocalDateTime.now(), "Project One");
-
-        TaskTreeItem task2 = new TaskTreeItem("Demo Task 2");
-        project1.getChildren().add(task2);
-        Task newTask12 = new Task("Demo Task 2", LocalDateTime.now(), "Project One");
-
-        TaskTreeItem task3 = new TaskTreeItem("Demo Task 3");
-        project2.getChildren().add(task3);
-        Task newTask21 = new Task("Demo Task 3", LocalDateTime.now(), "Project Two");
-
-        TaskTreeItem task4 = new TaskTreeItem("Demo Task 4");
-        project2.getChildren().add(task4);
-        Task newTask22 = new Task("Demo Task 4", LocalDateTime.now(), "Project Two");
-
-        TaskTreeItem task5 = new TaskTreeItem("Demo Task 5");
-        project3.getChildren().add(task5);
-        Task newTask31 = new Task("Demo Task 5", LocalDateTime.now(), "Project Three");
-
-        TaskTreeItem task6 = new TaskTreeItem("Demo Task 6");
-        project3.getChildren().add(task6);
-        Task newTask32 = new Task("Demo Task 6", LocalDateTime.now(), "Project Three");
-
-        newProject1.addTask(newTask11);
-        newProject1.addTask(newTask12);
-
-        newProject2.addTask(newTask21);
-        newProject2.addTask(newTask22);
-
-        newProject3.addTask(newTask31);
-        newProject3.addTask(newTask32);
-
-
-        // Archived items
-
-        ProjectTreeItem archivedProject1 = new ProjectTreeItem("ArchivedProject1");
-        ProjectTreeItem archivedProject2 = new ProjectTreeItem("ArchivedProject2");
-        archivedProject1.setArchived(true);
-        archivedProject2.setArchived(true);
-        archived.getChildren().addAll(archivedProject1, archivedProject2);
-
-        TaskTreeItem aTask1 = new TaskTreeItem("ArchivedTask1");
-        archivedProject1.getChildren().add(aTask1);
-        TaskTreeItem aTask2 = new TaskTreeItem("ArchivedTask2");
-        archivedProject1.getChildren().add(aTask2);
-        TaskTreeItem aTask3 = new TaskTreeItem("ArchivedTask3");
-        archivedProject2.getChildren().add(aTask3);
-        TaskTreeItem aTask4 = new TaskTreeItem("ArchivedTask4");
-        archivedProject2.getChildren().add(aTask4);
-        aTask1.setArchived(true);
-        aTask2.setArchived(true);
-        aTask3.setArchived(true);
-        aTask4.setArchived(true);
+        var aTask1 = new TaskTreeItem("ArchivedTask1", true, false, new ArrayList<>());
+        archivedProject1.addJunior(aTask1);
+        var aTask2 = new TaskTreeItem("ArchivedTask2", true, false, new ArrayList<>());
+        archivedProject1.addJunior(aTask2);
+        var aTask3 = new TaskTreeItem("ArchivedTask3", true, false, new ArrayList<>());
+        archivedProject2.addJunior(aTask3);
+        var aTask4 = new TaskTreeItem("ArchivedTask4", true, false, new ArrayList<>());
+        archivedProject2.addJunior(aTask4);
 
         // ------------------ Demo items end for tree view -----------------------
 
         // tree configuration
         projectsTree.setShowRoot(false);
         projectsTree.setRoot(root);
-        projectsTree.setCellFactory(p -> new TreeCellImplication());
+        projectsTree.setCellFactory(p -> new TreeCellFactory());
+
+        projects.setExpanded(true);
+        archived.setExpanded(false);
+
+        // "DEL" function on projects and tasks
+        projectsTree.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.DELETE) {
+                if (selectItem().getClass() == ProjectTreeItem.class) {
+                    new DeleteProjectCommand((ProjectTreeItem) selectItem()).commandControl();
+                } else if (selectItem().getClass() == TaskTreeItem.class) {
+                    new DeleteTaskCommand((TaskTreeItem) selectItem()).commandControl();
+                }
+            }
+        });
     }
 
     /**
      * Method for selecting projects and project tasks and sending out value.
+     *
      * @return selected treeItem on treeView
      */
-    public TreeItem<String> selectItem() {
-        TreeItem<String> activity = projectsTree.getSelectionModel().getSelectedItem();
-        if (activity != null) {
-            System.out.println(activity.getValue());
-            try {
-                DataHandler.currentlyChosenTask = DataHandler.getTaskByName(activity.getValue());
-                DataHandler.showCurrentlyChosen();
-            } catch (Exception e) {
-                System.out.println("This is not a task");
-            }
-        }
-        return activity;
+    public AbstractTreeItem selectItem() {
+        return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
 
-    public void createProject(){
-        CreateItemPopup createItemPopup = new CreateItemPopup();
-        createItemPopup.popup(projects, "project");
+    /**
+     * Create project button functionality
+     */
+    public void createProject() {
+        new CreateItemPopup(projects, "project").popup();
     }
 
+    @Override
+    public String toString() {
+        return "project";
+    }
+
+    public void init(MainController main) {
+        mainController = main;
+    }
+
+    public void graphForLastWeek() throws ParseException {
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(7);
+    }
+
+    public void graphForLastMonth() throws ParseException {
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(30);
+    }
+
+    public void graphForLastYear() throws ParseException {
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(365);
+    }
+
+    public void graphForAllTime() {
+        graphTabController = mainController.getGraphTabController();
+        graphTabController.initUpdateGraph();
+
+    }
 }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
 <!--
   Copyright (c) 2015, 2019, Gluon and/or its affiliates.
   All rights reserved. Use is subject to license terms.
@@ -32,71 +41,68 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<VBox maxHeight="600.0" maxWidth="900.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.controllers.MainController">
-  <children>
-      <AnchorPane prefHeight="531.0" prefWidth="900.0" VBox.vgrow="NEVER">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="950.0" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainController">
+   <children>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="900.0" spacing="10.0" style="-fx-border-color: lightgray;">
          <children>
-          <SplitPane fx:id="splitPane" dividerPositions="0.5" focusTraversable="true" layoutX="22.0" layoutY="15.0" prefHeight="522.0" prefWidth="856.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="5.0">
-            <items>
-                  <TabPane prefHeight="754.0" prefWidth="451.0">
-                     <tabs>
-                        <Tab text="Projects">
-                           <content>
-                              <AnchorPane prefHeight="721.0" prefWidth="595.0">
-                                 <children>
-                                    <fx:include fx:id="projectsTab" prefHeight="721.0" prefWidth="448.0" source="ProjectsTab.fxml" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                        <Tab text="Tasks">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TextField layoutX="14.0" layoutY="21.0" prefHeight="54.0" prefWidth="350.0" promptText="I did absolutely nothing today.." />
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </Tab>
-                     </tabs>
-                  </TabPane>
-              <AnchorPane fx:id="rightSideWindow" maxHeight="475.0" maxWidth="587.0" minHeight="475.0" minWidth="587.0" prefHeight="475.0" prefWidth="587.0">
-                <children>
-                    <fx:include fx:id="historyTab" prefWidth="448.0" source="HistoryTab.fxml" />
-                  <fx:include fx:id="graphTab" prefWidth="448.0" source="GraphTab.fxml" />
-                </children>
-              </AnchorPane>
-            </items>
-          </SplitPane>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="300.0">
+               <children>
+                  <fx:include fx:id="projectsTab" source="ProjectsTab.fxml" />
+               </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <children>
+                  <fx:include fx:id="graphTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" source="GraphTab.fxml" />
+                  <fx:include fx:id="historyTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" source="HistoryTab.fxml" />
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="53.0" prefWidth="900.0" VBox.vgrow="NEVER">
+      </HBox>
+      <HBox prefHeight="50.0" prefWidth="900.0" spacing="20.0">
          <children>
-            <Button fx:id="endRecordButton" alignment="CENTER" layoutX="22.0" layoutY="6.0" mnemonicParsing="false" onAction="#updateEndButton" prefHeight="38.0" prefWidth="113.0" text="END">
+            <Button fx:id="recordButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateRecordButton" prefHeight="40.0" prefWidth="120.0" text="RECORD">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="recordButton" alignment="CENTER" layoutX="22.0" layoutY="6.0" mnemonicParsing="false" onAction="#updateButton" prefHeight="38.0" prefWidth="113.0" text="RECORD">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="120.0">
+               <children>
+                  <Label fx:id="timerId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="120.0" text="00:00:00">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Rectangle fx:id="timeLine" arcHeight="5.0" arcWidth="5.0" fill="#a8a8a8" height="4.0" stroke="#9e9e9e" strokeType="INSIDE" width="117.0">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </Rectangle>
+               </children>
+            </VBox>
+            <Button fx:id="historyAndGraphButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" text="HISTORY">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
-            </Button>
-            <Button fx:id="historyAndGraphButton" alignment="CENTER" layoutX="766.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" text="HISTORY">
-               <font>
-                  <Font name="Ubuntu Condensed" size="20.0" />
-               </font>
+               <HBox.margin>
+                  <Insets left="440.0" />
+               </HBox.margin>
             </Button>
          </children>
-      </AnchorPane>
-  </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
+         </padding>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+   </padding>
 </VBox>
