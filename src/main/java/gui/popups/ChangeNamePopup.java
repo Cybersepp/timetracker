@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.Treeitems.AbstractTreeItem;
+import logic.treeItems.AbstractTreeItem;
 
 public class ChangeNamePopup extends ActionPopup{
 

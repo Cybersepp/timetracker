@@ -2,8 +2,8 @@ package logic.commands;
 
 import data.FileAccess;
 import gui.popups.WarningPopup;
-import logic.Treeitems.ProjectTreeItem;
-import logic.Treeitems.RootTreeItem;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.RootTreeItem;
 
 public class DeleteProjectCommand implements Command{
 

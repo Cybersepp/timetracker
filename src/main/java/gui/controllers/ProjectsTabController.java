@@ -3,17 +3,15 @@ package gui.controllers;
 import data.FileAccess;
 import gui.popups.CreateItemPopup;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
-import logic.Treeitems.*;
 import logic.commands.DeleteProjectCommand;
 import logic.commands.DeleteTaskCommand;
-import logic.graph.GraphTimeCalculator;
+import logic.treeItems.*;
+import logic.treeItems.TreeCellFactory;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +100,10 @@ public class ProjectsTabController {
         // tree configuration
         projectsTree.setShowRoot(false);
         projectsTree.setRoot(root);
-        projectsTree.setCellFactory(p -> new TreeCellImplication());
+        projectsTree.setCellFactory(p -> new TreeCellFactory());
+
+        projects.setExpanded(true);
+        archived.setExpanded(false);
 
         // "DEL" function on projects and tasks
         projectsTree.setOnKeyPressed(event -> {

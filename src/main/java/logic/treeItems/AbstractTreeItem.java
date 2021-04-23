@@ -1,9 +1,10 @@
-package logic.Treeitems;
+package logic.treeItems;
 
 import gui.popups.ChangeNamePopup;
 import gui.popups.CreateItemPopup;
-import gui.popups.WarningPopup;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import logic.commands.DeleteProjectCommand;
 import logic.commands.DeleteTaskCommand;
 
@@ -13,9 +14,6 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
 
     protected AbstractTreeItem(String value) {
         this.setValue(value);
-
-
-
     }
 
     public boolean isArchived() {

@@ -1,7 +1,7 @@
 package data;
 
 import gui.controllers.ProjectsTabController;
-import logic.Treeitems.TaskTreeItem;
+import logic.treeItems.TaskTreeItem;
 
 public class DataHandler {
 

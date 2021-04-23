@@ -1,14 +1,12 @@
 package gui.popups;
 
 import data.FileAccess;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
-import logic.Treeitems.AbstractTreeItem;
-import logic.Treeitems.ProjectTreeItem;
-import logic.Treeitems.RootTreeItem;
-import logic.Treeitems.TaskTreeItem;
+import logic.treeItems.AbstractTreeItem;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.RootTreeItem;
+import logic.treeItems.TaskTreeItem;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

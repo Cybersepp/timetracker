@@ -2,15 +2,8 @@ package gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
-import logic.Treeitems.ProjectTreeItem;
-import logic.Treeitems.RootTreeItem;
-import logic.Treeitems.TaskTreeItem;
-
-import java.io.IOException;
+import logic.treeItems.*;
 import java.util.*;
-
-import static data.FileAccess.getProjectData;
-
 
 public class GraphTabController {
 
