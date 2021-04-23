@@ -1,4 +1,4 @@
-package logic.Treeitems;
+package logic.treeItems;
 
 import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
@@ -16,7 +16,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
         RootTreeItem formerParent = (RootTreeItem) this.getParent();
         formerParent.removeJunior(this);
         newRoot.addJunior(this);
-
         this.setArchived(newRoot.isArchived());
         for(TaskTreeItem task : this.getJuniors()) {
             task.setArchived(newRoot.isArchived());

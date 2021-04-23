@@ -2,8 +2,8 @@ package logic.commands;
 
 import data.FileAccess;
 import gui.popups.WarningPopup;
-import logic.Treeitems.ProjectTreeItem;
-import logic.Treeitems.TaskTreeItem;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.TaskTreeItem;
 
 public class DeleteTaskCommand implements Command{
 

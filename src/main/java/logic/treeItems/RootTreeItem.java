@@ -1,4 +1,4 @@
-package logic.Treeitems;
+package logic.treeItems;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -36,7 +36,8 @@ public class RootTreeItem extends AbstractTreeItem {
         this.archived = archived;
     }
 
-    public RootTreeItem(String value, List<ProjectTreeItem> children) { // TODO is this constructor necessary?
+    public RootTreeItem(String value, List<ProjectTreeItem> children) {
+        // TODO is this constructor necessary?
         super(value);
         this.juniors = children;
     }

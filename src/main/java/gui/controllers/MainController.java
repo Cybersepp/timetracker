@@ -13,8 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import logic.Timer.Timer;
-import logic.Treeitems.TaskTreeItem;
+import logic.timer.Timer;
+import logic.treeItems.TaskTreeItem;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -97,12 +97,12 @@ public class MainController {
         switch (recordButton.getText()) {
 
             case "RECORD":
-                if (projectsTabController.selectItem() == null) {
-                    // TODO use logger
-                    break;
-                }
-                if (!projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
-                    // TODO use logger
+                if (projectsTabController.selectItem() == null || !projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)
+                         ) {
+                    //TODO if no project is selected create a project and task and start recording there
+                    //TODO if project is selected without task, create task and start recording there
+                    //TODO also display a quick message (that would disappear after 1-2s) (possible?)
+
                     break;
                 }
                 recordButton.setText("END");
