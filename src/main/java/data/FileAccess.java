@@ -26,9 +26,10 @@ public class FileAccess {
             Map<String, Object> dataMap = new HashMap<>();
 
             List<ProjectTreeItem> currentProjects = ProjectsTabController.getProjects().getJuniors();
+            currentProjects.addAll(ProjectsTabController.getArchived().getJuniors());
 
             for (ProjectTreeItem project : currentProjects) {
-                dataMap.put(project.getValue(), getTaskMap(project));
+                dataMap.put(project.getValue(), getProjectMap(project));
             }
 
             ObjectMapper mapper = new ObjectMapper();
@@ -39,16 +40,14 @@ public class FileAccess {
         }
     }
 
-    public static Map<String, Object> getTaskMap(ProjectTreeItem project) {
+    public static Map<String, Object> getProjectMap(ProjectTreeItem project) {
         Map<String, Object> taskMap = new HashMap<>();
 
         List<TaskTreeItem> projectTasks = project.getJuniors();
 
         taskMap.put("isArchived", project.isArchived());
+        taskMap.put("Tasks", getTaskMap(project));
 
-        for (TaskTreeItem task : projectTasks) {
-            taskMap.put(task.getValue(), getTaskAttributesMap(task));
-        }
         return taskMap;
     }
 
@@ -61,7 +60,18 @@ public class FileAccess {
         return taskAttributesMap;
     }
 
-    public static Map<String, Map<String, List<String>>> getProjectData() {
+    public static Map<String, Map<String, Object>> getTaskMap(ProjectTreeItem project) {
+        Map<String, Map<String, Object>> taskMap = new HashMap<>();
+        List<TaskTreeItem> projectTaskList = project.getJuniors();
+
+        projectTaskList.forEach((t -> {
+            taskMap.put(t.getValue(), getTaskAttributesMap(t));
+        }));
+
+        return taskMap;
+    }
+
+    public static Map<String, Map<>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
 
