@@ -12,12 +12,12 @@
 
 <AnchorPane prefHeight="540.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProjectsTabController">
    <children>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="540.0" prefWidth="301.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ButtonBar fx:id="createProjectButton" buttonMinWidth="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="300.0">
+            <ButtonBar fx:id="createProjectButton" buttonMinWidth="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="301.0">
               <buttons>
-                <Button alignment="CENTER" mnemonicParsing="false" onAction="#createProject" text="Create project" />
-                  <MenuButton mnemonicParsing="false" text="Graph">
+                <Button alignment="CENTER" mnemonicParsing="false" onAction="#createProject" stylesheets="@css/button.css" text="Create project" />
+                  <MenuButton mnemonicParsing="false" styleClass="button" stylesheets="@css/button.css" text="Graph">
                     <items>
                       <MenuItem fx:id="lastWeek" mnemonicParsing="false" onAction="#graphForLastWeek" text="Last 7 days" />
                         <MenuItem fx:id="lastMonth" mnemonicParsing="false" onAction="#graphForLastMonth" text="Last 30 days" />
@@ -33,9 +33,9 @@
                   <Insets right="50.0" />
                </padding>
             </ButtonBar>
-            <ScrollPane prefHeight="520.0" prefWidth="300.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="511.0" prefWidth="301.0" vbarPolicy="NEVER">
                <content>
-                  <TreeView fx:id="projectsTree" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="500.0" prefWidth="285.0" />
+                  <TreeView fx:id="projectsTree" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="498.0" prefWidth="299.0" />
                </content>
             </ScrollPane>
          </children>

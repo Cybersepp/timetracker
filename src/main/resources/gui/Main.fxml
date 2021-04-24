@@ -43,7 +43,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="950.0" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainController">
    <children>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="900.0" spacing="10.0" style="-fx-border-color: lightgray;">
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="900.0" spacing="10.0" style="-fx-border-color: lightgray; -fx-border-width: 0;">
          <children>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="300.0">
                <children>
@@ -63,7 +63,7 @@
       </HBox>
       <HBox prefHeight="50.0" prefWidth="900.0" spacing="20.0">
          <children>
-            <Button fx:id="recordButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateRecordButton" prefHeight="40.0" prefWidth="120.0" text="RECORD">
+            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateRecordButton" prefHeight="40.0" prefWidth="120.0" stylesheets="@css/button.css" text="RECORD">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
@@ -85,7 +85,7 @@
                   </Rectangle>
                </children>
             </VBox>
-            <Button fx:id="historyAndGraphButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" text="HISTORY">
+            <Button id="graphbutton" fx:id="historyAndGraphButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" stylesheets="@css/button.css" text="HISTORY">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
