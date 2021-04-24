@@ -11,6 +11,10 @@ public class ProjectTreeItem extends AbstractTreeItem {
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
+    /**
+     * Method that sets the project and all of its juniors/children to the archived state of the new root
+     * @param newRoot either "archived root" or "active projects root" with type RootTreeItem
+     */
     public void setArchived(RootTreeItem newRoot) {
         // TODO archived projects should be made unable to start recordings
         RootTreeItem formerParent = (RootTreeItem) this.getParent();
@@ -28,11 +32,21 @@ public class ProjectTreeItem extends AbstractTreeItem {
     }
 
     // TODO Should we override List add and remove (and also quite many methods more) so the following two methods would not be needed?
+    // TODO ProjectTreeItem and RootTreeItem should use the same method not two different ones. How can we do this?
+
+    /**
+     * Adds a task to the juniors Arraylist and also adds the task to the GUI TreeView children Observable list
+     * @param junior - the task to be added
+     */
     public void addJunior(TaskTreeItem junior) {
         this.juniors.add(junior);
         this.getChildren().add(junior);
     }
 
+    /**
+     * Removes a task from the juniors Arraylist and also removes the task from the GUI TreeView children Observable list
+     * @param junior - the task to be removed
+     */
     public void removeJunior(TaskTreeItem junior) {
         this.juniors.remove(junior);
         this.getChildren().remove(junior);
@@ -52,18 +66,30 @@ public class ProjectTreeItem extends AbstractTreeItem {
 
     // --------- GUI ------------
 
+    /**
+     * Creates a ContextMenuItem with archiving functionality
+     * @return MenuItem with the needed functionality and text display
+     */
     private MenuItem archive() {
         MenuItem archive = new MenuItem("Archive");
         archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
         return archive;
     }
 
+    /**
+     * Creates a ContextMenuItem with unarchiving functionality
+     * @return MenuItem with the needed functionality and text display
+     */
     private MenuItem unArchive() {
         MenuItem unArchive = new MenuItem("Unarchive");
         unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
         return unArchive;
     }
 
+    /**
+     * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
+     * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
+     */
     @Override
     public ContextMenu getMenu() {
 
@@ -80,6 +106,9 @@ public class ProjectTreeItem extends AbstractTreeItem {
         return new ContextMenu(addTask, changeName, deleteProject, archive);
     }
 
+    /**
+     * @return - the type of the AbstractTreeItem as a String
+     */
     @Override
     public String toString() {
         return "project";

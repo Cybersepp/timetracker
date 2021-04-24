@@ -14,35 +14,46 @@ public class RootTreeItem extends AbstractTreeItem {
         return juniors;
     }
 
-    // TODO Should we override List add and remove (and also quite many methods more) so the following two methods would not be needed?
-    // TODO add method for adding a List of projects at once?
-    // TODO ProjectTreeItem and RootTreeItem should use the same method not two different ones. How can we do this? Extends another class?
+    /**
+     * Adds a project to the juniors Arraylist and also adds the project to the GUI TreeView children Observable list
+     * @param junior - the project to be added
+     */
     public void addJunior(ProjectTreeItem junior) {
         this.juniors.add(junior);
         this.getChildren().add(junior);
     }
 
+    /**
+     * Removes a project from the juniors Arraylist and also removes the project from the GUI TreeView children Observable list
+     * @param junior - the project to be removed
+     */
     public void removeJunior(ProjectTreeItem junior) {
         this.juniors.remove(junior);
         this.getChildren().remove(junior);
     }
 
+    // ------------ Constructors -------------------
     public RootTreeItem(String value) {
         super(value);
     }
 
     public RootTreeItem(String value, boolean archived) {
+        // TODO this constructor is to be deleted after the JSON has the archived status inside it also
         super(value);
         this.archived = archived;
     }
 
     public RootTreeItem(String value, List<ProjectTreeItem> children) {
-        // TODO is this constructor necessary?
+        // TODO is this constructor also necessary?
         super(value);
         this.juniors = children;
     }
 
     // ------------ GUI -------------------
+    /**
+     * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
+     * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
+     */
     @Override
     public ContextMenu getMenu() {
 
@@ -53,6 +64,9 @@ public class RootTreeItem extends AbstractTreeItem {
         return new ContextMenu(addProject);
     }
 
+    /**
+     * @return - the type of the AbstractTreeItem as a String
+     */
     @Override
     public String toString() {
         return "root";

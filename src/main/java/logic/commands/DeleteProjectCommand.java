@@ -13,6 +13,9 @@ public class DeleteProjectCommand implements Command{
         this.project = project;
     }
 
+    /**
+     * Deletes a project
+     */
     @Override
     public void command() {
         var parent = (RootTreeItem) project.getParent();
@@ -20,6 +23,9 @@ public class DeleteProjectCommand implements Command{
         FileAccess.saveData();
     }
 
+    /**
+     * Calls a popup with the choice to delete a project
+     */
     @Override
     public void commandControl() {
         if (project.getChildren().isEmpty()) {

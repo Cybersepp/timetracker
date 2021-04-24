@@ -20,15 +20,20 @@ public class CreateItemPopup extends ActionPopup{
         super(treeItem, type);
     }
 
+    /**
+     * Pops up the stage of the CreateItemPopup.
+     */
     @Override
     public void popup() {
         Stage window = addStage();
-
-        Label label = this.addLabel("Name your " + type);
-        TextField textField = addTextField();
+        window.setTitle("Create a " + type);
 
         Button createButton = addButton("Create " + type);
         Button cancelButton = addButton("Cancel");
+
+        Label label = this.addLabel("Name your " + type);
+        TextField textField = addTextField(createButton);
+
         mainButtonFunctionality(treeItem, createButton, window, textField);
         createButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
@@ -40,47 +45,41 @@ public class CreateItemPopup extends ActionPopup{
         setScene(window, display);
     }
 
+    /**
+     * Creates a new child for the chosen item.
+     * @param textField input field for the name of the child
+     */
     @Override
     protected void mainButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, TextField textField) {
-        stage.setTitle("Create a " + type);
         button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(e -> {
-            if (textField.getText().trim().isEmpty()) {
-                new ErrorPopup("You have not set a name for the " + type + "!").popup();
-                // TODO instead of throwing a warning popup, should have the OK button grayed out until something is entered (listener)
+            if (treeItem.getClass().equals(RootTreeItem.class)) {
+                createProjectBranch((RootTreeItem) treeItem, textField);
             }
-            else {
-                final var sameName = treeItem.getChildren().stream()
-                        .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
-                        .map(TreeItem::getValue)
-                        .findFirst();
-                if (sameName.isPresent()) {
-                    new ErrorPopup("A " + type + " with the same name already exists!").popup();
-                    return;
-                }
-
-                if (treeItem.getClass().equals(RootTreeItem.class)) {
-                    createProjectBranch((RootTreeItem) treeItem, textField);
-                }
-                else if (treeItem.getClass().equals(ProjectTreeItem.class)) {
-                    createTaskLeaf((ProjectTreeItem) treeItem, textField);
-                }
-
-                FileAccess.saveData();
-                stage.close();
+            else if (treeItem.getClass().equals(ProjectTreeItem.class)) {
+                createTaskLeaf((ProjectTreeItem) treeItem, textField);
             }
-
+            FileAccess.saveData();
+            stage.close();
         });
     }
 
+    /**
+     * Creates a new project.
+     * @param root the parent root of the project
+     * @param textField the text field where the name for the new project is entered
+     */
     private void createProjectBranch(RootTreeItem root, TextField textField){
-
         ProjectTreeItem newProject = new ProjectTreeItem(textField.getText().trim());
         root.addJunior(newProject);
     }
 
+    /**
+     * Creates a new task.
+     * @param project the parent project of the task
+     * @param textField the text field where the name for the new task is entered
+     */
     private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
-
         TaskTreeItem newTask = new TaskTreeItem(textField.getText().trim());
         project.addJunior(newTask);
     }

@@ -12,6 +12,9 @@ public class ErrorPopup extends NotificationPopup{
         super(errorMessage);
     }
 
+    /**
+     * Pops up an error message with a specific stage
+     */
     @Override
     public void popup() {
 

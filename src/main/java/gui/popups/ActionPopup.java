@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -21,6 +22,10 @@ public abstract class ActionPopup extends AbstractPopup{
         this.type = type;
     }
 
+    /**
+     * Stage configuration for @ActionPopup-s.
+     * @return configured stage
+     */
     @Override
     protected Stage addStage() {
         var stage = new Stage();
@@ -28,7 +33,15 @@ public abstract class ActionPopup extends AbstractPopup{
         return stage;
     }
 
-    protected TextField addTextField() {
+    /**
+     * Creates the TextField for the ActionPopup-s and controls its text length and the main button usability.
+     * @param button the default button what is being affected by the TextField values
+     * @return TextField with all the needed listeners
+     */
+    protected TextField addTextField(Button button) {
+        button.setDisable(true); // disabling the main button
+
+        //TODO move listeners out to be separate methods
         TextField textField = new TextField();
         textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
             int maxLength = 25;
@@ -36,9 +49,25 @@ public abstract class ActionPopup extends AbstractPopup{
                 textField.setText(textField.getText().substring(0, maxLength));
             }
         });
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            final var sameName = treeItem.getChildren().stream()
+                    .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
+                    .map(TreeItem::getValue)
+                    .findFirst();
+
+            if (newValue.isEmpty()) {
+                button.setDisable(true);
+            }
+            else button.setDisable(sameName.isPresent());
+        });
         return textField;
     }
 
+    /**
+     * Configures button font and width for @ActionPopup.
+     * @param name the text on the button
+     * @return Button with configured settings
+     */
     protected Button addButton(String name) {
         Button button = new Button(name);
         button.setFont(Font.font ("Verdana", 14));
@@ -46,6 +75,11 @@ public abstract class ActionPopup extends AbstractPopup{
         return button;
     }
 
+    /**
+     * Sets the labels alignment, text properties and font for @ActionPopup.
+     * @param name label's text
+     * @return Label with configured settings
+     */
     protected Label addLabel(String name) {
         Label label = new Label(name);
         label.setFont(Font.font ("Verdana", FontWeight.BOLD, 15));
@@ -54,8 +88,20 @@ public abstract class ActionPopup extends AbstractPopup{
         return label;
     }
 
+    /**
+     * Method for configuring the default Button's functionality for @ActionPopup.
+     * @param treeItem the chosen item
+     * @param button the default button
+     * @param stage the Stage that everything is happening in
+     * @param textField input field
+     */
     protected abstract void mainButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, TextField textField);
 
+    /**
+     * Sets the scene with the default width and height for @ActionPopup.
+     * @param stage the stage where the scene is configured to
+     * @param vBox VBox that contains all the elements that are meant to be on the stage.
+     */
     @Override
     protected void setScene(Stage stage, VBox vBox) {
         Scene scene = new Scene(vBox, 300, 250);

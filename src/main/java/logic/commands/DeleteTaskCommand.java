@@ -13,6 +13,9 @@ public class DeleteTaskCommand implements Command{
         this.task = task;
     }
 
+    /**
+     * Deletes a task
+     */
     @Override
     public void command() {
         var parent = (ProjectTreeItem) task.getParent();
@@ -20,6 +23,9 @@ public class DeleteTaskCommand implements Command{
         FileAccess.saveData();
     }
 
+    /**
+     * Calls a popup with the choice to delete a task
+     */
     @Override
     public void commandControl() {
         if (task.getRecords().isEmpty()) {
