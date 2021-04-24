@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import gui.controllers.ProjectsTabController;
-import gui.popups.ErrorPopup;
+import gui.popups.notification.ErrorPopup;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
 

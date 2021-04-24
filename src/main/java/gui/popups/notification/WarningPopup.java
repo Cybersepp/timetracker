@@ -1,5 +1,6 @@
-package gui.popups;
+package gui.popups.notification;
 
+import gui.popups.notification.NotificationPopup;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -9,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.commands.Command;
 
-public class WarningPopup extends NotificationPopup{
+public class WarningPopup extends NotificationPopup {
 
     private final Command command;
 

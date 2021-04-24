@@ -1,14 +1,14 @@
 package gui.controllers;
 
 import data.FileAccess;
-import gui.popups.CreateItemPopup;
+import gui.popups.action.CreateItemPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
-import logic.commands.DeleteProjectCommand;
-import logic.commands.DeleteTaskCommand;
+import logic.commands.delete.DeleteProjectCommand;
+import logic.commands.delete.DeleteTaskCommand;
 import logic.treeItems.*;
 import logic.treeItems.TreeCellFactory;
 
@@ -119,7 +119,6 @@ public class ProjectsTabController {
 
     /**
      * Method for selecting projects and project tasks and sending out value.
-     *
      * @return selected treeItem on treeView
      */
     public AbstractTreeItem selectItem() {

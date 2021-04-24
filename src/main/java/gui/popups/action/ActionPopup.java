@@ -1,5 +1,6 @@
-package gui.popups;
+package gui.popups.action;
 
+import gui.popups.AbstractPopup;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +13,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
 
-public abstract class ActionPopup extends AbstractPopup{
+public abstract class ActionPopup extends AbstractPopup {
 
     protected final AbstractTreeItem treeItem;
     protected final String type;

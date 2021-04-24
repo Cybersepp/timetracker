@@ -1,6 +1,7 @@
-package gui.popups;
+package gui.popups.action;
 
 import data.FileAccess;
+import gui.popups.action.ActionPopup;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -10,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
 
-public class ChangeNamePopup extends ActionPopup{
+public class ChangeNamePopup extends ActionPopup {
 
     public ChangeNamePopup(AbstractTreeItem treeItem) {
         super(treeItem, treeItem.toString());

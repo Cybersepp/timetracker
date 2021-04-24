@@ -1,5 +1,6 @@
-package gui.popups;
+package gui.popups.notification;
 
+import gui.popups.AbstractPopup;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,7 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-public abstract class NotificationPopup extends AbstractPopup{
+public abstract class NotificationPopup extends AbstractPopup {
 
     protected String errorMessage;
 

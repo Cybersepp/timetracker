@@ -1,12 +1,13 @@
-package gui.popups;
+package gui.popups.notification;
 
+import gui.popups.notification.NotificationPopup;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ErrorPopup extends NotificationPopup{
+public class ErrorPopup extends NotificationPopup {
 
     public ErrorPopup(String errorMessage) {
         super(errorMessage);

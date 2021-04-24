@@ -1,11 +1,12 @@
-package logic.commands;
+package logic.commands.delete;
 
 import data.FileAccess;
-import gui.popups.WarningPopup;
+import gui.popups.notification.WarningPopup;
+import logic.commands.Command;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 
-public class DeleteProjectCommand implements Command{
+public class DeleteProjectCommand implements Command {
 
     private final ProjectTreeItem project;
 

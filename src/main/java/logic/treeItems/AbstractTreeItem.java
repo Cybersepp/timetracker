@@ -1,12 +1,12 @@
 package logic.treeItems;
 
-import gui.popups.ChangeNamePopup;
-import gui.popups.CreateItemPopup;
+import gui.popups.action.ChangeNamePopup;
+import gui.popups.action.CreateItemPopup;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import logic.commands.DeleteProjectCommand;
-import logic.commands.DeleteTaskCommand;
+import logic.commands.delete.DeleteProjectCommand;
+import logic.commands.delete.DeleteTaskCommand;
 
 public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
 

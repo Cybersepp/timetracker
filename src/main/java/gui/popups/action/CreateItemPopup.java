@@ -1,8 +1,8 @@
-package gui.popups;
+package gui.popups.action;
 
 import data.FileAccess;
+import gui.popups.action.ActionPopup;
 import javafx.scene.Node;
-import javafx.scene.control.TreeItem;
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class CreateItemPopup extends ActionPopup{
+public class CreateItemPopup extends ActionPopup {
 
     public CreateItemPopup(AbstractTreeItem treeItem, String type) {
         super(treeItem, type);
