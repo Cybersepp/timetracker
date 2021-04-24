@@ -1,9 +1,11 @@
 package logic.Treeitems;
 
+import data.FileAccess;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,12 +58,14 @@ public class ProjectTreeItem extends AbstractTreeItem {
     private MenuItem archive() {
         MenuItem archive = new MenuItem("Archive");
         archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
+        FileAccess.saveData();
         return archive;
     }
 
     private MenuItem unArchive() {
         MenuItem unArchive = new MenuItem("Unarchive");
         unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
+        FileAccess.saveData();
         return unArchive;
     }
 
