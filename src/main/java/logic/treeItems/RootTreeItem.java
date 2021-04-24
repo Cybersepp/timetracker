@@ -68,7 +68,7 @@ public class RootTreeItem extends AbstractTreeItem {
      * @return - the type of the AbstractTreeItem as a String
      */
     @Override
-    public String toString() {
+    public String toStringType() {
         return "root";
     }
 }

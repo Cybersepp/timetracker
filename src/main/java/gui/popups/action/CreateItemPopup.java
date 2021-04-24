@@ -3,14 +3,12 @@ package gui.popups.action;
 import data.FileAccess;
 import gui.popups.action.ActionPopup;
 import javafx.scene.Node;
+import javafx.scene.control.*;
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -32,9 +30,10 @@ public class CreateItemPopup extends ActionPopup {
         Button cancelButton = addButton("Cancel");
 
         Label label = this.addLabel("Name your " + type);
-        TextField textField = addTextField(createButton);
+        TextField textField = addTextField();
+        textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(createButton, textField, newValue));
 
-        mainButtonFunctionality(treeItem, createButton, window, textField);
+        mainButtonFunctionality(createButton, window, textField);
         createButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
@@ -50,8 +49,8 @@ public class CreateItemPopup extends ActionPopup {
      * @param textField input field for the name of the child
      */
     @Override
-    protected void mainButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, TextField textField) {
-        button.setStyle("-fx-background-color: #00B5FE");
+    protected void mainButtonFunctionality(Button button, Stage stage, TextField textField) {
+        super.mainButtonFunctionality(button, stage, textField);
         button.setOnAction(e -> {
             if (treeItem.getClass().equals(RootTreeItem.class)) {
                 createProjectBranch((RootTreeItem) treeItem, textField);
@@ -82,5 +81,17 @@ public class CreateItemPopup extends ActionPopup {
     private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
         TaskTreeItem newTask = new TaskTreeItem(textField.getText().trim());
         project.addJunior(newTask);
+    }
+
+    private void textFieldListener(Button mainButton, TextField textField, String newValue){
+        final var sameName = treeItem.getChildren().stream()
+                .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
+                .map(TreeItem::getValue)
+                .findFirst();
+
+        if (newValue.isEmpty()) {
+            mainButton.setDisable(true);
+        }
+        else mainButton.setDisable(sameName.isPresent());
     }
 }

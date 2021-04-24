@@ -98,4 +98,9 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
             new DeleteTaskCommand((TaskTreeItem) this).commandControl();
         }
     }
+
+    /**
+     * @return String type of the treeItem
+     */
+    public abstract String toStringType();
 }

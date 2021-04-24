@@ -1,6 +1,5 @@
 package gui.popups.notification;
 
-import gui.popups.notification.NotificationPopup;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

@@ -35,31 +35,17 @@ public abstract class ActionPopup extends AbstractPopup {
     }
 
     /**
-     * Creates the TextField for the ActionPopup-s and controls its text length and the main button usability.
-     * @param button the default button what is being affected by the TextField values
-     * @return TextField with all the needed listeners
+     * Creates the TextField for the ActionPopup-s with the lengthProperty listener
+     * @return TextField with the length property listener
      */
-    protected TextField addTextField(Button button) {
-        button.setDisable(true); // disabling the main button
-
-        //TODO move listeners out to be separate methods
+    protected TextField addTextField() {
+        //TODO move listener to be a separate method?
         TextField textField = new TextField();
         textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
             int maxLength = 25;
             if (textField.getText().length() >= maxLength) {
                 textField.setText(textField.getText().substring(0, maxLength));
             }
-        });
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            final var sameName = treeItem.getChildren().stream()
-                    .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
-                    .map(TreeItem::getValue)
-                    .findFirst();
-
-            if (newValue.isEmpty()) {
-                button.setDisable(true);
-            }
-            else button.setDisable(sameName.isPresent());
         });
         return textField;
     }
@@ -91,12 +77,14 @@ public abstract class ActionPopup extends AbstractPopup {
 
     /**
      * Method for configuring the default Button's functionality for @ActionPopup.
-     * @param treeItem the chosen item
      * @param button the default button
      * @param stage the Stage that everything is happening in
      * @param textField input field
      */
-    protected abstract void mainButtonFunctionality(AbstractTreeItem treeItem, Button button, Stage stage, TextField textField);
+    protected void mainButtonFunctionality(Button button, Stage stage, TextField textField) {
+        button.setDisable(true);
+        button.setStyle("-fx-background-color: #00B5FE");
+    }
 
     /**
      * Sets the scene with the default width and height for @ActionPopup.

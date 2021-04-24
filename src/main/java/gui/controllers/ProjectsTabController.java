@@ -2,6 +2,7 @@ package gui.controllers;
 
 import data.FileAccess;
 import gui.popups.action.CreateItemPopup;
+import gui.popups.action.CreateTaskButtonPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -132,9 +133,11 @@ public class ProjectsTabController {
         new CreateItemPopup(projects, "project").popup();
     }
 
-    @Override
-    public String toString() {
-        return "project";
+    /**
+     * Create task button functionality
+     */
+    public void createTask() {
+        new CreateTaskButtonPopup().popup();
     }
 
     public void init(MainController main) {

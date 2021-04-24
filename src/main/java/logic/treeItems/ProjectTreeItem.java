@@ -107,10 +107,19 @@ public class ProjectTreeItem extends AbstractTreeItem {
     }
 
     /**
+     * @return - the name of the project (Needed for ChoiceBox)
+     */
+    //TODO try to go around this method, i don't like this
+    @Override
+    public String toString() {
+        return this.getValue();
+    }
+
+    /**
      * @return - the type of the AbstractTreeItem as a String
      */
     @Override
-    public String toString() {
+    public String toStringType() {
         return "project";
     }
 }
