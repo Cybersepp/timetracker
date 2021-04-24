@@ -63,39 +63,15 @@ public class ProjectsTabController {
         TreeItem<String> root = new TreeItem<>("Projects");
         root.getChildren().addAll(projects, archived);
 
-        Map<String, Map<String, List<String>>> dataMap = FileAccess.getProjectData();
-
-        if (dataMap != null) {
-
-            dataMap.forEach((name, taskMap) -> {
-                ProjectTreeItem project = new ProjectTreeItem(name);
-
-                taskMap.forEach((taskName, records) -> {
-                    TaskTreeItem task = new TaskTreeItem(taskName);
-                    task.getRecords().addAll(records);
-                    project.addJunior(task);
-                });
-
-                projects.addJunior(project);
-            });
-
-        }
-
         // -------- Demo items for tree view ----------------
 
         var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), true);
-        var archivedProject2 = new ProjectTreeItem("ArchivedProject2", new ArrayList<>(), true);
         archived.addJunior(archivedProject1);
-        archived.addJunior(archivedProject2);
 
         var aTask1 = new TaskTreeItem("ArchivedTask1", true, false, new ArrayList<>());
         archivedProject1.addJunior(aTask1);
         var aTask2 = new TaskTreeItem("ArchivedTask2", true, false, new ArrayList<>());
         archivedProject1.addJunior(aTask2);
-        var aTask3 = new TaskTreeItem("ArchivedTask3", true, false, new ArrayList<>());
-        archivedProject2.addJunior(aTask3);
-        var aTask4 = new TaskTreeItem("ArchivedTask4", true, false, new ArrayList<>());
-        archivedProject2.addJunior(aTask4);
 
         // ------------------ Demo items end for tree view -----------------------
 
@@ -123,6 +99,28 @@ public class ProjectsTabController {
      */
     public AbstractTreeItem selectItem() {
         return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
+    }
+
+    public void initializeProjects() {
+        Map<String, Object> dataMap = FileAccess.getProjectData();
+
+        if (dataMap != null) {
+
+            dataMap.forEach((name, projectMap) -> {
+                ProjectTreeItem project = new ProjectTreeItem(name);
+
+                if (projectMap.get("isArchived"))
+
+//                projectMap.forEach((taskName, records) -> {
+//                    TaskTreeItem task = new TaskTreeItem(taskName);
+//                    task.getRecords().addAll(records);
+//                    project.addJunior(task);
+//                });
+//
+//                projects.addJunior(project);
+            });
+
+        }
     }
 
     /**
