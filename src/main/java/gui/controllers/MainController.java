@@ -3,6 +3,7 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
+import data.RecordEntryData;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
@@ -12,8 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import logic.Timer.Timer;
-import logic.Treeitems.TaskTreeItem;
+import logic.timer.Timer;
+import logic.treeItems.TaskTreeItem;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -77,7 +78,18 @@ public class MainController {
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
         graphTabController.initUpdateGraph();
+    }
 
+    public HistoryTabController getHistoryTabController() {
+        return historyTabController;
+    }
+
+    public ProjectsTabController getProjectsTabController() {
+        return projectsTabController;
+    }
+
+    public GraphTabController getGraphTabController() {
+        return graphTabController;
     }
 
     public void updateRecordButton() {
@@ -85,12 +97,12 @@ public class MainController {
         switch (recordButton.getText()) {
 
             case "RECORD":
-                if (projectsTabController.selectItem() == null) {
-                    // TODO use logger
-                    break;
-                }
-                if (!projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
-                    // TODO use logger
+                if (projectsTabController.selectItem() == null || !projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)
+                         ) {
+                    //TODO if no project is selected create a project and task and start recording there
+                    //TODO if project is selected without task, create task and start recording there
+                    //TODO also display a quick message (that would disappear after 1-2s) (possible?)
+
                     break;
                 }
                 recordButton.setText("END");
@@ -107,6 +119,7 @@ public class MainController {
                 stopTimer();
                 String recordInfo = record.getRecordInfo();
                 currentTask.getRecords().add(recordInfo);
+                addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
                 FileAccess.saveData();
                 graphTabController.initUpdateGraph();
                 break;
@@ -168,16 +181,11 @@ public class MainController {
         animateRecordButton();
     }
 
-    public HistoryTabController getHistoryTabController() {
-        return historyTabController;
-    }
+    public void addToHistory(TaskTreeItem currentTask, String start, String duration) {
+        String projectName = currentTask.getParent().getValue();
+        String taskName = currentTask.getValue();
+        historyTabController.addRecord(new RecordEntryData(projectName, taskName, start, duration));
 
-    public ProjectsTabController getProjectsTabController() {
-        return projectsTabController;
-    }
-
-    public GraphTabController getGraphTabController() {
-        return graphTabController;
     }
 }
 

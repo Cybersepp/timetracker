@@ -8,12 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import logic.Treeitems.ProjectTreeItem;
-import logic.Treeitems.RootTreeItem;
-import logic.Treeitems.TaskTreeItem;
+import logic.treeItems.*;
 import logic.graph.GraphTimeCalculator;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,6 @@ public class HistoryTabController {
     @FXML
     private Label historyLabel;
 
-    @FXML
     private ProjectsTabController projectsTabController;
 
     private MainController mainController;
@@ -69,6 +67,9 @@ public class HistoryTabController {
         table.getSortOrder().setAll(startColumn);
     }
 
+    public void init(MainController main) {
+        mainController = main;
+    }
 
     public void configureColumns() {
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
@@ -77,16 +78,17 @@ public class HistoryTabController {
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationInSec"));
     }
 
-
-    public void init(MainController main) {
-        mainController = main;
-    }
-
     public void showByTime(int days) throws ParseException {
-        GraphTimeCalculator calculator = new GraphTimeCalculator(days, records.get(0).getDate());
-        Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(records);
+        List<RecordEntryData> copyForComputing = new ArrayList<>(records);
+        GraphTimeCalculator calculator = new GraphTimeCalculator(days);
+        Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
         GraphTabController graphTabController = mainController.getGraphTabController();
         graphTabController.updateGraph(lastWeekProjectData);
 
+    }
+
+    public void addRecord(RecordEntryData record) {
+        records.add(record);
+        table.getSortOrder().setAll(startColumn);
     }
 }

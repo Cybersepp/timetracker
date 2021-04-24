@@ -1,4 +1,4 @@
-package gui.popups;
+package gui.popups.notification;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.commands.Command;
 
-public class WarningPopup extends NotificationPopup{
+public class WarningPopup extends NotificationPopup {
 
     private final Command command;
 
@@ -18,6 +18,9 @@ public class WarningPopup extends NotificationPopup{
         this.command = command;
     }
 
+    /**
+     * Pops up a warning message with a specific stage
+     */
     @Override
     public void popup() {
 
@@ -40,8 +43,12 @@ public class WarningPopup extends NotificationPopup{
         setScene(window, vBox);
     }
 
+    /**
+     * Gives the "Yes" button the given functionality with the given @Command
+     * @param stage the stage of the warning popup, that is about to be closed
+     */
     private void yesFunction(Stage stage) {
-        command.command();
+        this.command.command();
         stage.close();
     }
 }

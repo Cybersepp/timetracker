@@ -1,4 +1,4 @@
-package logic.Timer;
+package logic.timer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

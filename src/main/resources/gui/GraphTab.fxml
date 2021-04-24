@@ -3,14 +3,23 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GraphTabController">
     <children>
       <VBox prefHeight="540.0" prefWidth="600.0">
          <children>
-            <AnchorPane prefHeight="117.0" prefWidth="600.0" />
+            <AnchorPane prefHeight="117.0" prefWidth="600.0">
+               <children>
+                  <Label fx:id="graphLabel" layoutX="213.0" layoutY="5.0" prefHeight="41.0" prefWidth="278.0" text="All time">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
           <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="20.0" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
               <xAxis>
                   <CategoryAxis prefHeight="50.0" prefWidth="543.0" side="BOTTOM" />
