@@ -141,24 +141,33 @@ public class ProjectsTabController {
         mainController = main;
     }
 
+    //TODO DRY principle a bit lost, gotta optimize
     public void graphForLastWeek() throws ParseException {
         historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(7);
+        graphTabController = mainController.getGraphTabController();
+        graphTabController.setGraphLabel("Last 7 days");
     }
 
     public void graphForLastMonth() throws ParseException {
         historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(30);
+        graphTabController = mainController.getGraphTabController();
+        graphTabController.setGraphLabel("Last 30 days");
     }
 
     public void graphForLastYear() throws ParseException {
         historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(365);
+        graphTabController = mainController.getGraphTabController();
+        graphTabController.setGraphLabel("Last 365 days");
     }
 
     public void graphForAllTime() {
         graphTabController = mainController.getGraphTabController();
         graphTabController.initUpdateGraph();
+        graphTabController = mainController.getGraphTabController();
+        graphTabController.setGraphLabel("All time");
 
     }
 }

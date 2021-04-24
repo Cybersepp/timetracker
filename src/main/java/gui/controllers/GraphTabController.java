@@ -2,22 +2,22 @@ package gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import logic.treeItems.*;
 import java.util.*;
 
 public class GraphTabController {
 
-    //TODO right now it reads from file after every update of the record but instead it should just update specific xychart value.
-
     List<XYChart.Series> allSeries = new ArrayList<>();
-
-
 
     @FXML
     private ProjectsTabController projectsTabController;
 
     @FXML
     StackedBarChart<String, Number> projectGraph;
+
+    @FXML
+    private Label graphLabel;
 
     @FXML
     private void initialize() {
@@ -71,4 +71,7 @@ public class GraphTabController {
         projectGraph.getData().clear();
     }
 
+    public void setGraphLabel(String text) {
+        graphLabel.setText(text);
+    }
 }
