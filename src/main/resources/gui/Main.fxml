@@ -72,7 +72,7 @@
                <children>
                   <Label fx:id="timerId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="120.0" text="00:00:00">
                      <font>
-                        <Font size="23.0" />
+                        <Font size="19.0" />
                      </font>
                      <padding>
                         <Insets left="10.0" />
