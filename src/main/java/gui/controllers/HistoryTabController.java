@@ -71,9 +71,11 @@ public class HistoryTabController {
         table.getSortOrder().setAll(startColumn);
     }
 
+
     /**
      * In order for historyTabController to know its parent controller, main controller passes itself
      * to its subcontrollers.
+     *
      * @param main
      */
     public void init(MainController main) {
@@ -94,20 +96,23 @@ public class HistoryTabController {
      * Method showByTime updates the graph for a certain time period in days.
      * Counting in descending order from the method call day.
      * Efficient method, since it sorts list by date and then starts from the initial date.
+     *
      * @param days is the given period to show.
      * @throws ParseException is thrown if can't parse the date.
      */
     public void showByTime(int days) throws ParseException {
-        List<RecordEntryData> copyForComputing = new ArrayList<>(records);
-        GraphTimeCalculator calculator = new GraphTimeCalculator(days);
-        Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
-        GraphTabController graphTabController = mainController.getGraphTabController();
-        graphTabController.updateGraph(lastWeekProjectData);
-
+        if (records.size() != 0) {
+            List<RecordEntryData> copyForComputing = new ArrayList<>(records);
+            GraphTimeCalculator calculator = new GraphTimeCalculator(days);
+            Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
+            GraphTabController graphTabController = mainController.getGraphTabController();
+            graphTabController.updateGraph(lastWeekProjectData);
+        }
     }
 
     /**
      * When record is added, history tab is updated and sorted so the user can see the newest record.
+     *
      * @param record is data object to be added.
      */
     public void addRecord(RecordEntryData record) {
