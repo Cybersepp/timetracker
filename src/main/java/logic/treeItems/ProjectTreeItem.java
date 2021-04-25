@@ -111,7 +111,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
     }
 
     /**
-     * @return - the name of the project (Needed for ChoiceBox)
+     * @return - the name of the project (Needed for ComboBox in createTaskPopup)
      */
     //TODO try to go around this method, i don't like this
     @Override

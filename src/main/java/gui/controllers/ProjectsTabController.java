@@ -63,11 +63,8 @@ public class ProjectsTabController {
         TreeItem<String> root = new TreeItem<>("Projects");
         root.getChildren().addAll(projects, archived);
 
-        // -------- Demo items for tree view ----------------
-
+        //projects initialization
         initializeProjects();
-
-        // ------------------ Demo items end for tree view -----------------------
 
         // tree configuration
         projectsTree.setShowRoot(false);
@@ -166,34 +163,35 @@ public class ProjectsTabController {
         mainController = main;
     }
 
-    //TODO DRY principle a bit lost, gotta optimize
+
+    //------------- Graph views -------------------------//
     public void graphForLastWeek() throws ParseException {
-        historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(7);
-        graphTabController = mainController.getGraphTabController();
-        graphTabController.setGraphLabel("Last 7 days");
+        graphWithLabel("Last 7 days", 7);
     }
 
     public void graphForLastMonth() throws ParseException {
-        historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(30);
-        graphTabController = mainController.getGraphTabController();
-        graphTabController.setGraphLabel("Last 30 days");
+        graphWithLabel("Last 30 days", 30);
     }
 
     public void graphForLastYear() throws ParseException {
-        historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(365);
-        graphTabController = mainController.getGraphTabController();
-        graphTabController.setGraphLabel("Last 365 days");
+        graphWithLabel("Last 365 days", 365);
     }
 
     public void graphForAllTime() throws ParseException {
-        graphTabController = mainController.getGraphTabController();
-        historyTabController = mainController.getHistoryTabController();
+        graphWithLabel("All time");
         historyTabController.showByTime(historyTabController.getRecordLenght());
         graphTabController = mainController.getGraphTabController();
-        graphTabController.setGraphLabel("All time");
-
     }
+
+    public void graphWithLabel(String graphLabel) {
+        graphTabController = mainController.getGraphTabController();
+        historyTabController = mainController.getHistoryTabController();
+        graphTabController.setGraphLabel(graphLabel);
+    }
+
+    public void graphWithLabel(String graphLabel, int days) throws ParseException {
+        graphWithLabel(graphLabel);
+        historyTabController.showByTime(days);
+    }
+
 }
