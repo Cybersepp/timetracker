@@ -71,7 +71,7 @@ public class FileAccess {
         return taskMap;
     }
 
-    public static Map<String, Map<>> getProjectData() {
+    public static Map<String, Map<String, Object>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
 
