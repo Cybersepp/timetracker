@@ -15,6 +15,7 @@ import logic.treeItems.TreeCellFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,13 +65,7 @@ public class ProjectsTabController {
 
         // -------- Demo items for tree view ----------------
 
-        var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), true);
-        archived.addJunior(archivedProject1);
-
-        var aTask1 = new TaskTreeItem("ArchivedTask1", true, false, new ArrayList<>());
-        archivedProject1.addJunior(aTask1);
-        var aTask2 = new TaskTreeItem("ArchivedTask2", true, false, new ArrayList<>());
-        archivedProject1.addJunior(aTask2);
+        initializeProjects();
 
         // ------------------ Demo items end for tree view -----------------------
 
@@ -102,26 +97,58 @@ public class ProjectsTabController {
         return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
 
-    public void initializeProjects() {
-        Map<String, Object> dataMap = FileAccess.getProjectData();
+    //TODO remake this f-word thing later to use ProjectTreeItem and TaskTreeItem as a Data Class
+    private void initializeProjects() {
+        Map<String, Map<String, Object>> dataMap = FileAccess.getProjectData();
 
         if (dataMap != null) {
 
             dataMap.forEach((name, projectMap) -> {
                 ProjectTreeItem project = new ProjectTreeItem(name);
+                projects.addJunior(project);
 
-                if (projectMap.get("isArchived"))
-
-//                projectMap.forEach((taskName, records) -> {
-//                    TaskTreeItem task = new TaskTreeItem(taskName);
-//                    task.getRecords().addAll(records);
-//                    project.addJunior(task);
-//                });
-//
-//                projects.addJunior(project);
+                projectMap.forEach((projectAttr, value) -> {
+                    switch (projectAttr) {
+                        case "isArchived":
+                            if ((boolean) value) {
+                                project.setArchived(archived);
+                            }
+                            break;
+                        case "Tasks":
+                            System.out.println("Start task init");
+                            initializeTasks(project, (HashMap<String, Object>) value);
+                        default:
+                    }
+                });
             });
 
         }
+    }
+    private void initializeTasks(ProjectTreeItem projectTreeItem, HashMap<String, Object> tasks) {
+        System.out.println("Here we are");
+        System.out.println(tasks);
+        tasks.forEach((task, taskInfo) -> {
+            TaskTreeItem taskItem = new TaskTreeItem(task);
+            HashMap<String, Object> taskHash = (HashMap<String, Object>) taskInfo;
+
+            taskHash.forEach((taskAttr, value) -> {
+                switch (taskAttr) {
+                    case "isDone":
+                        if ((boolean) value) {
+                            taskItem.setDone(true);
+                            break;
+                        }
+                        taskItem.setDone(false);
+                        break;
+                    case "Records":
+                        taskItem.getRecords().addAll((ArrayList<String>) value);
+                        break;
+                    default:
+                }
+            });
+            projectTreeItem.addJunior(taskItem);
+
+        });
     }
 
     /**
