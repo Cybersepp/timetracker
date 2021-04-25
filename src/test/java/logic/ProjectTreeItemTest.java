@@ -74,9 +74,6 @@ public class ProjectTreeItemTest {
         testProject2.setArchived(archivedRoot);
         testProject2.setArchived(activeRoot);
 
-        System.out.println("Active root size: " + activeRoot.getJuniors().size());
-        System.out.println("Archived root size: " + archivedRoot.getJuniors().size());
-
         assertTrue(activeRoot.getJuniors().size() == 1 && archivedRoot.getJuniors().size() == 1);
     }
 
