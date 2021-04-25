@@ -1,20 +1,21 @@
 package gui.controllers;
 
 import data.FileAccess;
-import gui.popups.CreateItemPopup;
+import gui.popups.action.CreateItemPopup;
+import gui.popups.action.CreateTaskButtonPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
-import logic.commands.DeleteProjectCommand;
-import logic.commands.DeleteTaskCommand;
+import logic.commands.delete.DeleteProjectCommand;
+import logic.commands.delete.DeleteTaskCommand;
 import logic.treeItems.*;
 import logic.treeItems.TreeCellFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ProjectsTabController {
@@ -61,41 +62,8 @@ public class ProjectsTabController {
         TreeItem<String> root = new TreeItem<>("Projects");
         root.getChildren().addAll(projects, archived);
 
-        Map<String, Map<String, List<String>>> dataMap = FileAccess.getProjectData();
-
-        if (dataMap != null) {
-
-            dataMap.forEach((name, taskMap) -> {
-                ProjectTreeItem project = new ProjectTreeItem(name);
-
-                taskMap.forEach((taskName, records) -> {
-                    TaskTreeItem task = new TaskTreeItem(taskName);
-                    task.getRecords().addAll(records);
-                    project.addJunior(task);
-                });
-
-                projects.addJunior(project);
-            });
-
-        }
-
-        // -------- Demo items for tree view ----------------
-
-        var archivedProject1 = new ProjectTreeItem("ArchivedProject1", new ArrayList<>(), true);
-        var archivedProject2 = new ProjectTreeItem("ArchivedProject2", new ArrayList<>(), true);
-        archived.addJunior(archivedProject1);
-        archived.addJunior(archivedProject2);
-
-        var aTask1 = new TaskTreeItem("ArchivedTask1", true, false, new ArrayList<>());
-        archivedProject1.addJunior(aTask1);
-        var aTask2 = new TaskTreeItem("ArchivedTask2", true, false, new ArrayList<>());
-        archivedProject1.addJunior(aTask2);
-        var aTask3 = new TaskTreeItem("ArchivedTask3", true, false, new ArrayList<>());
-        archivedProject2.addJunior(aTask3);
-        var aTask4 = new TaskTreeItem("ArchivedTask4", true, false, new ArrayList<>());
-        archivedProject2.addJunior(aTask4);
-
-        // ------------------ Demo items end for tree view -----------------------
+        //projects initialization
+        initializeProjects();
 
         // tree configuration
         projectsTree.setShowRoot(false);
@@ -119,47 +87,112 @@ public class ProjectsTabController {
 
     /**
      * Method for selecting projects and project tasks and sending out value.
-     *
      * @return selected treeItem on treeView
      */
     public AbstractTreeItem selectItem() {
         return (AbstractTreeItem) projectsTree.getSelectionModel().getSelectedItem();
     }
 
+    //TODO remake this f-word thing later to use ProjectTreeItem and TaskTreeItem as a Data Class
+    private void initializeProjects() {
+        Map<String, Map<String, Object>> dataMap = FileAccess.getProjectData();
+
+        if (dataMap != null) {
+
+            dataMap.forEach((name, projectMap) -> {
+                ProjectTreeItem project = new ProjectTreeItem(name);
+                projects.addJunior(project);
+                // GOOD
+
+                projectMap.forEach((projectAttr, value) -> {
+                    switch (projectAttr) {
+                        case "isArchived":
+                            if ((boolean) value) {
+                                project.setArchived(archived);
+                            }
+                            break;
+                        case "Tasks":
+                            initializeTasks(project, (HashMap<String, Object>) value);
+                        default:
+                    }
+                });
+            });
+
+        }
+    }
+    private void initializeTasks(ProjectTreeItem projectTreeItem, HashMap<String, Object> tasks) {
+        tasks.forEach((task, taskInfo) -> {
+            TaskTreeItem taskItem = new TaskTreeItem(task);
+            HashMap<String, Object> taskHash = (HashMap<String, Object>) taskInfo;
+
+            taskHash.forEach((taskAttr, value) -> {
+                switch (taskAttr) {
+                    case "isDone":
+                        if ((boolean) value) {
+                            taskItem.setDone(true);
+                            break;
+                        }
+                        taskItem.setDone(false);
+                        break;
+                    case "Records":
+                        taskItem.getRecords().addAll((ArrayList<String>) value);
+                        break;
+                    default:
+                }
+            });
+            projectTreeItem.addJunior(taskItem);
+
+        });
+    }
+
     /**
      * Create project button functionality
      */
     public void createProject() {
+        getProjects().getJuniors().forEach(System.out::println);
         new CreateItemPopup(projects, "project").popup();
     }
 
-    @Override
-    public String toString() {
-        return "project";
+    /**
+     * Create task button functionality
+     */
+    public void createTask() {
+        new CreateTaskButtonPopup().popup();
     }
 
     public void init(MainController main) {
         mainController = main;
     }
 
+
+    //------------- Graph views -------------------------//
     public void graphForLastWeek() throws ParseException {
-        historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(7);
+        updateGraphByDays("Last 7 days", 7);
     }
 
     public void graphForLastMonth() throws ParseException {
-        historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(30);
+        updateGraphByDays("Last 30 days", 30);
     }
 
     public void graphForLastYear() throws ParseException {
-        historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(365);
+        updateGraphByDays("Last 365 days", 365);
     }
 
-    public void graphForAllTime() {
+    public void graphForAllTime() throws ParseException {
+        updateGraphLabel("All time");
+        HistoryTabController historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(historyTabController.getRecordLenght());
+    }
+
+    public void updateGraphLabel(String graphLabel) {
         graphTabController = mainController.getGraphTabController();
-        graphTabController.initUpdateGraph();
-
+        graphTabController.setGraphLabel(graphLabel);
     }
+
+    public void updateGraphByDays(String graphLabel, int days) throws ParseException {
+        updateGraphLabel(graphLabel);
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(days);
+    }
+
 }

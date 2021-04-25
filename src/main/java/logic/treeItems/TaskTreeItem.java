@@ -36,6 +36,10 @@ public class TaskTreeItem extends AbstractTreeItem {
     }
 
     // ------------------ GUI ----------------------
+    /**
+     * Creates a ContextMenuItem with the functionality to mark the task as done
+     * @return MenuItem with the needed functionality and text display
+     */
     private MenuItem markAsDone() {
         MenuItem markAsDone = new MenuItem("Mark as done");
         markAsDone.setOnAction(e -> {
@@ -54,6 +58,10 @@ public class TaskTreeItem extends AbstractTreeItem {
         return markAsDone;
     }
 
+    /**
+     * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
+     * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
+     */
     @Override
     public ContextMenu getMenu() {
 
@@ -67,8 +75,11 @@ public class TaskTreeItem extends AbstractTreeItem {
         return new ContextMenu(changeName, deleteTask, markAsDone);
     }
 
+    /**
+     * @return - the type of the AbstractTreeItem as a String
+     */
     @Override
-    public String toString() {
+    public String toStringType() {
         return "task";
     }
 }

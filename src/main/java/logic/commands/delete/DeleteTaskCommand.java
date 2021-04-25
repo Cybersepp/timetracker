@@ -1,11 +1,12 @@
-package logic.commands;
+package logic.commands.delete;
 
 import data.FileAccess;
-import gui.popups.WarningPopup;
+import gui.popups.notification.WarningPopup;
+import logic.commands.Command;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-public class DeleteTaskCommand implements Command{
+public class DeleteTaskCommand implements Command {
 
     private final TaskTreeItem task;
 
@@ -13,6 +14,9 @@ public class DeleteTaskCommand implements Command{
         this.task = task;
     }
 
+    /**
+     * Deletes a task
+     */
     @Override
     public void command() {
         var parent = (ProjectTreeItem) task.getParent();
@@ -20,6 +24,9 @@ public class DeleteTaskCommand implements Command{
         FileAccess.saveData();
     }
 
+    /**
+     * Calls a popup with the choice to delete a task
+     */
     @Override
     public void commandControl() {
         if (task.getRecords().isEmpty()) {

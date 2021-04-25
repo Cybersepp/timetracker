@@ -38,6 +38,49 @@ public class ProjectTreeItemTest {
     }
 
     @Test
+    void theSizeOfTheRootGetChildrenIsCorrect() {
+        var activeRoot = new RootTreeItem("Active project");
+        var archivedRoot = new RootTreeItem("Archived", true);
+        var testProject1 = new ProjectTreeItem("Test1");
+        var testProject2 = new ProjectTreeItem("Test2");
+
+        activeRoot.addJunior(testProject1);
+        activeRoot.addJunior(testProject2);
+
+        testProject1.setArchived(archivedRoot);
+
+        testProject2.setArchived(archivedRoot);
+        testProject2.setArchived(activeRoot);
+        testProject2.setArchived(archivedRoot);
+        testProject2.setArchived(activeRoot);
+
+        assertTrue(activeRoot.getChildren().size() == 1 && archivedRoot.getChildren().size() == 1);
+    }
+
+    @Test
+    void theSizeOfTheRootGetJuniorsIsCorrect() {
+        var activeRoot = new RootTreeItem("Active project");
+        var archivedRoot = new RootTreeItem("Archived", true);
+        var testProject1 = new ProjectTreeItem("Test1");
+        var testProject2 = new ProjectTreeItem("Test2");
+
+        activeRoot.addJunior(testProject1);
+        activeRoot.addJunior(testProject2);
+
+        testProject1.setArchived(archivedRoot);
+
+        testProject2.setArchived(archivedRoot);
+        testProject2.setArchived(activeRoot);
+        testProject2.setArchived(archivedRoot);
+        testProject2.setArchived(activeRoot);
+
+        System.out.println("Active root size: " + activeRoot.getJuniors().size());
+        System.out.println("Archived root size: " + archivedRoot.getJuniors().size());
+
+        assertTrue(activeRoot.getJuniors().size() == 1 && archivedRoot.getJuniors().size() == 1);
+    }
+
+    @Test
     void TaskInListAfterBeingAdded() {
         var project = new ProjectTreeItem("Project");
         var task = new TaskTreeItem("Task");

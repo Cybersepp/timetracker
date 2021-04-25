@@ -16,6 +16,8 @@ import javafx.util.Duration;
 import logic.timer.Timer;
 import logic.treeItems.TaskTreeItem;
 
+import java.text.ParseException;
+
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
  */
@@ -71,14 +73,18 @@ public class MainController {
     private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize() {
+    private void initialize() throws ParseException {
         // I know it's retarded, sorry.
         historyTabController.init(this);
         projectsTabController.init(this);
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-        graphTabController.initUpdateGraph();
+        historyTabController.showByTime(historyTabController.getRecordLenght());
     }
+    // ---- GETTERS FOR CONTROLLERS ----
+    // If history tab controller wants to communicate with graph tab controller,
+    // it gets graph tab controller from the main controller.
+    // As far as I'm concerned, there is no better way for subcontroller communication available in JavaFX.
 
     public HistoryTabController getHistoryTabController() {
         return historyTabController;
@@ -91,20 +97,27 @@ public class MainController {
     public GraphTabController getGraphTabController() {
         return graphTabController;
     }
+    // --------------------------------------------------------------
 
-    public void updateRecordButton() {
+    /**
+     * When user ends recording, updateRecordButton method updates the graph, stops the timer and its animation,
+     * and saves newly created entry to the history overview.
+     * @throws ParseException is thrown if can't parse string to date format.
+     */
+    public void updateRecordButton() throws ParseException {
         //TODO lookin hella ugly, gotta move it out of here!
         switch (recordButton.getText()) {
 
             case "RECORD":
-                if (projectsTabController.selectItem() == null || !projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)
-                         ) {
+                if (projectsTabController.selectItem() == null ||
+                        !projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
                     //TODO if no project is selected create a project and task and start recording there
                     //TODO if project is selected without task, create task and start recording there
                     //TODO also display a quick message (that would disappear after 1-2s) (possible?)
 
                     break;
                 }
+
                 recordButton.setText("END");
                 dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
                 record.setRecordStart();
@@ -112,7 +125,6 @@ public class MainController {
                 break;
 
             case "END":
-                graphTabController.clearGraph();
                 TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
                 recordButton.setText("RECORD");
                 record.setRecordEnd();
@@ -121,7 +133,7 @@ public class MainController {
                 currentTask.getRecords().add(recordInfo);
                 addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
                 FileAccess.saveData();
-                graphTabController.initUpdateGraph();
+                historyTabController.showByTime(historyTabController.getRecordLenght());
                 break;
         }
     }
@@ -146,7 +158,6 @@ public class MainController {
 
     /**
      * Method for switching between tabs of the AnchorPane "rightSideWindow".
-     *
      * @param tabToRemove AnchorPane to be removed.
      * @param tabToAdd    AnchorPane to be added.
      */
@@ -181,6 +192,12 @@ public class MainController {
         animateRecordButton();
     }
 
+    /**
+     * Adds new record entry to the history tab's table view.
+     * @param currentTask task to be added.
+     * @param start date of the new record.
+     * @param duration of the record entry.
+     */
     public void addToHistory(TaskTreeItem currentTask, String start, String duration) {
         String projectName = currentTask.getParent().getValue();
         String taskName = currentTask.getValue();

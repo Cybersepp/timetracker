@@ -13,6 +13,9 @@ import java.util.Arrays;
 
 public abstract class AbstractPopup implements Popup{
 
+    /**
+     * Makes sure you can't access the stage the popup popped out from and sets the minimum and maximum height and width for the window.
+     */
     protected void defaultWindowSettings(Stage window, int minHeight, int minWidth, int maxHeight, int maxWidth) {
 
         window.initModality(Modality.APPLICATION_MODAL);
@@ -22,12 +25,19 @@ public abstract class AbstractPopup implements Popup{
         window.setMaxWidth(maxWidth);
     }
 
+    /**
+     * Makes the Popup window not resizable and also makes sure that you can't use the stage it popped out from.
+     */
     protected void defaultWindowSettings(Stage window) {
-
         window.initModality(Modality.APPLICATION_MODAL);
         window.setResizable(false);
     }
 
+    /**
+     * Method for creating a VBox with the default settings and adding all the children to it.
+     * @param nodes the children to be added to the VBox
+     * @return VBox with all the children and configured settings
+     */
     protected VBox addVBox(Node[] nodes) {
         VBox vBox = new VBox(10);
         vBox.setPadding(new Insets(10, 40, 30, 40));
@@ -36,11 +46,23 @@ public abstract class AbstractPopup implements Popup{
         return vBox;
     }
 
+    /**
+     * Functionality for adding the stage with the needed configurations.
+     */
     protected abstract Stage addStage();
 
+    /**
+     * Functionality for adding the scene with the needed configurations.
+     */
     protected abstract void setScene(Stage stage, VBox vBox);
 
+    /**
+     * Functionality for adding the button with the needed configurations.
+     */
     protected abstract Button addButton(String name);
 
+    /**
+     * Functionality for adding the label with the needed configurations.
+     */
     protected abstract Label addLabel(String name);
 }
