@@ -11,6 +11,7 @@ import logic.treeItems.TaskTreeItem;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class FileAccess {
         try {
             Map<String, Object> dataMap = new HashMap<>();
 
-            List<ProjectTreeItem> currentProjects = ProjectsTabController.getProjects().getJuniors();
+            List<ProjectTreeItem> currentProjects = new ArrayList<>(ProjectsTabController.getProjects().getJuniors());
             currentProjects.addAll(ProjectsTabController.getArchived().getJuniors());
 
             for (ProjectTreeItem project : currentProjects) {

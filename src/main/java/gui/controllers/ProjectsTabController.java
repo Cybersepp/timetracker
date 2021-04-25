@@ -148,6 +148,7 @@ public class ProjectsTabController {
      * Create project button functionality
      */
     public void createProject() {
+        getProjects().getJuniors().forEach(System.out::println);
         new CreateItemPopup(projects, "project").popup();
     }
 

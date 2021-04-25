@@ -26,6 +26,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
         for(TaskTreeItem task : this.getJuniors()) {
             task.setArchived(newRoot.isArchived());
         }
+        FileAccess.saveData();
     }
 
     // -------------- DATA -----------------
@@ -75,7 +76,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
     private MenuItem archive() {
         MenuItem archive = new MenuItem("Archive");
         archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
-        FileAccess.saveData();
         return archive;
     }
 
@@ -86,7 +86,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
     private MenuItem unArchive() {
         MenuItem unArchive = new MenuItem("Unarchive");
         unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
-        FileAccess.saveData();
         return unArchive;
     }
 
