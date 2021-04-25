@@ -23,10 +23,29 @@ public class GraphTabController {
     private void initialize() {
 
     }
-    /**
-     * Method for updating the logic.graph.
-     */
-    public void initUpdateGraph()  {
+
+    public void updateGraph(Map<String, Integer> projectData) {
+        clearGraph();
+        for (String project : projectData.keySet()) {
+            XYChart.Series series = new XYChart.Series();
+            series.getData().add(new XYChart.Data(project, projectData.get(project)));
+            allSeries.add(series);
+            projectGraph.getData().add(series);
+        }
+    }
+
+    public void clearGraph() {
+        projectGraph.getData().clear();
+    }
+
+    public void setGraphLabel(String text) {
+        graphLabel.setText(text);
+    }
+}
+
+
+// Obsolete method for updating the graph, though might need it later.
+   /* public void initUpdateGraph()  {
         clearGraph();
         RootTreeItem root = projectsTabController.getProjects();
         List<ProjectTreeItem> projects = root.getJuniors();
@@ -53,25 +72,5 @@ public class GraphTabController {
                 time += Float.parseFloat(recordData[2]);
             }
         }
-
         return time;
-    }
-
-    public void updateGraph(Map<String, Integer> projectData) {
-        clearGraph();
-        for (String project : projectData.keySet()) {
-            XYChart.Series series = new XYChart.Series();
-            series.getData().add(new XYChart.Data(project, projectData.get(project)));
-            allSeries.add(series);
-            projectGraph.getData().add(series);
-        }
-    }
-
-    public void clearGraph() {
-        projectGraph.getData().clear();
-    }
-
-    public void setGraphLabel(String text) {
-        graphLabel.setText(text);
-    }
-}
+    }*/

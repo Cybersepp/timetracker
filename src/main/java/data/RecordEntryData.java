@@ -2,11 +2,11 @@ package data;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+/**
+ * RecordEntryData is class which holds data needed to populate history tab's table view.
+ */
 public class RecordEntryData {
 
     private String projectName;

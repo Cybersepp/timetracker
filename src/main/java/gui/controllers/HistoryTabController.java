@@ -42,6 +42,10 @@ public class HistoryTabController {
 
     ObservableList<RecordEntryData> records = FXCollections.observableArrayList();
 
+    /**
+     * Upon initialization it reads required data for populating history overview from each project,
+     * task and record object and creates a new data object.
+     */
     public void initialize() {
         RootTreeItem root = ProjectsTabController.getProjects();
         List<ProjectTreeItem> projects = root.getJuniors();
@@ -67,10 +71,18 @@ public class HistoryTabController {
         table.getSortOrder().setAll(startColumn);
     }
 
+    /**
+     * In order for historyTabController to know its parent controller, main controller passes itself
+     * to its subcontrollers.
+     * @param main
+     */
     public void init(MainController main) {
         mainController = main;
     }
 
+    /**
+     * Cell value factory method for populating history tab.
+     */
     public void configureColumns() {
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
@@ -78,6 +90,13 @@ public class HistoryTabController {
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationInSec"));
     }
 
+    /**
+     * Method showByTime updates the graph for a certain time period in days.
+     * Counting in descending order from the method call day.
+     * Efficient method, since it sorts list by date and then starts from the initial date.
+     * @param days is the given period to show.
+     * @throws ParseException is thrown if can't parse the date.
+     */
     public void showByTime(int days) throws ParseException {
         List<RecordEntryData> copyForComputing = new ArrayList<>(records);
         GraphTimeCalculator calculator = new GraphTimeCalculator(days);
@@ -87,8 +106,16 @@ public class HistoryTabController {
 
     }
 
+    /**
+     * When record is added, history tab is updated and sorted so the user can see the newest record.
+     * @param record is data object to be added.
+     */
     public void addRecord(RecordEntryData record) {
         records.add(record);
         table.getSortOrder().setAll(startColumn);
+    }
+
+    public int getRecordLenght() {
+        return records.size();
     }
 }

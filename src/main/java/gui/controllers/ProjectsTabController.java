@@ -115,7 +115,6 @@ public class ProjectsTabController {
                             }
                             break;
                         case "Tasks":
-                            System.out.println("Start task init");
                             initializeTasks(project, (HashMap<String, Object>) value);
                         default:
                     }
@@ -125,8 +124,6 @@ public class ProjectsTabController {
         }
     }
     private void initializeTasks(ProjectTreeItem projectTreeItem, HashMap<String, Object> tasks) {
-        System.out.println("Here we are");
-        System.out.println(tasks);
         tasks.forEach((task, taskInfo) -> {
             TaskTreeItem taskItem = new TaskTreeItem(task);
             HashMap<String, Object> taskHash = (HashMap<String, Object>) taskInfo;
@@ -191,9 +188,10 @@ public class ProjectsTabController {
         graphTabController.setGraphLabel("Last 365 days");
     }
 
-    public void graphForAllTime() {
+    public void graphForAllTime() throws ParseException {
         graphTabController = mainController.getGraphTabController();
-        graphTabController.initUpdateGraph();
+        historyTabController = mainController.getHistoryTabController();
+        historyTabController.showByTime(historyTabController.getRecordLenght());
         graphTabController = mainController.getGraphTabController();
         graphTabController.setGraphLabel("All time");
 
