@@ -16,7 +16,6 @@ import logic.treeItems.TreeCellFactory;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProjectsTabController {
@@ -166,31 +165,30 @@ public class ProjectsTabController {
 
     //------------- Graph views -------------------------//
     public void graphForLastWeek() throws ParseException {
-        graphWithLabel("Last 7 days", 7);
+        updateGraphByDays("Last 7 days", 7);
     }
 
     public void graphForLastMonth() throws ParseException {
-        graphWithLabel("Last 30 days", 30);
+        updateGraphByDays("Last 30 days", 30);
     }
 
     public void graphForLastYear() throws ParseException {
-        graphWithLabel("Last 365 days", 365);
+        updateGraphByDays("Last 365 days", 365);
     }
 
     public void graphForAllTime() throws ParseException {
-        graphWithLabel("All time");
+        updateGraphLabel("All time");
         historyTabController.showByTime(historyTabController.getRecordLenght());
-        graphTabController = mainController.getGraphTabController();
     }
 
-    public void graphWithLabel(String graphLabel) {
+    public void updateGraphLabel(String graphLabel) {
         graphTabController = mainController.getGraphTabController();
-        historyTabController = mainController.getHistoryTabController();
         graphTabController.setGraphLabel(graphLabel);
     }
 
-    public void graphWithLabel(String graphLabel, int days) throws ParseException {
-        graphWithLabel(graphLabel);
+    public void updateGraphByDays(String graphLabel, int days) throws ParseException {
+        updateGraphLabel(graphLabel);
+        historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(days);
     }
 
