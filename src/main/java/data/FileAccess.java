@@ -26,9 +26,10 @@ public class FileAccess {
             Map<String, Object> dataMap = new HashMap<>();
 
             List<ProjectTreeItem> currentProjects = ProjectsTabController.getProjects().getJuniors();
+            currentProjects.addAll(ProjectsTabController.getArchived().getJuniors());
 
             for (ProjectTreeItem project : currentProjects) {
-                dataMap.put(project.getValue(), getTaskMap(project));
+                dataMap.put(project.getValue(), getProjectMap(project));
             }
 
             ObjectMapper mapper = new ObjectMapper();
@@ -39,18 +40,38 @@ public class FileAccess {
         }
     }
 
-    public static Map<String, List<String>> getTaskMap(ProjectTreeItem project) {
-        Map<String, List<String>> taskMap = new HashMap<>();
+    public static Map<String, Object> getProjectMap(ProjectTreeItem project) {
+        Map<String, Object> taskMap = new HashMap<>();
 
         List<TaskTreeItem> projectTasks = project.getJuniors();
 
-        for (TaskTreeItem task : projectTasks) {
-            taskMap.put(task.getValue(), task.getRecords());
-        }
+        taskMap.put("isArchived", project.isArchived());
+        taskMap.put("Tasks", getTaskMap(project));
+
         return taskMap;
     }
 
-    public static Map<String, Map<String, List<String>>> getProjectData() {
+    public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
+        Map<String, Object> taskAttributesMap = new HashMap<>();
+
+        taskAttributesMap.put("isDone", task.isDone());
+        taskAttributesMap.put("Records", task.getRecords());
+
+        return taskAttributesMap;
+    }
+
+    public static Map<String, Map<String, Object>> getTaskMap(ProjectTreeItem project) {
+        Map<String, Map<String, Object>> taskMap = new HashMap<>();
+        List<TaskTreeItem> projectTaskList = project.getJuniors();
+
+        projectTaskList.forEach((t -> {
+            taskMap.put(t.getValue(), getTaskAttributesMap(t));
+        }));
+
+        return taskMap;
+    }
+
+    public static Map<String, Map<String, Object>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
 
