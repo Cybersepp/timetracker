@@ -102,6 +102,7 @@ public class ProjectsTabController {
             dataMap.forEach((name, projectMap) -> {
                 ProjectTreeItem project = new ProjectTreeItem(name);
                 projects.addJunior(project);
+                // GOOD
 
                 projectMap.forEach((projectAttr, value) -> {
                     switch (projectAttr) {
@@ -179,6 +180,7 @@ public class ProjectsTabController {
 
     public void graphForAllTime() throws ParseException {
         updateGraphLabel("All time");
+        HistoryTabController historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(historyTabController.getRecordLenght());
     }
 
