@@ -65,9 +65,7 @@ public class FileAccess {
         Map<String, Map<String, Object>> taskMap = new HashMap<>();
         List<TaskTreeItem> projectTaskList = project.getJuniors();
 
-        projectTaskList.forEach((t -> {
-            taskMap.put(t.getValue(), getTaskAttributesMap(t));
-        }));
+        projectTaskList.forEach((t -> taskMap.put(t.getValue(), getTaskAttributesMap(t))));
 
         return taskMap;
     }
@@ -75,12 +73,15 @@ public class FileAccess {
     public static Map<String, Map<String, Object>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            //TODO check if the file exists and then return null here instead of Exception
+
 
             return objectMapper.readValue(Paths.get("data.json").toFile(),
                     new TypeReference<>() {
                     });
         } catch (IOException e) {
-            return null; // TODO what does this catch method capture? Should it also have a WarningPopup occur?
+            return null;
+            // TODO Should it also have a WarningPopup occur if some exception other than no file found occurs?
         }
     }
 }

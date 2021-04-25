@@ -78,7 +78,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Rectangle fx:id="timeLine" arcHeight="5.0" arcWidth="5.0" fill="#a8a8a8" height="4.0" stroke="#9e9e9e" strokeType="INSIDE" width="117.0">
+                  <Rectangle fx:id="timeLine" arcHeight="5.0" arcWidth="5.0" fill="#a8a8a8" height="4.0" stroke="#9e9e9e" strokeType="INSIDE" width="95.0">
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin>

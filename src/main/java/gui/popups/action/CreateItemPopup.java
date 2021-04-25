@@ -1,16 +1,18 @@
 package gui.popups.action;
 
 import data.FileAccess;
-import gui.popups.action.ActionPopup;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
-import javafx.geometry.Insets;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class CreateItemPopup extends ActionPopup {
 
