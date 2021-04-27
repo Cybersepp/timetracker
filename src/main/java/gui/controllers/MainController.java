@@ -7,6 +7,8 @@ import data.RecordEntryData;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +18,7 @@ import javafx.util.Duration;
 import logic.timer.Timer;
 import logic.treeItems.TaskTreeItem;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 /**
@@ -44,8 +47,10 @@ public class MainController {
     @FXML
     private AnchorPane graphTab;
 
-    @FXML
     private AnchorPane historyTab;
+
+    @FXML
+    private AnchorPane rightWindow;
 
 
     // ---- UI ELEMENTS ----
@@ -73,13 +78,9 @@ public class MainController {
     private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize() throws ParseException {
-        // I know it's retarded, sorry.
-        historyTabController.init(this);
+    private void initialize() throws ParseException, IOException {
         projectsTabController.init(this);
-        historyTab.setOpacity(0);
-        historyTab.setDisable(true);
-        historyTabController.showByTime(historyTabController.getRecordLenght());
+        injectHistoryTab();
     }
     // ---- GETTERS FOR CONTROLLERS ----
     // If history tab controller wants to communicate with graph tab controller,
@@ -163,6 +164,10 @@ public class MainController {
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
         // I know it's retarded. sorry.
+
+       /* ObservableList<Node> children = rightWindow.getChildren();
+        children.remove(tabToRemove);
+        children.add(tabToAdd);*/
         tabToRemove.setOpacity(0);
         tabToRemove.setDisable(true);
         tabToAdd.setOpacity(1);
@@ -203,6 +208,20 @@ public class MainController {
         String taskName = currentTask.getValue();
         historyTabController.addRecord(new RecordEntryData(projectName, taskName, start, duration));
 
+    }
+
+    public void injectHistoryTab() throws IOException, ParseException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/gui/HistoryTab.fxml"));
+        Parent content = loader.load();
+
+        historyTab = (AnchorPane) content;
+        historyTab.setDisable(true);
+        historyTab.setOpacity(0);
+        historyTabController = (HistoryTabController) loader.getController();
+        historyTabController.init(this);
+        rightWindow.getChildren().add(content);
+        historyTabController.showByTime(historyTabController.getRecordLenght());
     }
 }
 
