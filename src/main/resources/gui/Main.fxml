@@ -84,7 +84,7 @@
                   </Rectangle>
                </children>
             </VBox>
-            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" stylesheets="@css/button.css" text="AUTOTRACK">
+            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" prefHeight="40.0" prefWidth="120.0" stylesheets="@css/button.css" text="AUTOTRACK">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>

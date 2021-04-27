@@ -1,8 +1,6 @@
 package logic.graph;
 
-import data.RecordEntryData;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import data.tableview.RecordEntryData;
 
 import java.text.ParseException;
 import java.util.*;

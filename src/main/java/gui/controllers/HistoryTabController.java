@@ -1,6 +1,6 @@
 package gui.controllers;
 
-import data.RecordEntryData;
+import data.tableview.RecordEntryData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

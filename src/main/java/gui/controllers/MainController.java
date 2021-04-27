@@ -3,7 +3,7 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Record;
-import data.RecordEntryData;
+import data.tableview.RecordEntryData;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
@@ -49,6 +49,8 @@ public class MainController {
 
     private AnchorPane historyTab;
 
+    private AnchorPane autotrackTab;
+
     @FXML
     private AnchorPane rightWindow;
 
@@ -66,6 +68,9 @@ public class MainController {
 
     @FXML
     private Rectangle timeLine;
+
+    @FXML
+    private Button autotrackButton;
 
     Timer timer = null;
 
@@ -118,7 +123,6 @@ public class MainController {
 
                     break;
                 }
-
                 recordButton.setText("END");
                 dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
                 record.setRecordStart();
@@ -144,7 +148,6 @@ public class MainController {
      * If button shows "History", then change window from Graph tab to History tab and vice versa.
      */
     public void changeHistoryAndGraph() {
-
         switch (historyAndGraphButton.getText()) {
             case "GRAPH":
                 changeRightWindow(historyTab, graphTab);
@@ -163,11 +166,10 @@ public class MainController {
      * @param tabToAdd    AnchorPane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
-        // I know it's retarded. sorry.
-
-       /* ObservableList<Node> children = rightWindow.getChildren();
-        children.remove(tabToRemove);
-        children.add(tabToAdd);*/
+        if (autotrackTab != null) {
+            rightWindow.getChildren().remove(autotrackTab);
+            autotrackTab = null;
+        }
         tabToRemove.setOpacity(0);
         tabToRemove.setDisable(true);
         tabToAdd.setOpacity(1);
@@ -214,7 +216,6 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/gui/HistoryTab.fxml"));
         Parent content = loader.load();
-
         historyTab = (AnchorPane) content;
         historyTab.setDisable(true);
         historyTab.setOpacity(0);
@@ -222,6 +223,20 @@ public class MainController {
         historyTabController.init(this);
         rightWindow.getChildren().add(content);
         historyTabController.showByTime(historyTabController.getRecordLenght());
+    }
+
+    public void changeToAutotrackTab() throws IOException {
+        if (autotrackTab == null) {
+            FXMLLoader loader2 = new FXMLLoader();
+            loader2.setLocation(getClass().getResource("/gui/AutotrackTab.fxml"));
+            Parent content = loader2.load();
+            autotrackTab = (AnchorPane) content;
+            historyTab.setDisable(true);
+            historyTab.setOpacity(0);
+            graphTab.setDisable(true);
+            graphTab.setOpacity(0);
+            rightWindow.getChildren().add(content);
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package data;
+package data.tableview;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
