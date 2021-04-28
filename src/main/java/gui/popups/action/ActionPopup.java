@@ -81,6 +81,10 @@ public abstract class ActionPopup extends AbstractPopup {
      * @param textField input field
      */
     protected void mainButtonFunctionality(Button button, Stage stage, TextField textField) {
+        mainButtonFunctionality(button, stage);
+    }
+
+    protected void mainButtonFunctionality(Button button, Stage stage) {
         button.setDisable(true);
         button.setStyle("-fx-background-color: #00B5FE");
     }

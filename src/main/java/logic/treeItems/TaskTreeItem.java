@@ -1,7 +1,10 @@
 package logic.treeItems;
 
+import gui.popups.action.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +61,12 @@ public class TaskTreeItem extends AbstractTreeItem {
         return markAsDone;
     }
 
+    private MenuItem moveToAnotherProject() {
+        MenuItem moveToAnother = new MenuItem("Change project");
+        moveToAnother.setOnAction(event -> new ChangeTaskProjectPopup(this, toStringType()).popup());
+        return moveToAnother;
+    }
+
     /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
@@ -72,7 +81,7 @@ public class TaskTreeItem extends AbstractTreeItem {
 
         }
         MenuItem markAsDone = this.markAsDone();
-        return new ContextMenu(changeName, deleteTask, markAsDone);
+        return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
     }
 
     /**
