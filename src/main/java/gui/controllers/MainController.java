@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import logic.timer.Timer;
+import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.TaskTreeItem;
 
 import java.text.ParseException;
@@ -109,8 +110,10 @@ public class MainController {
         switch (recordButton.getText()) {
 
             case "RECORD":
-                if (projectsTabController.selectItem() == null ||
-                        !projectsTabController.selectItem().getClass().equals(TaskTreeItem.class)) {
+                final var selectedItem = projectsTabController.selectItem();
+                if (selectedItem == null || !selectedItem.getClass().equals(TaskTreeItem.class) ||
+                        selectedItem.isArchived() || ((TaskTreeItem) selectedItem).isDone()
+                        ) {
                     //TODO if no project is selected create a project and task and start recording there
                     //TODO if project is selected without task, create task and start recording there
                     //TODO also display a quick message (that would disappear after 1-2s) (possible?)
@@ -119,7 +122,7 @@ public class MainController {
                 }
 
                 recordButton.setText("END");
-                dataHandler.setCurrentlyChosenTask((TaskTreeItem) projectsTabController.selectItem());
+                dataHandler.setCurrentlyChosenTask((TaskTreeItem) selectedItem);
                 record.setRecordStart();
                 startTimer();
                 break;
