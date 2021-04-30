@@ -11,10 +11,7 @@ import logic.treeItems.TaskTreeItem;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FileAccess {
 
@@ -24,7 +21,7 @@ public class FileAccess {
 
     public static void saveData() {
         try {
-            Map<String, Object> dataMap = new HashMap<>();
+            Map<String, Object> dataMap = new LinkedHashMap<>();
 
             List<ProjectTreeItem> currentProjects = new ArrayList<>(ProjectsTabController.getProjects().getJuniors());
             currentProjects.addAll(ProjectsTabController.getArchived().getJuniors());
@@ -42,9 +39,7 @@ public class FileAccess {
     }
 
     public static Map<String, Object> getProjectMap(ProjectTreeItem project) {
-        Map<String, Object> taskMap = new HashMap<>();
-
-        List<TaskTreeItem> projectTasks = project.getJuniors();
+        Map<String, Object> taskMap = new LinkedHashMap<>();
 
         taskMap.put("isArchived", project.isArchived());
         taskMap.put("Tasks", getTaskMap(project));
@@ -53,7 +48,7 @@ public class FileAccess {
     }
 
     public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
-        Map<String, Object> taskAttributesMap = new HashMap<>();
+        Map<String, Object> taskAttributesMap = new LinkedHashMap<>();
 
         taskAttributesMap.put("isDone", task.isDone());
         taskAttributesMap.put("Records", task.getRecords());
@@ -62,7 +57,7 @@ public class FileAccess {
     }
 
     public static Map<String, Map<String, Object>> getTaskMap(ProjectTreeItem project) {
-        Map<String, Map<String, Object>> taskMap = new HashMap<>();
+        Map<String, Map<String, Object>> taskMap = new LinkedHashMap<>();
         List<TaskTreeItem> projectTaskList = project.getJuniors();
 
         projectTaskList.forEach((t -> taskMap.put(t.getValue(), getTaskAttributesMap(t))));
