@@ -1,12 +1,14 @@
 package data.tableview;
 
+import java.time.LocalTime;
+
 public class AutoTrackData {
 
     private String name;
-    private String duration;
+    private LocalTime duration;
     private String initialDate;
 
-    public AutoTrackData(String name, String duration) {
+    public AutoTrackData(String name, LocalTime duration) {
         this.name = name;
         this.duration = duration;
 
@@ -20,11 +22,11 @@ public class AutoTrackData {
         this.name = name;
     }
 
-    public String getDuration() {
+    public LocalTime getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(LocalTime duration) {
         this.duration = duration;
     }
 

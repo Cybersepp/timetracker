@@ -1,7 +1,6 @@
 package gui.controllers;
 
 import data.tableview.AutoTrackData;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,9 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AutotrackTabController {
 
@@ -30,11 +30,13 @@ public class AutotrackTabController {
     @FXML
     private TableView<AutoTrackData> autoTable;
 
-    private Collection<AutoTrackData> baseList;
+    private Map<String, AutoTrackData> baseList = new HashMap<>();
 
-    private Collection<AutoTrackData> newList;
+    private Map<String, AutoTrackData> newList;
 
-    ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
+    private Set<AutoTrackData> referenceSet = new HashSet<>();
+
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 
     @FXML
@@ -46,29 +48,61 @@ public class AutotrackTabController {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
     }
 
+
     public void loadProcesses() throws Exception {
 
+        newList = new HashMap<>();
         String username = System.getProperty("user.name");
-
         try {
-            if (baseList == null) {
-                baseList = new ArrayList();
-            }
-            String line;
             Process p = Runtime.getRuntime().exec("ps -u " + username);
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
+            String line = input.readLine();
             while ((line = input.readLine()) != null) {
                 String[] data = line.trim().replaceAll(" +", " ").split(" ");
-                helper.add(new AutoTrackData(data[3], data[2]));
+                if (newList.containsKey(data[3])) {
+                    LocalTime duration = newList.get(data[3]).getDuration();
+                    String[] timeStringSplitted = data[2].split(":");
+                    duration = duration.plusSeconds(Long.parseLong(timeStringSplitted[2]));
+                    duration = duration.plusMinutes(Long.parseLong(timeStringSplitted[1]));
+                    duration = duration.plusHours(Long.parseLong(timeStringSplitted[0]));
+                    newList.get(data[3]).setDuration(duration);
+                    continue;
+                }
+                LocalTime time = LocalTime.parse(data[2], dtf);
+                newList.put(data[3], new AutoTrackData(data[3], time));
+            }
+
+            if (baseList.isEmpty()) {
+                baseList.putAll(newList);
             }
             input.close();
-
-            baseList = new HashSet<>(helper);
             configureColumns();
+            Map<String, AutoTrackData> compareMap = new HashMap<>();
+            compareMap.putAll(baseList);
+
+            for (String oldKey : baseList.keySet()) {
+                for (String newKey : newList.keySet()) {
+                    if (oldKey.equals(newKey)) {
+                        compareMap.remove(oldKey);
+                    }
+                }
+            }
+
+            if (compareMap.isEmpty()) {
+                baseList = newList;
+                return;
+            }
+
+            ObservableList<AutoTrackData> helper = autoTable.getItems();
+            List<AutoTrackData> conversionList = compareMap.values().stream().collect(Collectors.toList());
+            referenceSet.addAll(conversionList);
+            helper.addAll(conversionList);
             autoTable.setItems(helper);
+            baseList = newList;
+
         } catch (Exception err) {
             throw new Exception(err);
         }
     }
+
 }

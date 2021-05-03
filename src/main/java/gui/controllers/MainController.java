@@ -41,6 +41,9 @@ public class MainController {
     @FXML
     private HistoryTabController historyTabController;
 
+    @FXML
+    private AutotrackTabController autotrackTabController;
+
 
     // ---- WINDOWS ----
 
@@ -86,6 +89,7 @@ public class MainController {
     private void initialize() throws ParseException, IOException {
         projectsTabController.init(this);
         injectHistoryTab();
+        injectAutotrackTab();
     }
     // ---- GETTERS FOR CONTROLLERS ----
     // If history tab controller wants to communicate with graph tab controller,
@@ -108,6 +112,7 @@ public class MainController {
     /**
      * When user ends recording, updateRecordButton method updates the graph, stops the timer and its animation,
      * and saves newly created entry to the history overview.
+     *
      * @throws ParseException is thrown if can't parse string to date format.
      */
     public void updateRecordButton() throws ParseException {
@@ -162,14 +167,13 @@ public class MainController {
 
     /**
      * Method for switching between tabs of the AnchorPane "rightSideWindow".
+     *
      * @param tabToRemove AnchorPane to be removed.
      * @param tabToAdd    AnchorPane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
-        if (autotrackTab != null) {
-            rightWindow.getChildren().remove(autotrackTab);
-            autotrackTab = null;
-        }
+        autotrackTab.setDisable(true);
+        autotrackTab.setOpacity(0);
         tabToRemove.setOpacity(0);
         tabToRemove.setDisable(true);
         tabToAdd.setOpacity(1);
@@ -201,9 +205,10 @@ public class MainController {
 
     /**
      * Adds new record entry to the history tab's table view.
+     *
      * @param currentTask task to be added.
-     * @param start date of the new record.
-     * @param duration of the record entry.
+     * @param start       date of the new record.
+     * @param duration    of the record entry.
      */
     public void addToHistory(TaskTreeItem currentTask, String start, String duration) {
         String projectName = currentTask.getParent().getValue();
@@ -219,24 +224,29 @@ public class MainController {
         historyTab = (AnchorPane) content;
         historyTab.setDisable(true);
         historyTab.setOpacity(0);
-        historyTabController = (HistoryTabController) loader.getController();
+        historyTabController = loader.getController();
         historyTabController.init(this);
         rightWindow.getChildren().add(content);
         historyTabController.showByTime(historyTabController.getRecordLenght());
     }
 
-    public void changeToAutotrackTab() throws IOException {
-        if (autotrackTab == null) {
-            FXMLLoader loader2 = new FXMLLoader();
-            loader2.setLocation(getClass().getResource("/gui/AutotrackTab.fxml"));
-            Parent content = loader2.load();
-            autotrackTab = (AnchorPane) content;
-            historyTab.setDisable(true);
-            historyTab.setOpacity(0);
-            graphTab.setDisable(true);
-            graphTab.setOpacity(0);
-            rightWindow.getChildren().add(content);
-        }
+    public void changeToAutotrackTab() {
+        historyTab.setDisable(true);
+        historyTab.setOpacity(0);
+        graphTab.setDisable(true);
+        graphTab.setOpacity(0);
+        autotrackTab.setOpacity(1);
+        autotrackTab.setDisable(false);
+    }
+
+    public void injectAutotrackTab() throws IOException {
+        FXMLLoader loader2 = new FXMLLoader();
+        loader2.setLocation(getClass().getResource("/gui/AutotrackTab.fxml"));
+        Parent content = loader2.load();
+        autotrackTab = (AnchorPane) content;
+        rightWindow.getChildren().add(content);
+        autotrackTab.setOpacity(0);
+        autotrackTab.setDisable(true);
     }
 }
 
