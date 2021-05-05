@@ -32,7 +32,7 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
      * @return MenuItem with the needed functionality and text display
      */
     protected MenuItem changeName() {
-        MenuItem changeName = new MenuItem("Rename");
+        var changeName = new MenuItem("Rename");
         changeName.setOnAction(e -> {
             var changeNamePopup = new ChangeNamePopup(this);
             changeNamePopup.popup();
@@ -55,9 +55,9 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem createProject() {
-        MenuItem addProject = new MenuItem("Create project");
+        var addProject = new MenuItem("Create project");
         addProject.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup(this, "project");
+            var createItemPopup = new CreateItemPopup(this, "project");
             createItemPopup.popup();
         });
         return addProject;
@@ -68,9 +68,9 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem createTask() {
-        MenuItem addTask = new MenuItem("Add task");
+        var addTask = new MenuItem("Add task");
         addTask.setOnAction(e -> {
-            CreateItemPopup createItemPopup = new CreateItemPopup(this, "task");
+            var createItemPopup = new CreateItemPopup(this, "task");
             createItemPopup.popup();
         });
         return addTask;
@@ -82,7 +82,7 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
      * @return MenuItem with the needed functionality and text display
      */
     protected MenuItem deleteItem(String text) {
-        MenuItem deleteTask = new MenuItem(text);
+        var deleteTask = new MenuItem(text);
         deleteTask.setOnAction(e -> deleteAction());
         return deleteTask;
     }

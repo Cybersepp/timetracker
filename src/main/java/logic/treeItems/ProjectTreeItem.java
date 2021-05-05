@@ -77,7 +77,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem archive() {
-        MenuItem archive = new MenuItem("Archive");
+        var archive = new MenuItem("Archive");
         archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
         return archive;
     }
@@ -87,7 +87,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem unArchive() {
-        MenuItem unArchive = new MenuItem("Unarchive");
+        var unArchive = new MenuItem("Unarchive");
         unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
         return unArchive;
     }

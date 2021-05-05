@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RootTreeItem extends AbstractTreeItem {
 
-    private List<ProjectTreeItem> juniors = new ArrayList<>();
+    private final List<ProjectTreeItem> juniors = new ArrayList<>();
 
     public List<ProjectTreeItem> getJuniors() {
         return juniors;
@@ -38,15 +38,8 @@ public class RootTreeItem extends AbstractTreeItem {
     }
 
     public RootTreeItem(String value, boolean archived) {
-        // TODO this constructor is to be deleted after the JSON has the archived status inside it also
         super(value);
         this.archived = archived;
-    }
-
-    public RootTreeItem(String value, List<ProjectTreeItem> children) {
-        // TODO is this constructor also necessary?
-        super(value);
-        this.juniors = children;
     }
 
     // ------------ GUI -------------------
@@ -64,6 +57,7 @@ public class RootTreeItem extends AbstractTreeItem {
         return new ContextMenu(addProject);
     }
 
+    // ------------ Other Methods -------------------
     /**
      * @return - the type of the AbstractTreeItem as a String
      */

@@ -21,19 +21,18 @@ public class CreateTaskButtonPopup extends ActionPopup{
 
     @Override
     public void popup() {
-        RootTreeItem root = (RootTreeItem) treeItem;
+        var root = (RootTreeItem) treeItem;
+        var window = addStage();
+        var createButton = addButton("Create task");
+        var cancelButton = addButton("Cancel");
+        var label = this.addLabel("Name your task");
+        var textField = addTextField();
 
-        Stage window = addStage();
         window.setTitle("Create a task");
 
         ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
-        root.getJuniors().forEach((projectTreeItem) -> projectComboBox.getItems().add(projectTreeItem));
+        root.getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
 
-        Button createButton = addButton("Create task");
-        Button cancelButton = addButton("Cancel");
-
-        Label label = this.addLabel("Name your task");
-        TextField textField = addTextField();
         textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField, newValue));
         projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField, newValue.getValue()));
 
@@ -42,7 +41,7 @@ public class CreateTaskButtonPopup extends ActionPopup{
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
-        VBox display = addVBox(new Node[]{projectComboBox, label, textField, createButton, cancelButton});
+        var display = addVBox(new Node[]{projectComboBox, label, textField, createButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
 
         setScene(window, display);
@@ -71,7 +70,7 @@ public class CreateTaskButtonPopup extends ActionPopup{
         }
         else {
             mainButton.setDisable(false);
-            project = projectComboBox.getValue(); //TODO is this a good way to do this?
+            project = projectComboBox.getValue();
         }
     }
 }

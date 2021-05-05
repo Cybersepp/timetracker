@@ -4,7 +4,6 @@ import data.FileAccess;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
@@ -22,14 +21,14 @@ public class ChangeNamePopup extends ActionPopup {
      */
     @Override
     public void popup() {
-        Stage window = addStage();
+        var window = addStage();
+        var changeButton = addButton("Change name");
+        var cancelButton = addButton("Cancel");
+        var label = this.addLabel("Rename " + type + " " + "'" + treeItem.getValue() + "'");
+        var textField = addTextField();
+
         window.setTitle("Change name");
 
-        Button changeButton = addButton("Change name");
-        Button cancelButton = addButton("Cancel");
-
-        Label label = this.addLabel("Rename " + type + " " + "'" + treeItem.getValue() + "'");
-        TextField textField = addTextField();
         textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(changeButton, textField, newValue));
 
         mainButtonFunctionality(changeButton, window, textField);
@@ -37,7 +36,7 @@ public class ChangeNamePopup extends ActionPopup {
         changeButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
 
-        VBox display = addVBox(new Node[]{label, textField, changeButton, cancelButton});
+        var display = addVBox(new Node[]{label, textField, changeButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
 
         setScene(window, display);

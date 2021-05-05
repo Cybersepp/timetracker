@@ -4,7 +4,6 @@ import data.FileAccess;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
@@ -25,14 +24,14 @@ public class CreateItemPopup extends ActionPopup {
      */
     @Override
     public void popup() {
-        Stage window = addStage();
+        var window = addStage();
+        var createButton = addButton("Create " + type);
+        var cancelButton = addButton("Cancel");
+        var label = this.addLabel("Name your " + type);
+        var textField = addTextField();
+
         window.setTitle("Create a " + type);
 
-        Button createButton = addButton("Create " + type);
-        Button cancelButton = addButton("Cancel");
-
-        Label label = this.addLabel("Name your " + type);
-        TextField textField = addTextField();
         textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(createButton, textField, newValue));
 
         mainButtonFunctionality(createButton, window, textField);
@@ -40,7 +39,7 @@ public class CreateItemPopup extends ActionPopup {
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
-        VBox display = addVBox(new Node[]{label, textField, createButton, cancelButton});
+        var display = addVBox(new Node[]{label, textField, createButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
 
         setScene(window, display);
@@ -72,7 +71,7 @@ public class CreateItemPopup extends ActionPopup {
      * @param textField the text field where the name for the new project is entered
      */
     private void createProjectBranch(RootTreeItem root, TextField textField){
-        ProjectTreeItem newProject = new ProjectTreeItem(textField.getText().trim());
+        var newProject = new ProjectTreeItem(textField.getText().trim());
         root.addJunior(newProject);
     }
 
@@ -82,7 +81,7 @@ public class CreateItemPopup extends ActionPopup {
      * @param textField the text field where the name for the new task is entered
      */
     private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
-        TaskTreeItem newTask = new TaskTreeItem(textField.getText().trim());
+        var newTask = new TaskTreeItem(textField.getText().trim());
         project.addJunior(newTask);
     }
 

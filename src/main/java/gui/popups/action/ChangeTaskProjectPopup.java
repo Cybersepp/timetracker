@@ -5,8 +5,6 @@ import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
@@ -15,7 +13,7 @@ import logic.treeItems.TaskTreeItem;
 public class ChangeTaskProjectPopup extends ActionPopup{
 
     private ProjectTreeItem selectedProject;
-    private TaskTreeItem selectedTask;
+    private final TaskTreeItem selectedTask;
 
     public ChangeTaskProjectPopup(AbstractTreeItem treeItem, String type) {
         super(treeItem, type);
@@ -26,18 +24,18 @@ public class ChangeTaskProjectPopup extends ActionPopup{
     @Override
     public void popup() {
 
-        Stage window = addStage();
+        var window = addStage();
+        var label = this.addLabel("New project for '" + selectedTask.getValue() + "'.");
+        var changeProjectButton = addButton("Change parent project");
+        var cancelButton = addButton("Cancel");
+
         window.setTitle("Change project for task");
 
         ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
-        ProjectsTabController.getProjects().getJuniors().forEach((projectTreeItem) -> projectComboBox.getItems().add(projectTreeItem));
+        ProjectsTabController.getProjects().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
         projectComboBox.getSelectionModel().select(selectedProject);
         projectComboBox.setMaxWidth(Double.MAX_VALUE);
 
-        Label label = this.addLabel("New project for '" + selectedTask.getValue() + "'.");
-
-        Button changeProjectButton = addButton("Change parent project");
-        Button cancelButton = addButton("Cancel");
         mainButtonFunctionality(changeProjectButton, window);
 
         projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> comboboxListener(changeProjectButton, newValue));
@@ -46,7 +44,7 @@ public class ChangeTaskProjectPopup extends ActionPopup{
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
-        VBox display = addVBox(new Node[]{projectComboBox, label, changeProjectButton, cancelButton});
+        var display = addVBox(new Node[]{projectComboBox, label, changeProjectButton, cancelButton});
 
         setScene(window, display);
     }

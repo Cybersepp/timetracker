@@ -11,7 +11,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
-import logic.treeItems.TaskTreeItem;
 
 public abstract class ActionPopup extends AbstractPopup {
 
@@ -39,14 +38,8 @@ public abstract class ActionPopup extends AbstractPopup {
      * @return TextField with the length property listener
      */
     protected TextField addTextField() {
-        //TODO move listener to be a separate method?
-        TextField textField = new TextField();
-        textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
-            int maxLength = 25;
-            if (textField.getText().length() >= maxLength) {
-                textField.setText(textField.getText().substring(0, maxLength));
-            }
-        });
+        var textField = new TextField();
+        textField.lengthProperty().addListener((observable, oldValue, newValue) -> textFieldLengthListener(textField));
         return textField;
     }
 
@@ -56,7 +49,7 @@ public abstract class ActionPopup extends AbstractPopup {
      * @return Button with configured settings
      */
     protected Button addButton(String name) {
-        Button button = new Button(name);
+        var button = new Button(name);
         button.setFont(Font.font ("Verdana", 14));
         button.setMaxWidth(Double.MAX_VALUE);
         return button;
@@ -68,7 +61,7 @@ public abstract class ActionPopup extends AbstractPopup {
      * @return Label with configured settings
      */
     protected Label addLabel(String name) {
-        Label label = new Label(name);
+        var label = new Label(name);
         label.setFont(Font.font ("Verdana", FontWeight.BOLD, 15));
         label.setWrapText(true);
         label.setTextAlignment(TextAlignment.CENTER);
@@ -97,12 +90,19 @@ public abstract class ActionPopup extends AbstractPopup {
      */
     @Override
     protected void setScene(Stage stage, VBox vBox) {
-        Scene scene = new Scene(vBox, 300, 250);
+        var scene = new Scene(vBox, 300, 250);
         stage.setScene(scene);
         stage.showAndWait();
     }
 
     protected void sortItems(AbstractTreeItem abstractTreeItem) {
         abstractTreeItem.organizeView();
+    }
+
+    private void textFieldLengthListener(TextField textField){
+        int maxLength = 25;
+        if (textField.getText().length() >= maxLength) {
+            textField.setText(textField.getText().substring(0, maxLength));
+        }
     }
 }
