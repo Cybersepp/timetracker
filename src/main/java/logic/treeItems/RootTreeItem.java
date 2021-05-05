@@ -71,4 +71,9 @@ public class RootTreeItem extends AbstractTreeItem {
     public String toStringType() {
         return "root";
     }
+
+    @Override
+    public void organizeView() {
+        // Doesn't need to do anything
+    }
 }

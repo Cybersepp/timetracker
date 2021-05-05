@@ -103,8 +103,6 @@ public abstract class ActionPopup extends AbstractPopup {
     }
 
     protected void sortItems(AbstractTreeItem abstractTreeItem) {
-        if (abstractTreeItem.getClass() == TaskTreeItem.class) {
-            ((TaskTreeItem) abstractTreeItem).reOrganizeTasks();
-        }
+        abstractTreeItem.organizeView();
     }
 }

@@ -54,7 +54,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
                 this.setValue("Done " + this.getValue());
                 this.setDone(true);
             }
-            reOrganizeTasks();
+            this.organizeView();
             FileAccess.saveData();
         });
         return markAsDone;
@@ -64,7 +64,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         var moveToAnother = new MenuItem("Change project");
         moveToAnother.setOnAction(event -> {
             new ChangeTaskProjectPopup(this, toStringType()).popup();
-            this.reOrganizeTasks();
+            this.organizeView();
         });
         return moveToAnother;
     }
@@ -93,16 +93,6 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
     }
 
-    //TODO add this method to where something happens in the tree that might change the arrangement
-    public void reOrganizeTasks() {
-        //TODO can you also sort ObservableList without removing and adding everything back?
-        this.getParentProject().getJuniors().sort(TaskTreeItem::compareTo);
-        var projectTreeItemJuniors = this.getParentProject().getJuniors();
-        var treeViewProjectTasks = this.getParent().getChildren();
-        treeViewProjectTasks.removeAll(this.getParent().getChildren());
-        treeViewProjectTasks.addAll(projectTreeItemJuniors);
-    }
-
     public ProjectTreeItem getParentProject() {
         return (ProjectTreeItem) this.getParent();
     }
@@ -113,6 +103,16 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     @Override
     public String toStringType() {
         return "task";
+    }
+
+    @Override
+    public void organizeView() {
+        //TODO can you also sort ObservableList without removing and adding everything back?
+        this.getParentProject().getJuniors().sort(TaskTreeItem::compareTo);
+        var projectTreeItemJuniors = this.getParentProject().getJuniors();
+        var treeViewProjectTasks = this.getParent().getChildren();
+        treeViewProjectTasks.removeAll(this.getParent().getChildren());
+        treeViewProjectTasks.addAll(projectTreeItemJuniors);
     }
 
     @Override

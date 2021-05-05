@@ -24,12 +24,17 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         for(TaskTreeItem task : this.getJuniors()) {
             task.setArchived(newRoot.isArchived());
         }
+        this.organizeView();
         FileAccess.saveData();
     }
 
     // -------------- DATA -----------------
     public List<TaskTreeItem> getJuniors() {
         return juniors;
+    }
+
+    public RootTreeItem getParentRoot() {
+        return (RootTreeItem) this.getParent();
     }
 
     // TODO Should we override List add and remove (and also quite many methods more) so the following two methods would not be needed?
@@ -121,6 +126,16 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     @Override
     public String toStringType() {
         return "project";
+    }
+
+    @Override
+    public void organizeView() {
+        //TODO can you also sort ObservableList without removing and adding everything back?
+        this.getParentRoot().getJuniors().sort(ProjectTreeItem::compareTo);
+        var rootTreeItemJuniors = this.getParentRoot().getJuniors();
+        var treeViewRootProjects = this.getParent().getChildren();
+        treeViewRootProjects.removeAll(this.getParent().getChildren());
+        treeViewRootProjects.addAll(rootTreeItemJuniors);
     }
 
     @Override

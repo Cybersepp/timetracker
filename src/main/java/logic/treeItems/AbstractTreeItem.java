@@ -103,4 +103,6 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
      * @return String type of the treeItem
      */
     public abstract String toStringType();
+
+    public abstract void organizeView();
 }
