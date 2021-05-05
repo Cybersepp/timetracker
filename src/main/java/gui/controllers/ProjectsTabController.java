@@ -180,7 +180,7 @@ public class ProjectsTabController {
     public void graphForAllTime() throws ParseException {
         updateGraphLabel("All time");
         HistoryTabController historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(historyTabController.getRecordLenght());
+        historyTabController.showByTime(historyTabController.getRecordLength());
     }
 
     public void updateGraphLabel(String graphLabel) {

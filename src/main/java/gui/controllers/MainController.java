@@ -14,7 +14,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import logic.timer.Timer;
-import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.TaskTreeItem;
 
 import java.text.ParseException;
@@ -80,7 +79,7 @@ public class MainController {
         projectsTabController.init(this);
         historyTab.setOpacity(0);
         historyTab.setDisable(true);
-        historyTabController.showByTime(historyTabController.getRecordLenght());
+        historyTabController.showByTime(historyTabController.getRecordLength());
     }
     // ---- GETTERS FOR CONTROLLERS ----
     // If history tab controller wants to communicate with graph tab controller,
@@ -136,7 +135,7 @@ public class MainController {
                 currentTask.getRecords().add(recordInfo);
                 addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
                 FileAccess.saveData();
-                historyTabController.showByTime(historyTabController.getRecordLenght());
+                historyTabController.showByTime(historyTabController.getRecordLength());
                 break;
         }
     }

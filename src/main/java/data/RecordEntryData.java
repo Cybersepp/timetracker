@@ -1,5 +1,8 @@
 package data;
 
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.TaskTreeItem;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +11,9 @@ import java.util.Date;
  * RecordEntryData is class which holds data needed to populate history tab's table view.
  */
 public class RecordEntryData {
-
+    // TODO Going to need actual project and task and record from where we can get the necessary data and then change it at will
+    private ProjectTreeItem project;
+    private TaskTreeItem task;
     private String projectName;
     private String taskName;
     private String start;

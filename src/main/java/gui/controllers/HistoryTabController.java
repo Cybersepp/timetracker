@@ -1,15 +1,16 @@
 package gui.controllers;
 
 import data.RecordEntryData;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import logic.treeItems.*;
 import logic.graph.GraphTimeCalculator;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.RootTreeItem;
+import logic.treeItems.TaskTreeItem;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -59,9 +60,9 @@ public class HistoryTabController {
                 List<String> entries = task.getRecords();
 
                 for (String record : entries) {
-                    String[] splittedRecord = record.split(", ");
-                    String start = splittedRecord[0];
-                    String duration = splittedRecord[2];
+                    String[] splitRecord = record.split(", ");
+                    String start = splitRecord[0];
+                    String duration = splitRecord[2];
                     records.add(new RecordEntryData(projectName, taskName, start, duration));
                 }
             }
@@ -69,6 +70,25 @@ public class HistoryTabController {
         configureColumns();
         table.setItems(records);
         table.getSortOrder().setAll(startColumn);
+        table.setRowFactory(
+                tableView -> {
+                    final TableRow<RecordEntryData> row = new TableRow<>();
+                    final var rowMenu = new ContextMenu();
+                    var editItem = new MenuItem("Edit");
+                    var replaceItem = new MenuItem("Replace");
+                    var removeItem = new MenuItem("Delete");
+                    editItem.setOnAction(event -> editRecording(row));
+                    replaceItem.setOnAction(event -> replaceRecording(row));
+                    removeItem.setOnAction(event -> deleteRecording(row));
+                    rowMenu.getItems().addAll(editItem, replaceItem, removeItem);
+
+                    // display ContextMenu only for filled rows
+                    row.contextMenuProperty().bind(
+                            Bindings.when(row.emptyProperty())
+                                    .then((ContextMenu) null)
+                                    .otherwise(rowMenu));
+                    return row;
+                });
     }
 
 
@@ -101,11 +121,11 @@ public class HistoryTabController {
      * @throws ParseException is thrown if can't parse the date.
      */
     public void showByTime(int days) throws ParseException {
-        if (records.size() != 0) {
+        if (!records.isEmpty()) {
             List<RecordEntryData> copyForComputing = new ArrayList<>(records);
-            GraphTimeCalculator calculator = new GraphTimeCalculator(days);
+            var calculator = new GraphTimeCalculator(days);
             Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
-            GraphTabController graphTabController = mainController.getGraphTabController();
+            var graphTabController = mainController.getGraphTabController();
             graphTabController.updateGraph(lastWeekProjectData);
         }
     }
@@ -120,7 +140,22 @@ public class HistoryTabController {
         table.getSortOrder().setAll(startColumn);
     }
 
-    public int getRecordLenght() {
+    public int getRecordLength() {
         return records.size();
+    }
+
+    private void editRecording(TableRow<RecordEntryData> row) {
+        row.getItem().getClass();
+        // TODO change the start time or the duration of the recording
+    }
+
+    private void replaceRecording(TableRow<RecordEntryData> row) {
+        row.getItem().getClass();
+        // TODO change the parent of the recording
+    }
+
+    private void deleteRecording(TableRow<RecordEntryData> row) {
+        table.getItems().remove(row.getItem());
+        // TODO delete also from the TaskTreeItem class
     }
 }

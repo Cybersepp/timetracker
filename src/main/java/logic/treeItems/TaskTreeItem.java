@@ -24,6 +24,10 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         return records;
     }
 
+    public ProjectTreeItem getParentProject() {
+        return (ProjectTreeItem) this.getParent();
+    }
+
     // ------------------ Constructor for creating a task while reading from file -------------------
     public TaskTreeItem(String value, boolean archived, boolean done, List<String> records) {
         super(value);
@@ -91,10 +95,6 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         }
 
         return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
-    }
-
-    public ProjectTreeItem getParentProject() {
-        return (ProjectTreeItem) this.getParent();
     }
 
     /**
