@@ -52,7 +52,9 @@ public class CreateTaskButtonPopup extends ActionPopup{
     protected void mainButtonFunctionality(Button button, Stage stage, TextField textField) {
         super.mainButtonFunctionality(button, stage, textField);
         button.setOnAction(e -> {
-            project.addJunior(new TaskTreeItem(textField.getText().trim()));
+            var taskTreeItem = new TaskTreeItem(textField.getText().trim());
+            project.addJunior(taskTreeItem);
+            sortItems(taskTreeItem);
             FileAccess.saveData();
             stage.close();
         });

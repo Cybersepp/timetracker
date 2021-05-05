@@ -11,6 +11,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
+import logic.treeItems.TaskTreeItem;
 
 public abstract class ActionPopup extends AbstractPopup {
 
@@ -99,5 +100,11 @@ public abstract class ActionPopup extends AbstractPopup {
         Scene scene = new Scene(vBox, 300, 250);
         stage.setScene(scene);
         stage.showAndWait();
+    }
+
+    protected void sortItems(AbstractTreeItem abstractTreeItem) {
+        if (abstractTreeItem.getClass() == TaskTreeItem.class) {
+            ((TaskTreeItem) abstractTreeItem).reOrganizeTasks();
+        }
     }
 }

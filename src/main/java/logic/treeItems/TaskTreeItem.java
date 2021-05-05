@@ -4,12 +4,10 @@ import data.FileAccess;
 import gui.popups.action.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class TaskTreeItem extends AbstractTreeItem {
+public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>{
 
     private boolean done = false;
     private List<String> records = new ArrayList<>();
@@ -51,13 +49,12 @@ public class TaskTreeItem extends AbstractTreeItem {
             if (isDone()) {
                 this.setValue(this.getValue().substring(5));
                 this.setDone(false);
-                reOrganizeTasks(true);
             }
             else {
                 this.setValue("Done " + this.getValue());
                 this.setDone(true);
-                reOrganizeTasks(false);
             }
+            reOrganizeTasks();
             FileAccess.saveData();
         });
         return markAsDone;
@@ -65,7 +62,10 @@ public class TaskTreeItem extends AbstractTreeItem {
 
     private MenuItem moveToAnotherProject() {
         var moveToAnother = new MenuItem("Change project");
-        moveToAnother.setOnAction(event -> new ChangeTaskProjectPopup(this, toStringType()).popup());
+        moveToAnother.setOnAction(event -> {
+            new ChangeTaskProjectPopup(this, toStringType()).popup();
+            this.reOrganizeTasks();
+        });
         return moveToAnother;
     }
 
@@ -84,52 +84,23 @@ public class TaskTreeItem extends AbstractTreeItem {
         }
         MenuItem markAsDone;
         if (this.isDone()) {
-            markAsDone = this.markAsDone("Complete task");
+            markAsDone = this.markAsDone("Reactivate task");
         }
         else {
-            markAsDone = this.markAsDone("Reactivate task");
+            markAsDone = this.markAsDone("Complete task");
         }
 
         return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
     }
 
-    private void reOrganizeTasks(boolean toBeginning) {
-        List<TaskTreeItem> tasks = this.getParentProject().getJuniors();
-        int taskPosition = -1;
-        for (int i = 0; i < tasks.size(); i++) {
-            if (this == tasks.get(i)) {
-                taskPosition = i;
-                break;
-            }
-        }
-
-        if (taskPosition == -1 || this.getParent().getChildren().get(taskPosition) != this) {
-            return;
-        }
-        swapTasks(toBeginning, taskPosition, tasks);
-    }
-
-    private void swapTasks(boolean toBeginning, int taskPosition, List<TaskTreeItem> tasks) {
-        if (toBeginning) {
-            for (int i = taskPosition-1; i >= 0; i--) {
-                if (!tasks.get(i).isDone()) {
-                    break;
-                }
-                Collections.swap(this.getParentProject().getJuniors(), i, taskPosition);
-                Collections.swap(this.getParent().getChildren(), i, taskPosition);
-                taskPosition = i;
-            }
-        }
-        else {
-            for (int i = taskPosition+1; i < tasks.size(); i++) {
-                if (tasks.get(i).isDone()) {
-                    break;
-                }
-                Collections.swap(this.getParentProject().getJuniors(), i, taskPosition);
-                Collections.swap(this.getParent().getChildren(), i, taskPosition);
-                taskPosition = i;
-            }
-        }
+    //TODO add this method to where something happens in the tree that might change the arrangement
+    public void reOrganizeTasks() {
+        //TODO can you also sort ObservableList without removing and adding everything back?
+        this.getParentProject().getJuniors().sort(TaskTreeItem::compareTo);
+        var projectTreeItemJuniors = this.getParentProject().getJuniors();
+        var treeViewProjectTasks = this.getParent().getChildren();
+        treeViewProjectTasks.removeAll(this.getParent().getChildren());
+        treeViewProjectTasks.addAll(projectTreeItemJuniors);
     }
 
     public ProjectTreeItem getParentProject() {
@@ -142,5 +113,18 @@ public class TaskTreeItem extends AbstractTreeItem {
     @Override
     public String toStringType() {
         return "task";
+    }
+
+    @Override
+    public int compareTo(TaskTreeItem o) {
+        if (this.isDone() && o.isDone() || !this.isDone() && !o.isDone()) {
+            return this.getValue().compareTo(o.getValue());
+        }
+        if (this.isDone()) {
+            return 1;
+        }
+        else {
+            return -1;
+        }
     }
 }

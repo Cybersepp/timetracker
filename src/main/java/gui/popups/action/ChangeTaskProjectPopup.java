@@ -57,6 +57,7 @@ public class ChangeTaskProjectPopup extends ActionPopup{
         button.setOnAction(e -> {
             ((ProjectTreeItem) treeItem.getParent()).removeJunior(selectedTask);
             selectedProject.addJunior(selectedTask);
+            sortItems(selectedTask);
             FileAccess.saveData();
             stage.close();
         });

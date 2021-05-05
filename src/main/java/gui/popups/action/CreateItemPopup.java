@@ -60,6 +60,7 @@ public class CreateItemPopup extends ActionPopup {
             else if (treeItem.getClass().equals(ProjectTreeItem.class)) {
                 createTaskLeaf((ProjectTreeItem) treeItem, textField);
             }
+            sortItems(treeItem);
             FileAccess.saveData();
             stage.close();
         });

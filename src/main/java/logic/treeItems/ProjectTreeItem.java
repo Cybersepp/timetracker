@@ -5,11 +5,10 @@ import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectTreeItem extends AbstractTreeItem {
+public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>{
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
@@ -18,7 +17,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
      * @param newRoot either "archived root" or "active projects root" with type RootTreeItem
      */
     public void setArchived(RootTreeItem newRoot) {
-        // TODO archived projects should be made unable to start recordings
         RootTreeItem formerParent = (RootTreeItem) this.getParent();
         formerParent.removeJunior(this);
         newRoot.addJunior(this);
@@ -112,7 +110,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
     /**
      * @return - the name of the project (Needed for ComboBox in createTaskPopup)
      */
-    //TODO try to go around this method, i don't like this
     @Override
     public String toString() {
         return this.getValue();
@@ -124,5 +121,10 @@ public class ProjectTreeItem extends AbstractTreeItem {
     @Override
     public String toStringType() {
         return "project";
+    }
+
+    @Override
+    public int compareTo(ProjectTreeItem o) {
+        return this.getValue().compareTo(o.getValue());
     }
 }
