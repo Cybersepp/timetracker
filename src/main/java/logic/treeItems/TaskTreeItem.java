@@ -1,6 +1,7 @@
 package logic.treeItems;
 
 import data.FileAccess;
+import data.Recording;
 import gui.popups.action.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -10,7 +11,7 @@ import java.util.List;
 public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>{
 
     private boolean done = false;
-    private List<String> records = new ArrayList<>();
+    private List<Recording> recordings = new ArrayList<>();
 
     public boolean isDone() {
         return done;
@@ -20,8 +21,8 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         this.done = done;
     }
 
-    public List<String> getRecords() {
-        return records;
+    public List<Recording> getRecordings() {
+        return recordings;
     }
 
     public ProjectTreeItem getParentProject() {
@@ -29,11 +30,11 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     }
 
     // ------------------ Constructor for creating a task while reading from file -------------------
-    public TaskTreeItem(String value, boolean archived, boolean done, List<String> records) {
+    public TaskTreeItem(String value, boolean archived, boolean done, List<Recording> recordings) {
         super(value);
         this.archived = archived;
         this.done = done;
-        this.records = records;
+        this.recordings = recordings;
     }
 
     // ------------ Constructor for creating a task ---------------

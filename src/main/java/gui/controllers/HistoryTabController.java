@@ -1,6 +1,6 @@
 package gui.controllers;
 
-import data.RecordEntryData;
+import data.Recording;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,19 +20,19 @@ import java.util.Map;
 public class HistoryTabController {
 
     @FXML
-    private TableView<RecordEntryData> table;
+    private TableView<Recording> table;
 
     @FXML
-    private TableColumn<RecordEntryData, String> projectColumn;
+    private TableColumn<Recording, String> projectColumn;
 
     @FXML
-    private TableColumn<RecordEntryData, String> taskColumn;
+    private TableColumn<Recording, String> taskColumn;
 
     @FXML
-    private TableColumn<RecordEntryData, String> startColumn;
+    private TableColumn<Recording, String> startColumn;
 
     @FXML
-    private TableColumn<RecordEntryData, Integer> durationColumn;
+    private TableColumn<Recording, Integer> durationColumn;
 
     @FXML
     private Label historyLabel;
@@ -41,7 +41,7 @@ public class HistoryTabController {
 
     private MainController mainController;
 
-    ObservableList<RecordEntryData> records = FXCollections.observableArrayList();
+    ObservableList<Recording> records = FXCollections.observableArrayList();
 
     /**
      * Upon initialization it reads required data for populating history overview from each project,
@@ -55,24 +55,17 @@ public class HistoryTabController {
             List<TaskTreeItem> tasks = project.getJuniors();
 
             for (TaskTreeItem task : tasks) {
-                String projectName = task.getParent().getValue();
-                String taskName = task.getValue();
-                List<String> entries = task.getRecords();
-
-                for (String record : entries) {
-                    String[] splitRecord = record.split(", ");
-                    String start = splitRecord[0];
-                    String duration = splitRecord[2];
-                    records.add(new RecordEntryData(projectName, taskName, start, duration));
-                }
+                List<Recording> recordings = task.getRecordings();
+                this.records.addAll(recordings);
             }
         }
         configureColumns();
         table.setItems(records);
         table.getSortOrder().setAll(startColumn);
+        //TODO put this inside a method or class
         table.setRowFactory(
                 tableView -> {
-                    final TableRow<RecordEntryData> row = new TableRow<>();
+                    final TableRow<Recording> row = new TableRow<>();
                     final var rowMenu = new ContextMenu();
                     var editItem = new MenuItem("Edit");
                     var replaceItem = new MenuItem("Replace");
@@ -108,7 +101,7 @@ public class HistoryTabController {
     public void configureColumns() {
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("recordStart"));
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationInSec"));
     }
 
@@ -122,7 +115,7 @@ public class HistoryTabController {
      */
     public void showByTime(int days) throws ParseException {
         if (!records.isEmpty()) {
-            List<RecordEntryData> copyForComputing = new ArrayList<>(records);
+            List<Recording> copyForComputing = new ArrayList<>(records);
             var calculator = new GraphTimeCalculator(days);
             Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
             var graphTabController = mainController.getGraphTabController();
@@ -135,7 +128,7 @@ public class HistoryTabController {
      *
      * @param record is data object to be added.
      */
-    public void addRecord(RecordEntryData record) {
+    public void addRecord(Recording record) {
         records.add(record);
         table.getSortOrder().setAll(startColumn);
     }
@@ -144,17 +137,19 @@ public class HistoryTabController {
         return records.size();
     }
 
-    private void editRecording(TableRow<RecordEntryData> row) {
+    private void editRecording(TableRow<Recording> row) {
         row.getItem().getClass();
         // TODO change the start time or the duration of the recording
     }
 
-    private void replaceRecording(TableRow<RecordEntryData> row) {
+    private void replaceRecording(TableRow<Recording> row) {
         row.getItem().getClass();
         // TODO change the parent of the recording
     }
 
-    private void deleteRecording(TableRow<RecordEntryData> row) {
+    private void deleteRecording(TableRow<Recording> row) {
+        var task = row.getItem().getParentTask();
+        //task.getRecords().remove(row); ??
         table.getItems().remove(row.getItem());
         // TODO delete also from the TaskTreeItem class
     }

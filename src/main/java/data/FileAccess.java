@@ -47,15 +47,6 @@ public class FileAccess {
         return taskMap;
     }
 
-    public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
-        Map<String, Object> taskAttributesMap = new LinkedHashMap<>();
-
-        taskAttributesMap.put("isDone", task.isDone());
-        taskAttributesMap.put("Records", task.getRecords());
-
-        return taskAttributesMap;
-    }
-
     public static Map<String, Map<String, Object>> getTaskMap(ProjectTreeItem project) {
         Map<String, Map<String, Object>> taskMap = new LinkedHashMap<>();
         List<TaskTreeItem> projectTaskList = project.getJuniors();
@@ -65,15 +56,35 @@ public class FileAccess {
         return taskMap;
     }
 
+    public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
+        Map<String, Object> taskAttributesMap = new LinkedHashMap<>();
+
+        taskAttributesMap.put("isDone", task.isDone());
+
+        var recordings = new ArrayList<String>();
+        for (Recording recording : task.getRecordings()) {
+            recordings.add(recording.getRecordInfo());
+        }
+        taskAttributesMap.put("Records", recordings);
+
+        return taskAttributesMap;
+    }
+
+    //TODO idk if this is the best way for this - made by Richard
+    public static Map<String, String> getRecordAttributesMap(TaskTreeItem task) {
+        Map<String, String> recordMap = new HashMap<>();
+
+        var recordings = task.getRecordings();
+        recordings.forEach((recording -> recordMap.put("Record", recording.getRecordInfo())));
+        //TODO this might be broken
+        return recordMap;
+    }
+
     public static Map<String, Map<String, Object>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             //TODO check if the file exists and then return null here instead of Exception
-
-
-            return objectMapper.readValue(Paths.get("data.json").toFile(),
-                    new TypeReference<>() {
-                    });
+            return objectMapper.readValue(Paths.get("data.json").toFile(), new TypeReference<>(){});
         } catch (IOException e) {
             return null;
             // TODO Should it also have a WarningPopup occur if some exception other than no file found occurs?

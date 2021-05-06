@@ -2,8 +2,7 @@ package gui.controllers;
 
 import data.DataHandler;
 import data.FileAccess;
-import data.Record;
-import data.RecordEntryData;
+import data.Recording;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
@@ -68,7 +67,7 @@ public class MainController {
 
     // ---- DAO ----
 
-    private final Record record = new Record();
+    private Recording recording;
 
     private final DataHandler dataHandler = new DataHandler();
 
@@ -121,19 +120,20 @@ public class MainController {
                 }
 
                 recordButton.setText("END");
-                dataHandler.setCurrentlyChosenTask((TaskTreeItem) selectedItem);
-                record.setRecordStart();
+                var selectedTask = (TaskTreeItem) selectedItem;
+                dataHandler.setCurrentlyChosenTask(selectedTask);
+                recording = new Recording(selectedTask); //creating a new Recording
+                recording.setRecordStart();
                 startTimer();
                 break;
 
             case "END":
                 TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
                 recordButton.setText("RECORD");
-                record.setRecordEnd();
+                recording.setRecordEnd();
                 stopTimer();
-                String recordInfo = record.getRecordInfo();
-                currentTask.getRecords().add(recordInfo);
-                addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
+                currentTask.getRecordings().add(recording);
+                addToHistory(recording);
                 FileAccess.saveData();
                 historyTabController.showByTime(historyTabController.getRecordLength());
                 break;
@@ -196,15 +196,10 @@ public class MainController {
 
     /**
      * Adds new record entry to the history tab's table view.
-     * @param currentTask task to be added.
-     * @param start date of the new record.
-     * @param duration of the record entry.
+     * @param recording - the recording to be added
      */
-    public void addToHistory(TaskTreeItem currentTask, String start, String duration) {
-        String projectName = currentTask.getParent().getValue();
-        String taskName = currentTask.getValue();
-        historyTabController.addRecord(new RecordEntryData(projectName, taskName, start, duration));
-
+    public void addToHistory(Recording recording) {
+        historyTabController.addRecord(recording);
     }
 }
 

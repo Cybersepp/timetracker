@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import data.FileAccess;
+import data.Recording;
 import gui.popups.action.CreateItemPopup;
 import gui.popups.action.CreateTaskButtonPopup;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import logic.treeItems.*;
 import logic.treeItems.TreeCellFactory;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,7 +137,18 @@ public class ProjectsTabController {
                         taskItem.setDone(false);
                         break;
                     case "Records":
-                        taskItem.getRecords().addAll((ArrayList<String>) value);
+                        //TODO could be optimized if the json file would be changed a bit
+                        var recordingInfo = (ArrayList<String>) value;
+                        var recordings = new ArrayList<Recording>();
+                        for (String info : recordingInfo) {
+                            var split = info.split(", ");
+                            var recording = new Recording(taskItem);
+                            recording.setRecordStart(split[0]);
+                            recording.setRecordEnd(split[1]);
+                            recordings.add(recording);
+                        }
+
+                        taskItem.getRecordings().addAll(recordings);
                         break;
                     default:
                 }
