@@ -21,6 +21,9 @@ public class ChangeTaskProjectPopup extends ActionPopup{
         selectedProject = (ProjectTreeItem) selectedTask.getParent();
     }
 
+    /**
+     * Pops up the stage of the ChangeTaskProjectPopup.
+     */
     @Override
     public void popup() {
 
@@ -40,7 +43,6 @@ public class ChangeTaskProjectPopup extends ActionPopup{
 
         projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> comboboxListener(changeProjectButton, newValue));
 
-        changeProjectButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
@@ -49,6 +51,11 @@ public class ChangeTaskProjectPopup extends ActionPopup{
         setScene(window, display);
     }
 
+    /**
+     * Action that changes the parent project of the chosen task
+     * @param button - the default button
+     * @param stage the Stage that everything is happening in
+     */
     @Override
     protected void mainButtonFunctionality(Button button, Stage stage) {
         super.mainButtonFunctionality(button, stage);
@@ -61,6 +68,11 @@ public class ChangeTaskProjectPopup extends ActionPopup{
         });
     }
 
+    /**
+     * Listener for the combobox that checks if the chosen new parent is not the current parent
+     * @param button - the default button
+     * @param project - the current parent project of the selected task
+     */
     private void comboboxListener(Button button, ProjectTreeItem project) {
         button.setDisable(project == treeItem.getParent());
         selectedProject = project;

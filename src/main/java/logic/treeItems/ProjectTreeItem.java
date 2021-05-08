@@ -37,8 +37,6 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         return (RootTreeItem) this.getParent();
     }
 
-    // TODO ProjectTreeItem and RootTreeItem should use the same method not two different ones. How can we do this?
-
     /**
      * Adds a task to the juniors Arraylist and also adds the task to the GUI TreeView children Observable list
      * @param junior - the task to be added
@@ -57,14 +55,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         this.getChildren().remove(junior);
     }
 
-    // ---------- Constructor for reading from file ------------------
-    public ProjectTreeItem(String value, List<TaskTreeItem> juniors, boolean archived) {
-        super(value);
-        this.juniors = juniors;
-        this.archived = archived;
-    }
-
-    // ---------- Constructor for creating a project ------------------
+    // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
         super(value);
     }
@@ -127,15 +118,22 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         return "project";
     }
 
+    /**
+     * Method that organizes all the tasks in a way stated in the TaskTreeItem compareTo method
+     */
+    //TODO can you also sort ObservableList without removing and adding everything back?
     @Override
     public void organizeView() {
-        // This method sorts all the tasks
-        //TODO can you also sort ObservableList without removing and adding everything back?
         this.getJuniors().sort(TaskTreeItem::compareTo);
         this.getChildren().removeAll(this.getChildren());
         this.getChildren().addAll(juniors);
     }
 
+    /**
+     * Method for comparing project names with each other alphabetically
+     * @param o - comparable project
+     * @return a negative integer, zero, or a positive integer as this project is less than, equal to, or greater than the specified project.
+     */
     @Override
     public int compareTo(ProjectTreeItem o) {
         return this.getValue().compareTo(o.getValue());

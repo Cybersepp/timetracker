@@ -33,7 +33,6 @@ public class ChangeNamePopup extends ActionPopup {
 
         mainButtonFunctionality(changeButton, window, textField);
         cancelButton.setOnAction(event -> window.close());
-        changeButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
 
         var display = addVBox(new Node[]{label, textField, changeButton, cancelButton});
@@ -44,6 +43,8 @@ public class ChangeNamePopup extends ActionPopup {
 
     /**
      * Changes the name of the chosen item.
+     * @param button the default button
+     * @param stage the Stage that everything is happening in
      * @param textField input field for the new name
      */
     @Override
@@ -57,6 +58,12 @@ public class ChangeNamePopup extends ActionPopup {
         });
     }
 
+    /**
+     * Listener that makes sure that the user can not enter a task or project with an existing or empty name
+     * @param mainButton - the button that's state is going to be set
+     * @param textField - the textField to be listened to
+     * @param newValue - the new value of the textField item
+     */
     private void textFieldListener(Button mainButton, TextField textField, String newValue){
         final var sameName = treeItem.getParent().getChildren().stream()
                 .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))

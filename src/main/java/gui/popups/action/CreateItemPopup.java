@@ -35,7 +35,6 @@ public class CreateItemPopup extends ActionPopup {
         textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(createButton, textField, newValue));
 
         mainButtonFunctionality(createButton, window, textField);
-        createButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
@@ -47,6 +46,8 @@ public class CreateItemPopup extends ActionPopup {
 
     /**
      * Creates a new child for the chosen item.
+     * @param button the default button
+     * @param stage the Stage that everything is happening in
      * @param textField input field for the name of the child
      */
     @Override
@@ -85,6 +86,12 @@ public class CreateItemPopup extends ActionPopup {
         project.addJunior(newTask);
     }
 
+    /**
+     * Listener that makes sure that the user can not enter a task or project with an existing or empty name
+     * @param mainButton - the button that's state is going to be set
+     * @param textField - the textField to be listened to
+     * @param newValue - the new value of the textField item
+     */
     private void textFieldListener(Button mainButton, TextField textField, String newValue){
         final var sameName = treeItem.getChildren().stream()
                 .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))

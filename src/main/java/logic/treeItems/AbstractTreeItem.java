@@ -104,5 +104,8 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
      */
     public abstract String toStringType();
 
+    /**
+     * Method that organizes the TreeView items in a certain order
+     */
     public abstract void organizeView();
 }

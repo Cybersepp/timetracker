@@ -78,7 +78,13 @@ public abstract class ActionPopup extends AbstractPopup {
         mainButtonFunctionality(button, stage);
     }
 
+    /**
+     * Method for configuring the default Button's functionality for @ActionPopup.
+     * @param button the default button
+     * @param stage the Stage that everything is happening in
+     */
     protected void mainButtonFunctionality(Button button, Stage stage) {
+        button.setDefaultButton(true);
         button.setDisable(true);
         button.setStyle("-fx-background-color: #00B5FE");
     }
@@ -95,10 +101,18 @@ public abstract class ActionPopup extends AbstractPopup {
         stage.showAndWait();
     }
 
+    /**
+     * Method to sort items into correct order after an action
+     * @param abstractTreeItem - the treeItem what will call out its organizeView method
+     */
     protected void sortItems(AbstractTreeItem abstractTreeItem) {
         abstractTreeItem.organizeView();
     }
 
+    /**
+     * Listener for setting the maximum length of character to project and task values
+     * @param textField - the TextField to be listened to
+     */
     private void textFieldLengthListener(TextField textField){
         int maxLength = 25;
         if (textField.getText().length() >= maxLength) {

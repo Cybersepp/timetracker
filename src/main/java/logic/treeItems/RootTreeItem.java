@@ -66,9 +66,11 @@ public class RootTreeItem extends AbstractTreeItem {
         return "root";
     }
 
+    /**
+     * Method that organizes all the projects in a way stated in the ProjectTreeItem compareTo method
+     */
     @Override
     public void organizeView() {
-        //sorts projects
         this.getJuniors().sort(ProjectTreeItem::compareTo);
         this.getChildren().removeAll(this.getChildren());
         this.getChildren().addAll(juniors);

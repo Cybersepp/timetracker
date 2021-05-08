@@ -77,18 +77,14 @@ public class Recording {
         return parentTask;
     }
 
-    /**
-     * Is used for populating HistoryTab
-     */
+    /** Is used for populating HistoryTab (Do not delete) */
     public String getTaskName() {return parentTask.getValue();}
 
     public ProjectTreeItem getParentProject() {
         return (ProjectTreeItem) parentTask.getParent();
     }
 
-    /**
-     * Is used for populating HistoryTab
-     */
+    /** Is used for populating HistoryTab (Do not delete) */
     public String getProjectName() {return getParentProject().getValue();}
 
     public void setParentTask(TaskTreeItem parentTask) {

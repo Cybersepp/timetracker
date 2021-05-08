@@ -19,6 +19,9 @@ public class CreateTaskButtonPopup extends ActionPopup{
         super(ProjectsTabController.getProjects(), "task");
     }
 
+    /**
+     * Pops up the stage of the CreateTaskButtonPopup.
+     */
     @Override
     public void popup() {
         var root = (RootTreeItem) treeItem;
@@ -37,7 +40,6 @@ public class CreateTaskButtonPopup extends ActionPopup{
         projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField));
 
         mainButtonFunctionality(createButton, window, textField);
-        createButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
@@ -47,6 +49,12 @@ public class CreateTaskButtonPopup extends ActionPopup{
         setScene(window, display);
     }
 
+    /**
+     * Action that creates a new task with the chosen name
+     * @param button the default button
+     * @param stage the Stage that everything is happening in
+     * @param textField input field
+     */
     @Override
     protected void mainButtonFunctionality(Button button, Stage stage, TextField textField) {
         super.mainButtonFunctionality(button, stage, textField);
@@ -59,6 +67,12 @@ public class CreateTaskButtonPopup extends ActionPopup{
         });
     }
 
+    /**
+     * Listener that makes sure that the user can not enter a task an existing or empty name and makes sure that the parent project is selected
+     * @param projectComboBox - The combobox which holds all the existing projects
+     * @param mainButton - the button that's state is going to be set
+     * @param textField - the textField to be listened to
+     */
     private void textFieldListener(ComboBox<ProjectTreeItem> projectComboBox, Button mainButton, TextField textField){
         if (projectComboBox.getValue() == null) {
             mainButton.setDisable(true);

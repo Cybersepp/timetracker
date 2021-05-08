@@ -14,16 +14,22 @@ public class GraphTimeCalculator {
         this.days = days;
     }
 
+    /**
+     * Method for finding the recordings before a certain amount of days
+     * @param recordings - List of all the recordings
+     * @return - Returns a Map with each project with the time spent on the project
+     * @throws ParseException - Throws ParseException if parsing the Date from the Recording class fails
+     */
     public Map<String, Integer> findRecordsByDays(List<Recording> recordings) throws ParseException {
 
         recordings.sort(comparator.reversed());
         Map<String, Integer> projectData = new HashMap<>();
-        final Date initialDate = recordings.get(0).getDate();
+        final var initialDate = recordings.get(0).getDate();
 
         for (Recording recording : recordings) {
-            Date recordDate = recording.getDate();
-            long diffInMillies = Math.abs(initialDate.getTime() - recordDate.getTime());
-            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            var recordDate = recording.getDate();
+            long diffInMillis = Math.abs(initialDate.getTime() - recordDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
 
             if (diff > days) {
                 break;
