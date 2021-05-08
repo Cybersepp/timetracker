@@ -108,12 +108,8 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
 
     @Override
     public void organizeView() {
-        //TODO can you also sort ObservableList without removing and adding everything back?
-        this.getParentProject().getJuniors().sort(TaskTreeItem::compareTo);
-        var projectTreeItemJuniors = this.getParentProject().getJuniors();
-        var treeViewProjectTasks = this.getParent().getChildren();
-        treeViewProjectTasks.removeAll(this.getParent().getChildren());
-        treeViewProjectTasks.addAll(projectTreeItemJuniors);
+        //sorts tasks
+        this.getParentProject().organizeView();
     }
 
     @Override

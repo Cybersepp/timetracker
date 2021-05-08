@@ -52,7 +52,7 @@ public class ChangeNamePopup extends ActionPopup {
         button.setOnAction(e -> {
             treeItem.setValue(textField.getText().trim());
             stage.close();
-            sortItems(treeItem);
+            sortItems((AbstractTreeItem) treeItem.getParent());
             FileAccess.saveData();
         });
     }

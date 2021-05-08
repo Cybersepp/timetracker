@@ -33,8 +33,8 @@ public class CreateTaskButtonPopup extends ActionPopup{
         ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
         root.getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
 
-        textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField, newValue));
-        projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField, newValue.getValue()));
+        textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField));
+        projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> textFieldListener(projectComboBox, createButton, textField));
 
         mainButtonFunctionality(createButton, window, textField);
         createButton.setDefaultButton(true);
@@ -59,13 +59,17 @@ public class CreateTaskButtonPopup extends ActionPopup{
         });
     }
 
-    private void textFieldListener(ComboBox<ProjectTreeItem> projectComboBox, Button mainButton, TextField textField, String newValue){
+    private void textFieldListener(ComboBox<ProjectTreeItem> projectComboBox, Button mainButton, TextField textField){
+        if (projectComboBox.getValue() == null) {
+            mainButton.setDisable(true);
+            return;
+        }
         final var sameName = projectComboBox.getValue().getChildren().stream()
                 .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))
                 .map(TreeItem::getValue)
                 .findFirst();
 
-        if (newValue.isEmpty() || sameName.isPresent()) {
+        if (textField.getText().isEmpty() || sameName.isPresent()) {
             mainButton.setDisable(true);
         }
         else {

@@ -68,6 +68,9 @@ public class RootTreeItem extends AbstractTreeItem {
 
     @Override
     public void organizeView() {
-        // Doesn't need to do anything
+        //sorts projects
+        this.getJuniors().sort(ProjectTreeItem::compareTo);
+        this.getChildren().removeAll(this.getChildren());
+        this.getChildren().addAll(juniors);
     }
 }
