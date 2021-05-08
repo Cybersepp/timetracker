@@ -12,10 +12,7 @@ import javafx.scene.input.KeyCode;
 import logic.commands.delete.DeleteProjectCommand;
 import logic.commands.delete.DeleteTaskCommand;
 import logic.treeItems.*;
-import logic.treeItems.TreeCellFactory;
-
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,10 +48,6 @@ public class ProjectsTabController {
     private MenuItem allTime;
 
     private MainController mainController;
-
-    private HistoryTabController historyTabController;
-
-    private GraphTabController graphTabController;
 
 
     @FXML
@@ -106,7 +99,9 @@ public class ProjectsTabController {
                 projects.addJunior(project);
                 // GOOD
 
-                projectMap.forEach((projectAttr, value) -> {
+                for (Map.Entry<String, Object> entry : projectMap.entrySet()) {
+                    String projectAttr = entry.getKey();
+                    Object value = entry.getValue();
                     switch (projectAttr) {
                         case "isArchived":
                             if ((boolean) value) {
@@ -115,9 +110,9 @@ public class ProjectsTabController {
                             break;
                         case "Tasks":
                             initializeTasks(project, (HashMap<String, Object>) value);
-                        default:
+                            break;
                     }
-                });
+                }
             });
 
         }
@@ -192,18 +187,18 @@ public class ProjectsTabController {
 
     public void graphForAllTime() throws ParseException {
         updateGraphLabel("All time");
-        HistoryTabController historyTabController = mainController.getHistoryTabController();
+        var historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(historyTabController.getRecordLength());
     }
 
     public void updateGraphLabel(String graphLabel) {
-        graphTabController = mainController.getGraphTabController();
+        var graphTabController = mainController.getGraphTabController();
         graphTabController.setGraphLabel(graphLabel);
     }
 
     public void updateGraphByDays(String graphLabel, int days) throws ParseException {
         updateGraphLabel(graphLabel);
-        historyTabController = mainController.getHistoryTabController();
+        var historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(days);
     }
 

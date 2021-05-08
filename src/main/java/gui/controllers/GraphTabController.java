@@ -3,12 +3,12 @@ package gui.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
-import logic.treeItems.*;
+
 import java.util.*;
 
 public class GraphTabController {
 
-    List<XYChart.Series> allSeries = new ArrayList<>();
+    List<XYChart.Series<String, Number>> allSeries = new ArrayList<>();
 
     @FXML
     private ProjectsTabController projectsTabController;
@@ -21,14 +21,14 @@ public class GraphTabController {
 
     @FXML
     private void initialize() {
-
+        // Doesn't do anything on start
     }
 
     public void updateGraph(Map<String, Integer> projectData) {
         clearGraph();
-        for (String project : projectData.keySet()) {
-            XYChart.Series series = new XYChart.Series();
-            series.getData().add(new XYChart.Data(project, projectData.get(project)));
+        for (Map.Entry<String, Integer> project : projectData.entrySet()) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.getData().add(new XYChart.Data<>(project.getKey(), project.getValue()));
             allSeries.add(series);
             projectGraph.getData().add(series);
         }

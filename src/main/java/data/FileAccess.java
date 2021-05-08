@@ -19,6 +19,11 @@ public class FileAccess {
         // util methods
     }
 
+    //TODO Would be nice if you could somehow append a single thing somewhere in the data.json for example a task to an existing project
+    // - Is it possible?
+    // - Is it necessary?
+    // - How much time would it save?
+    // - Thinking about it because if there are loads of recordings, would the constant overwriting of data make it too slow?
     public static void saveData() {
         try {
             Map<String, Object> dataMap = new LinkedHashMap<>();
@@ -41,8 +46,8 @@ public class FileAccess {
     public static Map<String, Object> getProjectMap(ProjectTreeItem project) {
         Map<String, Object> taskMap = new LinkedHashMap<>();
 
-        taskMap.put("isArchived", project.isArchived());
         taskMap.put("Tasks", getTaskMap(project));
+        taskMap.put("isArchived", project.isArchived());
 
         return taskMap;
     }
@@ -70,20 +75,20 @@ public class FileAccess {
         return taskAttributesMap;
     }
 
-    //TODO idk if this is the best way for this - made by Richard
+    //FIXME idk if this is the best way for this - made by Richard
     public static Map<String, String> getRecordAttributesMap(TaskTreeItem task) {
         Map<String, String> recordMap = new HashMap<>();
 
         var recordings = task.getRecordings();
         recordings.forEach((recording -> recordMap.put("Record", recording.getRecordInfo())));
-        //TODO this might be broken
+        //FIXME this might be broken
         return recordMap;
     }
 
     public static Map<String, Map<String, Object>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            //TODO check if the file exists and then return null here instead of Exception
+            //FIXME check if the file exists and then return null here instead of Exception
             return objectMapper.readValue(Paths.get("data.json").toFile(), new TypeReference<>(){});
         } catch (IOException e) {
             return null;

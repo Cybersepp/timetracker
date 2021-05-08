@@ -3,6 +3,7 @@ package gui.controllers;
 import data.DataHandler;
 import data.FileAccess;
 import data.Recording;
+import gui.popups.notification.ErrorPopup;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
@@ -101,43 +102,60 @@ public class MainController {
     /**
      * When user ends recording, updateRecordButton method updates the graph, stops the timer and its animation,
      * and saves newly created entry to the history overview.
-     * @throws ParseException is thrown if can't parse string to date format.
+     * @throws ParseException is thrown from endRecordingButton
      */
     public void updateRecordButton() throws ParseException {
-        //TODO lookin hella ugly, gotta move it out of here!
-        switch (recordButton.getText()) {
-
-            case "RECORD":
-                final var selectedItem = projectsTabController.selectItem();
-                if (selectedItem == null || !selectedItem.getClass().equals(TaskTreeItem.class) ||
-                        selectedItem.isArchived() || ((TaskTreeItem) selectedItem).isDone()
-                        ) {
-                    //TODO if no project is selected create a project and task and start recording there
-                    //TODO if project is selected without task, create task and start recording there
-                    //TODO also display a quick message (that would disappear after 1-2s) (possible?)
-
-                    break;
-                }
-
-                recordButton.setText("END");
-                var selectedTask = (TaskTreeItem) selectedItem;
-                dataHandler.setCurrentlyChosenTask(selectedTask);
-                recording = new Recording(selectedTask); //creating a new Recording
-                recording.setRecordStart();
-                startTimer();
-                break;
-
-            case "END":
-                TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
-                recordButton.setText("RECORD");
-                recording.setRecordEnd();
-                stopTimer();
-                currentTask.getRecordings().add(recording);
-                addToHistory(recording);
-                FileAccess.saveData();
-                historyTabController.showByTime(historyTabController.getRecordLength());
-                break;
+        String text = recordButton.getText();
+        if ("RECORD".equals(text)) {
+            startRecordingButton();
+        } else if ("END".equals(text)) {
+            endRecordingButton();
         }
+    }
+
+    /**
+     * Method that checks if a task has been selected to start a recording on that
+     */
+    private void startRecordingButton() {
+        //TODO Needs some upgrades
+        // - if no project is selected create a project and task and start recording there
+        // - if project is selected without task, create task and start recording there
+        // - also display a quick message (that would disappear after 1-2s) (possible?)
+        final var selectedItem = projectsTabController.selectItem();
+        if (selectedItem == null || !selectedItem.getClass().equals(TaskTreeItem.class) ||
+                selectedItem.isArchived() || ((TaskTreeItem) selectedItem).isDone()
+        ) {
+            new ErrorPopup("You have not selected an unfinished task!").popup();
+            return;
+        }
+        startRecording((TaskTreeItem) selectedItem);
+    }
+
+    /**
+     * Method for starting a recording
+     * @param selectedTask - The task that is to start recording
+     */
+    private void startRecording(TaskTreeItem selectedTask) {
+        recordButton.setText("END");
+        dataHandler.setCurrentlyChosenTask(selectedTask);
+        recording = new Recording(selectedTask); //creating a new Recording
+        recording.setRecordStart();
+        startTimer();
+    }
+
+    /**
+     * Method for ending a recording
+     * @throws ParseException is thrown if can't parse string to date format.
+     */
+    private void endRecordingButton() throws ParseException {
+        TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
+        recordButton.setText("RECORD");
+        recording.setRecordEnd();
+        stopTimer();
+        currentTask.getRecordings().add(recording);
+        addToHistory(recording);
+        FileAccess.saveData();
+        historyTabController.showByTime(historyTabController.getRecordLength());
     }
 
 

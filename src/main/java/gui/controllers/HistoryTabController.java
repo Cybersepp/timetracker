@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import data.FileAccess;
 import data.Recording;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -51,6 +52,7 @@ public class HistoryTabController {
         RootTreeItem root = ProjectsTabController.getProjects();
         List<ProjectTreeItem> projects = root.getJuniors();
 
+        // FIXME instead of iterating through it here can we for example iterate it with reading from file
         for (ProjectTreeItem project : projects) {
             List<TaskTreeItem> tasks = project.getJuniors();
 
@@ -62,26 +64,7 @@ public class HistoryTabController {
         configureColumns();
         table.setItems(records);
         table.getSortOrder().setAll(startColumn);
-        //TODO put this inside a method or class
-        table.setRowFactory(
-                tableView -> {
-                    final TableRow<Recording> row = new TableRow<>();
-                    final var rowMenu = new ContextMenu();
-                    var editItem = new MenuItem("Edit");
-                    var replaceItem = new MenuItem("Replace");
-                    var removeItem = new MenuItem("Delete");
-                    editItem.setOnAction(event -> editRecording(row));
-                    replaceItem.setOnAction(event -> replaceRecording(row));
-                    removeItem.setOnAction(event -> deleteRecording(row));
-                    rowMenu.getItems().addAll(editItem, replaceItem, removeItem);
-
-                    // display ContextMenu only for filled rows
-                    row.contextMenuProperty().bind(
-                            Bindings.when(row.emptyProperty())
-                                    .then((ContextMenu) null)
-                                    .otherwise(rowMenu));
-                    return row;
-                });
+        table.setRowFactory(tableView -> tableRowContextMenu());
     }
 
 
@@ -137,20 +120,50 @@ public class HistoryTabController {
         return records.size();
     }
 
+    private TableRow<Recording> tableRowContextMenu () {
+        final TableRow<Recording> row = new TableRow<>();
+        final var rowMenu = new ContextMenu();
+
+        var editItem = new MenuItem("Edit");
+        var replaceItem = new MenuItem("Replace");
+        var removeItem = new MenuItem("Delete");
+        editItem.setOnAction(event -> editRecording(row));
+        replaceItem.setOnAction(event -> replaceRecording(row));
+        removeItem.setOnAction(event -> deleteRecording(row));
+        rowMenu.getItems().addAll(editItem, replaceItem, removeItem);
+
+        // display ContextMenu only for filled rows
+        row.contextMenuProperty().bind(
+                Bindings.when(row.emptyProperty())
+                        .then((ContextMenu) null)
+                        .otherwise(rowMenu));
+        return row;
+    }
+
+    /**
+     * Method for editing the time period of the recording
+     * @param row - the selected row in the table that contains the Recording
+     */
     private void editRecording(TableRow<Recording> row) {
-        row.getItem().getClass();
         // TODO change the start time or the duration of the recording
     }
 
+    /**
+     * Method for changing the task of the recording
+     * @param row - the selected row in the table that contains the Recording
+     */
     private void replaceRecording(TableRow<Recording> row) {
-        row.getItem().getClass();
         // TODO change the parent of the recording
     }
 
+    /**
+     * Method for deleting a recorded session
+     * @param row - the selected row in the table that contains the Recording
+     */
     private void deleteRecording(TableRow<Recording> row) {
         var task = row.getItem().getParentTask();
-        //task.getRecords().remove(row); ??
+        task.getRecordings().remove(row.getItem());
         table.getItems().remove(row.getItem());
-        // TODO delete also from the TaskTreeItem class
+        FileAccess.saveData();
     }
 }
