@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import data.tableview.AutoTrackData;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,7 +35,7 @@ public class AutotrackTabController {
 
     private Map<String, AutoTrackData> newList;
 
-    private Set<AutoTrackData> referenceSet = new HashSet<>();
+    ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
 
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -50,7 +51,20 @@ public class AutotrackTabController {
 
 
     public void loadProcesses() throws Exception {
+        switch (System.getProperty("os.name")) {
+            case "Windows 10":
+                loadProcessesWindows();
+                break;
+            case "linux":
+                loadProcessesLinux();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value!");
+        }
+    }
 
+
+    public void loadProcessesLinux() throws Exception {
         newList = new HashMap<>();
         String username = System.getProperty("user.name");
         try {
@@ -95,7 +109,6 @@ public class AutotrackTabController {
 
             ObservableList<AutoTrackData> helper = autoTable.getItems();
             List<AutoTrackData> conversionList = compareMap.values().stream().collect(Collectors.toList());
-            referenceSet.addAll(conversionList);
             helper.addAll(conversionList);
             autoTable.setItems(helper);
             baseList = newList;
@@ -105,4 +118,49 @@ public class AutotrackTabController {
         }
     }
 
+
+    public void loadProcessesWindows() {
+        newList = new HashMap<>();
+        Optional<String> currUser = ProcessHandle.current().info().user();
+        configureColumns();
+        ProcessHandle.allProcesses()
+                .filter(p1 -> p1.info().user().equals(currUser))
+                .forEach(p2 -> showProcess(p2, newList));
+
+        if (baseList.isEmpty()) {
+            baseList.putAll(newList);
+        }
+        Map<String, AutoTrackData> compareMap = new HashMap<>();
+        compareMap.putAll(baseList);
+        for (String oldKey : baseList.keySet()) {
+            for (String newKey : newList.keySet()) {
+                if (oldKey.equals(newKey)) {
+                    compareMap.remove(oldKey);
+                }
+            }
+        }
+        if (compareMap.isEmpty()) {
+            baseList = newList;
+            return;
+        }
+        List<AutoTrackData> conversionList = new ArrayList<>(compareMap.values());
+        helper.addAll(conversionList);
+        autoTable.setItems(helper);
+        baseList = newList;
+    }
+
+
+    static void showProcess(ProcessHandle ph, Map<String, AutoTrackData> newList) {
+        ProcessHandle.Info info = ph.info();
+        if (newList.containsKey(info.command().toString())) {
+            LocalTime duration = newList.get(info.command().toString()).getDuration();
+            duration = duration.plusSeconds(info.totalCpuDuration().get().toSeconds());
+            duration = duration.plusMinutes(info.totalCpuDuration().get().toMinutes());
+            duration = duration.plusHours(info.totalCpuDuration().get().toHours());
+            newList.get(info.command().toString()).setDuration(duration);
+        } else {
+            newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), LocalTime.of(info.totalCpuDuration().get().toHoursPart(), info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart())));
+        }
+
+    }
 }
