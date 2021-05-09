@@ -1,7 +1,6 @@
 package gui.popups.action.treeItemAction;
 
 import data.FileAccess;
-import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -34,13 +33,8 @@ public class ChangeTaskProjectPopup extends TreeItemPopup {
 
         window.setTitle("Change project for task");
 
-        ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
-        ProjectsTabController.getProjects().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
-        projectComboBox.getSelectionModel().select(selectedProject);
-        projectComboBox.setMaxWidth(Double.MAX_VALUE);
-
+        ComboBox<ProjectTreeItem> projectComboBox = addProjectComboBox(selectedProject);
         mainButtonFunctionality(changeProjectButton, window);
-
         projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> comboboxListener(changeProjectButton, newValue));
 
         cancelButton.setCancelButton(true);
@@ -59,7 +53,7 @@ public class ChangeTaskProjectPopup extends TreeItemPopup {
     @Override
     protected void mainButtonFunctionality(Button button, Stage stage) {
         super.mainButtonFunctionality(button, stage);
-        button.setOnAction(e -> {
+        button.setOnAction(event -> {
             ((ProjectTreeItem) treeItem.getParent()).removeJunior(selectedTask);
             selectedProject.addJunior(selectedTask);
             sortItems(selectedTask);

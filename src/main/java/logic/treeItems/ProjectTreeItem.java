@@ -103,7 +103,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
-     * @return - the name of the project (Needed for ComboBox in createTaskPopup)
+     * @return - the name of the project (Needed for ComboBox in ActionPopup)
      */
     @Override
     public String toString() {

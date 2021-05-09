@@ -94,6 +94,14 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     }
 
     /**
+     * @return - the name of the task (Needed for ComboBox in ChangeRecordingParentPopup)
+     */
+    @Override
+    public String toString() {
+        return this.getValue();
+    }
+
+    /**
      * @return - the type of the AbstractTreeItem as a String
      */
     @Override

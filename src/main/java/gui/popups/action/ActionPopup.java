@@ -1,8 +1,10 @@
 package gui.popups.action;
 
+import gui.controllers.ProjectsTabController;
 import gui.popups.AbstractPopup;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -10,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import logic.treeItems.ProjectTreeItem;
 
 public abstract class ActionPopup extends AbstractPopup {
 
@@ -61,6 +64,14 @@ public abstract class ActionPopup extends AbstractPopup {
         label.setWrapText(true);
         label.setTextAlignment(TextAlignment.CENTER);
         return label;
+    }
+
+    protected ComboBox<ProjectTreeItem> addProjectComboBox(ProjectTreeItem selectedProject) {
+        ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
+        ProjectsTabController.getProjects().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
+        projectComboBox.getSelectionModel().select(selectedProject);
+        projectComboBox.setMaxWidth(Double.MAX_VALUE);
+        return projectComboBox;
     }
 
     /**
