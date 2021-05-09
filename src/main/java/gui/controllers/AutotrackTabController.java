@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -50,76 +51,7 @@ public class AutotrackTabController {
     }
 
 
-    public void loadProcesses() throws Exception {
-        switch (System.getProperty("os.name")) {
-            case "Windows 10":
-                loadProcessesWindows();
-                break;
-            case "linux":
-                loadProcessesLinux();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value!");
-        }
-    }
-
-
-    public void loadProcessesLinux() throws Exception {
-        newList = new HashMap<>();
-        String username = System.getProperty("user.name");
-        try {
-            Process p = Runtime.getRuntime().exec("ps -u " + username);
-            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = input.readLine();
-            while ((line = input.readLine()) != null) {
-                String[] data = line.trim().replaceAll(" +", " ").split(" ");
-                if (newList.containsKey(data[3])) {
-                    LocalTime duration = newList.get(data[3]).getDuration();
-                    String[] timeStringSplitted = data[2].split(":");
-                    duration = duration.plusSeconds(Long.parseLong(timeStringSplitted[2]));
-                    duration = duration.plusMinutes(Long.parseLong(timeStringSplitted[1]));
-                    duration = duration.plusHours(Long.parseLong(timeStringSplitted[0]));
-                    newList.get(data[3]).setDuration(duration);
-                    continue;
-                }
-                LocalTime time = LocalTime.parse(data[2], dtf);
-                newList.put(data[3], new AutoTrackData(data[3], time));
-            }
-
-            if (baseList.isEmpty()) {
-                baseList.putAll(newList);
-            }
-            input.close();
-            configureColumns();
-            Map<String, AutoTrackData> compareMap = new HashMap<>();
-            compareMap.putAll(baseList);
-
-            for (String oldKey : baseList.keySet()) {
-                for (String newKey : newList.keySet()) {
-                    if (oldKey.equals(newKey)) {
-                        compareMap.remove(oldKey);
-                    }
-                }
-            }
-
-            if (compareMap.isEmpty()) {
-                baseList = newList;
-                return;
-            }
-
-            ObservableList<AutoTrackData> helper = autoTable.getItems();
-            List<AutoTrackData> conversionList = compareMap.values().stream().collect(Collectors.toList());
-            helper.addAll(conversionList);
-            autoTable.setItems(helper);
-            baseList = newList;
-
-        } catch (Exception err) {
-            throw new Exception(err);
-        }
-    }
-
-
-    public void loadProcessesWindows() {
+    public void loadProcesses() {
         newList = new HashMap<>();
         Optional<String> currUser = ProcessHandle.current().info().user();
         configureColumns();
@@ -164,3 +96,5 @@ public class AutotrackTabController {
 
     }
 }
+
+
