@@ -12,7 +12,7 @@
     <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="80.0" prefHeight="446.0" prefWidth="424.0" vbarPolicy="NEVER">
          <content>
-            <TableView fx:id="autoTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="423.0">
+            <TableView fx:id="autoTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#showContextMenu" prefHeight="447.0" prefWidth="423.0">
                <columns>
                   <TableColumn fx:id="timeColumn" editable="false" maxWidth="160.0" minWidth="48.0" prefWidth="121.0" text="TIME" />
                   <TableColumn fx:id="pathColumn" editable="false" maxWidth="360.0" minWidth="60.0" prefWidth="301.0" text="APP" />

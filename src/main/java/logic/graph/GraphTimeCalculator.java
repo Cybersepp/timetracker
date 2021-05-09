@@ -16,14 +16,24 @@ public class GraphTimeCalculator {
 
     }
 
-    public Map<String, Integer> findRecordsByDays(List<RecordEntryData> records) throws ParseException {
+    public Map<String, Integer> findRecordsByDays(List<RecordEntryData> records)  {
 
         Collections.sort(records, comparator.reversed());
         Map<String, Integer> projectData = new HashMap<>();
-        final Date initialDate = records.get(0).getDate();
+        Date initialDate;
+        try {
+            initialDate = records.get(0).getDate();
+        } catch (ParseException e) {
+            initialDate = new Date();
+        }
 
         for (RecordEntryData record : records) {
-            Date recordDate = record.getDate();
+            Date recordDate = null;
+            try {
+                recordDate = record.getDate();
+            } catch (ParseException e) {
+                continue;
+            }
             long diffInMillies = Math.abs(initialDate.getTime() - recordDate.getTime());
             long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 

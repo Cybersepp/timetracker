@@ -143,7 +143,7 @@ public class MainController {
                 currentTask.getRecords().add(recordInfo);
                 addToHistory(currentTask, record.getRecordStart(), record.getDurationInSec());
                 FileAccess.saveData();
-                historyTabController.showByTime(historyTabController.getRecordLenght());
+                historyTabController.showByTime(Integer.MAX_VALUE);
                 break;
         }
     }
@@ -227,7 +227,7 @@ public class MainController {
         historyTabController = loader.getController();
         historyTabController.init(this);
         rightWindow.getChildren().add(content);
-        historyTabController.showByTime(historyTabController.getRecordLenght());
+        historyTabController.showByTime(Integer.MAX_VALUE);
     }
 
     public void changeToAutotrackTab() {
@@ -247,6 +247,8 @@ public class MainController {
         rightWindow.getChildren().add(content);
         autotrackTab.setOpacity(0);
         autotrackTab.setDisable(true);
+        autotrackTabController = loader2.getController();
+        autotrackTabController.init(this);
     }
 }
 

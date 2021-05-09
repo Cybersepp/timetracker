@@ -100,7 +100,7 @@ public class HistoryTabController {
      * @param days is the given period to show.
      * @throws ParseException is thrown if can't parse the date.
      */
-    public void showByTime(int days) throws ParseException {
+    public void showByTime(int days)  {
         if (records.size() != 0) {
             List<RecordEntryData> copyForComputing = new ArrayList<>(records);
             GraphTimeCalculator calculator = new GraphTimeCalculator(days);

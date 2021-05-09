@@ -178,9 +178,7 @@ public class ProjectsTabController {
     }
 
     public void graphForAllTime() throws ParseException {
-        updateGraphLabel("All time");
-        HistoryTabController historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(historyTabController.getRecordLenght());
+        updateGraphByDays("All time", Integer.MAX_VALUE);
     }
 
     public void updateGraphLabel(String graphLabel) {

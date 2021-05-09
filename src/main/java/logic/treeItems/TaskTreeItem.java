@@ -82,4 +82,10 @@ public class TaskTreeItem extends AbstractTreeItem {
     public String toStringType() {
         return "task";
     }
+
+    public String toString() {
+        return this.getValue();
+    }
+
+
 }

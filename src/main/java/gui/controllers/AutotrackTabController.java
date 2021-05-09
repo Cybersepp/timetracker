@@ -1,21 +1,17 @@
 package gui.controllers;
 
+import data.FileAccess;
 import data.tableview.AutoTrackData;
+import gui.popups.action.AddToProjectPopup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Duration;
+import logic.treeItems.TaskTreeItem;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AutotrackTabController {
 
@@ -38,14 +34,17 @@ public class AutotrackTabController {
 
     ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
 
-    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private MainController mainController;
+
+    private HistoryTabController historyTabController;
+
 
 
     @FXML
     public void initialize() {
     }
 
-    public void configureColumns() {
+    private void configureColumns() {
         pathColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
     }
@@ -62,8 +61,7 @@ public class AutotrackTabController {
         if (baseList.isEmpty()) {
             baseList.putAll(newList);
         }
-        Map<String, AutoTrackData> compareMap = new HashMap<>();
-        compareMap.putAll(baseList);
+        Map<String, AutoTrackData> compareMap = new HashMap<>(baseList);
         for (String oldKey : baseList.keySet()) {
             for (String newKey : newList.keySet()) {
                 if (oldKey.equals(newKey)) {
@@ -82,19 +80,45 @@ public class AutotrackTabController {
     }
 
 
-    static void showProcess(ProcessHandle ph, Map<String, AutoTrackData> newList) {
+    private void showProcess(ProcessHandle ph, Map<String, AutoTrackData> newList) {
         ProcessHandle.Info info = ph.info();
         if (newList.containsKey(info.command().toString())) {
             LocalTime duration = newList.get(info.command().toString()).getDuration();
-            duration = duration.plusSeconds(info.totalCpuDuration().get().toSeconds());
-            duration = duration.plusMinutes(info.totalCpuDuration().get().toMinutes());
-            duration = duration.plusHours(info.totalCpuDuration().get().toHours());
-            newList.get(info.command().toString()).setDuration(duration);
+            if (info.totalCpuDuration().isPresent()) {
+                duration = duration.plusSeconds(info.totalCpuDuration().get().toSeconds());
+                duration = duration.plusMinutes(info.totalCpuDuration().get().toMinutes());
+                duration = duration.plusHours(info.totalCpuDuration().get().toHours());
+                newList.get(info.command().toString()).setDuration(duration);
+            }
         } else {
-            newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), LocalTime.of(info.totalCpuDuration().get().toHoursPart(), info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart())));
+            LocalTime duration = LocalTime.of(info.totalCpuDuration().get().toHoursPart(),
+                    info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart());
+            newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), duration));
         }
 
     }
+
+    public void showContextMenu()  {
+        AutoTrackData selectedItem = autoTable.getSelectionModel().getSelectedItem();
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem addToProjectMenuItem = new MenuItem("Add to project");
+        contextMenu.getItems().add(addToProjectMenuItem);
+        autoTable.setContextMenu(contextMenu);
+        addToProjectMenuItem.setOnAction(event -> {
+            AddToProjectPopup popup = new AddToProjectPopup(selectedItem);
+            popup.popup();
+            TaskTreeItem task = popup.addRecord();
+            mainController.addToHistory(task, selectedItem.getInitialDate(), String.valueOf(selectedItem.calculateDuration()));
+            FileAccess.saveData();
+            historyTabController.showByTime(Integer.MAX_VALUE);
+        });
+    }
+
+    public void init(MainController mainController) {
+        this.mainController = mainController;
+        historyTabController = mainController.getHistoryTabController();
+    }
+
 }
 
 
