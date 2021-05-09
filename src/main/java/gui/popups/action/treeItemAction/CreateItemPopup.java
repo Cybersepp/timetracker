@@ -1,4 +1,4 @@
-package gui.popups.action;
+package gui.popups.action.treeItemAction;
 
 import data.FileAccess;
 import javafx.geometry.Insets;
@@ -13,7 +13,7 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-public class CreateItemPopup extends ActionPopup {
+public class CreateItemPopup extends TreeItemPopup {
 
     public CreateItemPopup(AbstractTreeItem treeItem, String type) {
         super(treeItem, type);

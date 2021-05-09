@@ -1,7 +1,7 @@
 package logic.treeItems;
 
-import gui.popups.action.ChangeNamePopup;
-import gui.popups.action.CreateItemPopup;
+import gui.popups.action.treeItemAction.ChangeNamePopup;
+import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;

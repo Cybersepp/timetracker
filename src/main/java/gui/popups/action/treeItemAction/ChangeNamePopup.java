@@ -1,4 +1,4 @@
-package gui.popups.action;
+package gui.popups.action.treeItemAction;
 
 import data.FileAccess;
 import javafx.geometry.Insets;
@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.treeItems.AbstractTreeItem;
 
-public class ChangeNamePopup extends ActionPopup {
+public class ChangeNamePopup extends TreeItemPopup {
 
     public ChangeNamePopup(AbstractTreeItem treeItem) {
         super(treeItem, treeItem.toStringType());

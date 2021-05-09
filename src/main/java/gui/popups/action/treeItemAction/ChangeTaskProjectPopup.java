@@ -1,4 +1,4 @@
-package gui.popups.action;
+package gui.popups.action.treeItemAction;
 
 import data.FileAccess;
 import gui.controllers.ProjectsTabController;
@@ -10,7 +10,7 @@ import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-public class ChangeTaskProjectPopup extends ActionPopup{
+public class ChangeTaskProjectPopup extends TreeItemPopup {
 
     private ProjectTreeItem selectedProject;
     private final TaskTreeItem selectedTask;

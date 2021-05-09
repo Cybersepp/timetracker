@@ -2,8 +2,8 @@ package gui.controllers;
 
 import data.FileAccess;
 import data.Recording;
-import gui.popups.action.CreateItemPopup;
-import gui.popups.action.CreateTaskButtonPopup;
+import gui.popups.action.treeItemAction.CreateItemPopup;
+import gui.popups.action.treeItemAction.CreateTaskButtonPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;

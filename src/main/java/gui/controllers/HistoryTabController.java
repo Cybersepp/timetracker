@@ -2,6 +2,8 @@ package gui.controllers;
 
 import data.FileAccess;
 import data.Recording;
+import gui.popups.action.recordingAction.ChangeRecordingParentPopup;
+import gui.popups.action.recordingAction.EditRecordingTimePopup;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -125,11 +127,11 @@ public class HistoryTabController {
         final var rowMenu = new ContextMenu();
 
         var editItem = new MenuItem("Edit");
-        var replaceItem = new MenuItem("Replace");
+        var replaceItem = new MenuItem("Change task");
         var removeItem = new MenuItem("Delete");
-        editItem.setOnAction(event -> editRecording(row));
-        replaceItem.setOnAction(event -> replaceRecording(row));
-        removeItem.setOnAction(event -> deleteRecording(row));
+        editItem.setOnAction(event -> editRecording(row.getItem()));
+        replaceItem.setOnAction(event -> replaceRecording(row.getItem()));
+        removeItem.setOnAction(event -> deleteRecording(row.getItem()));
         rowMenu.getItems().addAll(editItem, replaceItem, removeItem);
 
         // display ContextMenu only for filled rows
@@ -142,28 +144,30 @@ public class HistoryTabController {
 
     /**
      * Method for editing the time period of the recording
-     * @param row - the selected row in the table that contains the Recording
+     * @param recording - the selected Recording in the table
      */
-    private void editRecording(TableRow<Recording> row) {
+    private void editRecording(Recording recording) {
+        new EditRecordingTimePopup(recording).popup();
         // TODO change the start time or the duration of the recording
     }
 
     /**
      * Method for changing the task of the recording
-     * @param row - the selected row in the table that contains the Recording
+     * @param recording - the selected Recording in the table
      */
-    private void replaceRecording(TableRow<Recording> row) {
+    private void replaceRecording(Recording recording) {
+        new ChangeRecordingParentPopup(recording).popup();
         // TODO change the parent of the recording
     }
 
     /**
      * Method for deleting a recorded session
-     * @param row - the selected row in the table that contains the Recording
+     * @param recording - the selected Recording in the table
      */
-    private void deleteRecording(TableRow<Recording> row) {
-        var task = row.getItem().getParentTask();
-        task.getRecordings().remove(row.getItem());
-        table.getItems().remove(row.getItem());
+    private void deleteRecording(Recording recording) {
+        var task = recording.getParentTask();
+        task.getRecordings().remove(recording);
+        table.getItems().remove(recording);
         FileAccess.saveData();
     }
 }
