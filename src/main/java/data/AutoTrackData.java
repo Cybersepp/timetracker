@@ -52,7 +52,6 @@ public class AutoTrackData {
         int seconds = duration.getSecond();
         int minutes = duration.getMinute();
         int hours = duration.getHour();
-        int total = seconds + minutes * 60 + hours * 60 * 60;
-        return total;
+        return seconds + minutes * 60 + hours * 60 * 60;
     }
 }
