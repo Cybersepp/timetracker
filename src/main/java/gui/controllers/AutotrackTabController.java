@@ -2,7 +2,7 @@ package gui.controllers;
 
 import data.FileAccess;
 import data.Recording;
-import data.tableview.AutoTrackData;
+import data.AutoTrackData;
 import gui.popups.action.treeItemAction.AddToProjectPopup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +24,7 @@ public class AutotrackTabController {
     private TableColumn<AutoTrackData, String> pathColumn;
 
     @FXML
-    private TableColumn<AutoTrackData, String> timeColumn;
+    private TableColumn<AutoTrackData, Integer> timeColumn;
 
     @FXML
     private TableView<AutoTrackData> autoTable;
@@ -98,7 +98,7 @@ public class AutotrackTabController {
         }
 
     }
-
+    // TODO Wont save time after adding record
     public void showContextMenu()  {
         AutoTrackData selectedItem = autoTable.getSelectionModel().getSelectedItem();
         ContextMenu contextMenu = new ContextMenu();

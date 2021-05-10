@@ -1,4 +1,4 @@
-package data.tableview;
+package data;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,6 +29,7 @@ public class AutoTrackData {
     public LocalTime getDuration() {
         return duration;
     }
+
 
     public void setDuration(LocalTime duration) {
         this.duration = duration;

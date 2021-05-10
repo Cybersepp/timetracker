@@ -1,7 +1,7 @@
 package gui.popups.action.treeItemAction;
 
 import data.Recording;
-import data.tableview.AutoTrackData;
+import data.AutoTrackData;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
