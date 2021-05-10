@@ -43,34 +43,3 @@ public class GraphTabController {
     }
 }
 
-
-// Obsolete method for updating the graph, though might need it later.
-   /* public void initUpdateGraph()  {
-        clearGraph();
-        RootTreeItem root = projectsTabController.getProjects();
-        List<ProjectTreeItem> projects = root.getJuniors();
-        projects.forEach(projectTreeItem -> {
-            XYChart.Series series = new XYChart.Series();
-            float projectTime = calculateProjectTime(projectTreeItem);
-            String projectName = projectTreeItem.getValue();
-            series.getData().add(new XYChart.Data(projectName, projectTime));
-            allSeries.add(series);
-            projectGraph.getData().add(series);
-
-        });
-    }
-
-    public float calculateProjectTime(ProjectTreeItem project) {
-
-        float time = 0;
-        List<TaskTreeItem> tasks = project.getJuniors();
-
-        for (TaskTreeItem task : tasks) {
-            List<String> records = task.getRecords();
-            for (String record : records) {
-                String[] recordData = record.split(",");
-                time += Float.parseFloat(recordData[2]);
-            }
-        }
-        return time;
-    }*/

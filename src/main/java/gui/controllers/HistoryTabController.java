@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import data.tableview.RecordEntryData;
 import data.FileAccess;
 import data.Recording;
 import gui.popups.action.recordingAction.ChangeRecordingParentPopup;
@@ -14,7 +15,6 @@ import logic.graph.GraphTimeCalculator;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +98,8 @@ public class HistoryTabController {
      * @param days is the given period to show.
      * @throws ParseException is thrown if can't parse the date.
      */
-    public void showByTime(int days) throws ParseException {
+
+    public void showByTime(int days) {
         if (!records.isEmpty()) {
             List<Recording> copyForComputing = new ArrayList<>(records);
             var calculator = new GraphTimeCalculator(days);

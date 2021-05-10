@@ -2,11 +2,15 @@ package gui.controllers;
 
 import data.DataHandler;
 import data.FileAccess;
+import data.Record;
+import data.tableview.RecordEntryData;
 import data.Recording;
 import gui.popups.notification.ErrorPopup;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +20,7 @@ import javafx.util.Duration;
 import logic.timer.Timer;
 import logic.treeItems.TaskTreeItem;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 /**
@@ -38,14 +43,21 @@ public class MainController {
     @FXML
     private HistoryTabController historyTabController;
 
+    @FXML
+    private AutotrackTabController autotrackTabController;
+
 
     // ---- WINDOWS ----
 
     @FXML
     private AnchorPane graphTab;
 
-    @FXML
     private AnchorPane historyTab;
+
+    private AnchorPane autotrackTab;
+
+    @FXML
+    private AnchorPane rightWindow;
 
 
     // ---- UI ELEMENTS ----
@@ -62,6 +74,9 @@ public class MainController {
     @FXML
     private Rectangle timeLine;
 
+    @FXML
+    private Button autotrackButton;
+
     Timer timer = null;
 
     FillTransition fill = null;
@@ -73,13 +88,11 @@ public class MainController {
     private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize() throws ParseException {
-        // I know it's retarded, sorry.
-        historyTabController.init(this);
+    private void initialize() throws ParseException, IOException {
         projectsTabController.init(this);
-        historyTab.setOpacity(0);
-        historyTab.setDisable(true);
-        historyTabController.showByTime(historyTabController.getRecordLength());
+        injectHistoryTab();
+        injectAutotrackTab();
+
     }
     // ---- GETTERS FOR CONTROLLERS ----
     // If history tab controller wants to communicate with graph tab controller,
@@ -155,7 +168,7 @@ public class MainController {
         currentTask.getRecordings().add(recording);
         addToHistory(recording);
         FileAccess.saveData();
-        historyTabController.showByTime(historyTabController.getRecordLength());
+        historyTabController.showByTime(Integer.MAX_VALUE);
     }
 
 
@@ -163,7 +176,6 @@ public class MainController {
      * If button shows "History", then change window from Graph tab to History tab and vice versa.
      */
     public void changeHistoryAndGraph() {
-
         switch (historyAndGraphButton.getText()) {
             case "GRAPH":
                 changeRightWindow(historyTab, graphTab);
@@ -178,11 +190,13 @@ public class MainController {
 
     /**
      * Method for switching between tabs of the AnchorPane "rightSideWindow".
+     *
      * @param tabToRemove AnchorPane to be removed.
      * @param tabToAdd    AnchorPane to be added.
      */
     public void changeRightWindow(AnchorPane tabToRemove, AnchorPane tabToAdd) {
-        // I know it's retarded. sorry.
+        autotrackTab.setDisable(true);
+        autotrackTab.setOpacity(0);
         tabToRemove.setOpacity(0);
         tabToRemove.setDisable(true);
         tabToAdd.setOpacity(1);
@@ -218,6 +232,40 @@ public class MainController {
      */
     public void addToHistory(Recording recording) {
         historyTabController.addRecord(recording);
+    }
+
+    public void injectHistoryTab() throws IOException, ParseException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/gui/HistoryTab.fxml"));
+        Parent content = loader.load();
+        historyTab = (AnchorPane) content;
+        historyTab.setDisable(true);
+        historyTab.setOpacity(0);
+        historyTabController = loader.getController();
+        historyTabController.init(this);
+        rightWindow.getChildren().add(content);
+        historyTabController.showByTime(Integer.MAX_VALUE);
+    }
+
+    public void changeToAutotrackTab() {
+        historyTab.setDisable(true);
+        historyTab.setOpacity(0);
+        graphTab.setDisable(true);
+        graphTab.setOpacity(0);
+        autotrackTab.setOpacity(1);
+        autotrackTab.setDisable(false);
+    }
+
+    public void injectAutotrackTab() throws IOException {
+        FXMLLoader loader2 = new FXMLLoader();
+        loader2.setLocation(getClass().getResource("/gui/AutotrackTab.fxml"));
+        Parent content = loader2.load();
+        autotrackTab = (AnchorPane) content;
+        rightWindow.getChildren().add(content);
+        autotrackTab.setOpacity(0);
+        autotrackTab.setDisable(true);
+        autotrackTabController = loader2.getController();
+        autotrackTabController.init(this);
     }
 }
 

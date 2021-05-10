@@ -96,7 +96,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     }
 
     /**
-     * @return - the name of the task (Needed for ComboBox in ChangeRecordingParentPopup)
+     * @return - the name of the task (Needed for ComboBox)
      */
     @Override
     public String toString() {
@@ -110,7 +110,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     public String toStringType() {
         return "task";
     }
-
+  
     /**
      * Method that sorts all Tasks in a way stated in the compareTo method
      */

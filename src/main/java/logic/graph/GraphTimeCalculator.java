@@ -1,5 +1,6 @@
 package logic.graph;
 
+import data.tableview.RecordEntryData;
 import data.Recording;
 import java.text.ParseException;
 import java.util.*;
@@ -20,16 +21,26 @@ public class GraphTimeCalculator {
      * @return - Returns a Map with each project with the time spent on the project
      * @throws ParseException - Throws ParseException if parsing the Date from the Recording class fails
      */
-    public Map<String, Integer> findRecordsByDays(List<Recording> recordings) throws ParseException {
+    public Map<String, Integer> findRecordsByDays(List<Recording> recordings) {
 
         recordings.sort(comparator.reversed());
         Map<String, Integer> projectData = new HashMap<>();
-        final var initialDate = recordings.get(0).getDate();
+        var initialDate;
+        try {
+            initialDate = records.get(0).getDate();
+        } catch (ParseException e) {
+            initialDate = new Date();
+        }
 
         for (Recording recording : recordings) {
-            var recordDate = recording.getDate();
-            long diffInMillis = Math.abs(initialDate.getTime() - recordDate.getTime());
-            long diff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+            var recordDate = null;
+            try {
+                recordDate = recording.getDate();
+            } catch (ParseException e) {
+                continue;
+            }
+            long diffInMillies = Math.abs(initialDate.getTime() - recordDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
             if (diff > days) {
                 break;
