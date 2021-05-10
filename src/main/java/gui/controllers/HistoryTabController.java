@@ -1,15 +1,19 @@
 package gui.controllers;
 
-import data.RecordEntryData;
+import data.FileAccess;
+import data.Recording;
+import gui.popups.action.recordingAction.ChangeRecordingParentPopup;
+import gui.popups.action.recordingAction.EditRecordingTimePopup;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import logic.treeItems.*;
 import logic.graph.GraphTimeCalculator;
+import logic.treeItems.ProjectTreeItem;
+import logic.treeItems.RootTreeItem;
+import logic.treeItems.TaskTreeItem;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,19 +23,19 @@ import java.util.Map;
 public class HistoryTabController {
 
     @FXML
-    private TableView<RecordEntryData> table;
+    private TableView<Recording> table;
 
     @FXML
-    private TableColumn<RecordEntryData, String> projectColumn;
+    private TableColumn<Recording, String> projectColumn;
 
     @FXML
-    private TableColumn<RecordEntryData, String> taskColumn;
+    private TableColumn<Recording, String> taskColumn;
 
     @FXML
-    private TableColumn<RecordEntryData, String> startColumn;
+    private TableColumn<Recording, String> startColumn;
 
     @FXML
-    private TableColumn<RecordEntryData, Integer> durationColumn;
+    private TableColumn<Recording, Integer> durationColumn;
 
     @FXML
     private Label historyLabel;
@@ -40,7 +44,7 @@ public class HistoryTabController {
 
     private MainController mainController;
 
-    ObservableList<RecordEntryData> records = FXCollections.observableArrayList();
+    ObservableList<Recording> records = FXCollections.observableArrayList();
 
     /**
      * Upon initialization it reads required data for populating history overview from each project,
@@ -50,25 +54,19 @@ public class HistoryTabController {
         RootTreeItem root = ProjectsTabController.getProjects();
         List<ProjectTreeItem> projects = root.getJuniors();
 
+        // FIXME instead of iterating through it here can we for example iterate it with reading from file
         for (ProjectTreeItem project : projects) {
             List<TaskTreeItem> tasks = project.getJuniors();
 
             for (TaskTreeItem task : tasks) {
-                String projectName = task.getParent().getValue();
-                String taskName = task.getValue();
-                List<String> entries = task.getRecords();
-
-                for (String record : entries) {
-                    String[] splittedRecord = record.split(", ");
-                    String start = splittedRecord[0];
-                    String duration = splittedRecord[2];
-                    records.add(new RecordEntryData(projectName, taskName, start, duration));
-                }
+                List<Recording> recordings = task.getRecordings();
+                this.records.addAll(recordings);
             }
         }
         configureColumns();
         table.setItems(records);
         table.getSortOrder().setAll(startColumn);
+        table.setRowFactory(tableView -> tableRowContextMenu());
     }
 
 
@@ -88,7 +86,7 @@ public class HistoryTabController {
     public void configureColumns() {
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("recordStart"));
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationInSec"));
     }
 
@@ -101,11 +99,11 @@ public class HistoryTabController {
      * @throws ParseException is thrown if can't parse the date.
      */
     public void showByTime(int days) throws ParseException {
-        if (records.size() != 0) {
-            List<RecordEntryData> copyForComputing = new ArrayList<>(records);
-            GraphTimeCalculator calculator = new GraphTimeCalculator(days);
+        if (!records.isEmpty()) {
+            List<Recording> copyForComputing = new ArrayList<>(records);
+            var calculator = new GraphTimeCalculator(days);
             Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
-            GraphTabController graphTabController = mainController.getGraphTabController();
+            var graphTabController = mainController.getGraphTabController();
             graphTabController.updateGraph(lastWeekProjectData);
         }
     }
@@ -115,12 +113,61 @@ public class HistoryTabController {
      *
      * @param record is data object to be added.
      */
-    public void addRecord(RecordEntryData record) {
+    public void addRecord(Recording record) {
         records.add(record);
         table.getSortOrder().setAll(startColumn);
     }
 
-    public int getRecordLenght() {
+    public int getRecordLength() {
         return records.size();
+    }
+
+    private TableRow<Recording> tableRowContextMenu () {
+        final TableRow<Recording> row = new TableRow<>();
+        final var rowMenu = new ContextMenu();
+
+        var editItem = new MenuItem("Edit");
+        var replaceItem = new MenuItem("Change task");
+        var removeItem = new MenuItem("Delete");
+        editItem.setOnAction(event -> editRecording(row.getItem()));
+        replaceItem.setOnAction(event -> replaceRecording(row.getItem()));
+        removeItem.setOnAction(event -> deleteRecording(row.getItem()));
+        rowMenu.getItems().addAll(editItem, replaceItem, removeItem);
+
+        // display ContextMenu only for filled rows
+        row.contextMenuProperty().bind(
+                Bindings.when(row.emptyProperty())
+                        .then((ContextMenu) null)
+                        .otherwise(rowMenu));
+        return row;
+    }
+
+    /**
+     * Method for editing the time period of the recording
+     * @param recording - the selected Recording in the table
+     */
+    private void editRecording(Recording recording) {
+        new EditRecordingTimePopup(recording).popup();
+        table.refresh();
+    }
+
+    /**
+     * Method for changing the task of the recording
+     * @param recording - the selected Recording in the table
+     */
+    private void replaceRecording(Recording recording) {
+        new ChangeRecordingParentPopup(recording).popup();
+        table.refresh();
+    }
+
+    /**
+     * Method for deleting a recorded session
+     * @param recording - the selected Recording in the table
+     */
+    private void deleteRecording(Recording recording) {
+        var task = recording.getParentTask();
+        task.getRecordings().remove(recording);
+        table.getItems().remove(recording);
+        FileAccess.saveData();
     }
 }

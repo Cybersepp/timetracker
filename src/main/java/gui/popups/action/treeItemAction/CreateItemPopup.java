@@ -1,10 +1,9 @@
-package gui.popups.action;
+package gui.popups.action.treeItemAction;
 
 import data.FileAccess;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
@@ -14,7 +13,7 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-public class CreateItemPopup extends ActionPopup {
+public class CreateItemPopup extends TreeItemPopup {
 
     public CreateItemPopup(AbstractTreeItem treeItem, String type) {
         super(treeItem, type);
@@ -25,22 +24,21 @@ public class CreateItemPopup extends ActionPopup {
      */
     @Override
     public void popup() {
-        Stage window = addStage();
+        var window = addStage();
+        var createButton = addButton("Create " + type);
+        var cancelButton = addButton("Cancel");
+        var label = this.addLabel("Name your " + type);
+        var textField = addTextField();
+
         window.setTitle("Create a " + type);
 
-        Button createButton = addButton("Create " + type);
-        Button cancelButton = addButton("Cancel");
-
-        Label label = this.addLabel("Name your " + type);
-        TextField textField = addTextField();
         textField.textProperty().addListener((observable, oldValue, newValue) -> textFieldListener(createButton, textField, newValue));
 
         mainButtonFunctionality(createButton, window, textField);
-        createButton.setDefaultButton(true);
         cancelButton.setCancelButton(true);
         cancelButton.setOnAction(event -> window.close());
 
-        VBox display = addVBox(new Node[]{label, textField, createButton, cancelButton});
+        var display = addVBox(new Node[]{label, textField, createButton, cancelButton});
         VBox.setMargin(textField,new Insets(15, 0, 30, 0));
 
         setScene(window, display);
@@ -48,6 +46,8 @@ public class CreateItemPopup extends ActionPopup {
 
     /**
      * Creates a new child for the chosen item.
+     * @param button the default button
+     * @param stage the Stage that everything is happening in
      * @param textField input field for the name of the child
      */
     @Override
@@ -60,6 +60,7 @@ public class CreateItemPopup extends ActionPopup {
             else if (treeItem.getClass().equals(ProjectTreeItem.class)) {
                 createTaskLeaf((ProjectTreeItem) treeItem, textField);
             }
+            sortItems(treeItem);
             FileAccess.saveData();
             stage.close();
         });
@@ -71,7 +72,7 @@ public class CreateItemPopup extends ActionPopup {
      * @param textField the text field where the name for the new project is entered
      */
     private void createProjectBranch(RootTreeItem root, TextField textField){
-        ProjectTreeItem newProject = new ProjectTreeItem(textField.getText().trim());
+        var newProject = new ProjectTreeItem(textField.getText().trim());
         root.addJunior(newProject);
     }
 
@@ -81,10 +82,16 @@ public class CreateItemPopup extends ActionPopup {
      * @param textField the text field where the name for the new task is entered
      */
     private void createTaskLeaf(ProjectTreeItem project, TextField textField) {
-        TaskTreeItem newTask = new TaskTreeItem(textField.getText().trim());
+        var newTask = new TaskTreeItem(textField.getText().trim());
         project.addJunior(newTask);
     }
 
+    /**
+     * Listener that makes sure that the user can not enter a task or project with an existing or empty name
+     * @param mainButton - the button that's state is going to be set
+     * @param textField - the textField to be listened to
+     * @param newValue - the new value of the textField item
+     */
     private void textFieldListener(Button mainButton, TextField textField, String newValue){
         final var sameName = treeItem.getChildren().stream()
                 .filter(stringTreeItem -> stringTreeItem.getValue().equals(textField.getText().trim()))

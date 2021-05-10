@@ -20,17 +20,26 @@ public class Timer {
         this.timerLabel = label;
     }
 
+    /**
+     * Method to start the timer
+     */
     public void startTimer() {
         timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
+    /**
+     * Method to change the timer label to the current time spent on recording
+     */
     private void incrementTime() {
         time = time.plusSeconds(1);
         timerLabel.setText(time.format(dtf));
     }
 
+    /**
+     * Method to stop the timer
+     */
     public void endTimer() {
         timeline.stop();
         time = LocalTime.parse("00:00:00");
