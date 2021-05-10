@@ -3,14 +3,12 @@ package gui.popups.action.recordingAction;
 import data.FileAccess;
 import data.Recording;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.converter.DateTimeStringConverter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class EditRecordingTimePopup extends RecordingPopup {
 
@@ -24,25 +22,29 @@ public class EditRecordingTimePopup extends RecordingPopup {
         var format = new SimpleDateFormat("HH:mm:ss");
 
         var startLabel = addLabel("Start time:");
-        var startDatePicker = new DatePicker();
+        var startDatePicker = addDatePicker();
         var startTimeField = addTextField(format);
         var startHBox = addHBox(new Node[] {startDatePicker, startTimeField});
 
         var endLabel = addLabel("End time: ");
-        var endDatePicker = new DatePicker();
+        var endDatePicker = addDatePicker();
         var endTimeField = addTextField(format);
         var endHBox = addHBox(new Node[] {endDatePicker, endTimeField});
 
         var mainButton = addButton("Change recording time");
         var cancelButton = addButton("Cancel");
 
-        // TODO maybe set default values to the calendar depending on the recording at hand
+        // default values for fields
+        startDatePicker.setValue(recording.getRecordStartInLocalDateTime().toLocalDate());
+        endDatePicker.setValue(recording.getRecordStartInLocalDateTime().toLocalDate());
+        startTimeField.setText(String.valueOf(recording.getRecordStartInLocalDateTime().toLocalTime()));
+        endTimeField.setText(String.valueOf(recording.getRecordEndInLocalDateTime().toLocalTime()));
+
+        // adding listeners
         startDatePicker.valueProperty().addListener(event -> datePickerListener(startDatePicker, endDatePicker, mainButton, startTimeField, endTimeField));
         endDatePicker.valueProperty().addListener(event -> datePickerListener(startDatePicker, endDatePicker, mainButton, startTimeField, endTimeField));
         startTimeField.textProperty().addListener(event -> datePickerListener(startDatePicker, endDatePicker, mainButton, startTimeField, endTimeField));
         endTimeField.textProperty().addListener(event -> datePickerListener(startDatePicker, endDatePicker, mainButton, startTimeField, endTimeField));
-        
-        // TODO also do cell factory
 
         window.setTitle("Edit recording time");
 
@@ -76,10 +78,28 @@ public class EditRecordingTimePopup extends RecordingPopup {
         try {
             textField.setTextFormatter(new TextFormatter<>(new DateTimeStringConverter(format), format.parse("00:00:00")));
         } catch (ParseException e) {
-            //TODO think what to do here
+            //TODO think what to do here -- needs to be changed
             throw new RuntimeException();
         }
         return textField;
+    }
+
+    private DatePicker addDatePicker(){
+        var datePicker = new DatePicker();
+        datePickerCellFactory(datePicker);
+        return datePicker;
+    }
+
+    private void datePickerCellFactory(DatePicker datePicker) {
+        datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                var today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) > 0 );
+            }
+        });
     }
 
     private void mainButtonOnAction(Stage stage, DatePicker startDatePicker, DatePicker endDatePicker, TextField startTimeField, TextField endTimeField) {
@@ -90,7 +110,8 @@ public class EditRecordingTimePopup extends RecordingPopup {
     }
 
     private void mainButtonFunctionality(Button button, Stage stage, DatePicker startDatePicker, DatePicker endDatePicker, TextField startTimeField, TextField endTimeField) {
-        super.mainButtonFunctionality(button, stage);
+        button.setDefaultButton(true);
+        button.setStyle("-fx-background-color: #00B5FE");
         button.setOnAction(event -> mainButtonOnAction(stage, startDatePicker, endDatePicker, startTimeField, endTimeField));
     }
 }

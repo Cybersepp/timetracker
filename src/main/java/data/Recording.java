@@ -31,6 +31,10 @@ public class Recording {
         return recordStart.format(dateTimeFormat);
     }
 
+    public LocalDateTime getRecordStartInLocalDateTime() {
+        return recordStart;
+    }
+
     public void setRecordStart() {
         this.recordStart = LocalDateTime.now();
     }
@@ -48,6 +52,10 @@ public class Recording {
 
     public String getRecordEnd() {
         return recordEnd.format(dateTimeFormat);
+    }
+
+    public LocalDateTime getRecordEndInLocalDateTime() {
+        return recordEnd;
     }
 
     public void setRecordEnd() {

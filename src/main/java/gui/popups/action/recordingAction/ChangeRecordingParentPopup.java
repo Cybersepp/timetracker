@@ -36,7 +36,7 @@ public class ChangeRecordingParentPopup extends RecordingPopup {
         projectComboBox.valueProperty().addListener((observable, oldValue, newValue) -> projectComboboxListener(taskComboBox, newValue, mainButton));
         taskComboBox.valueProperty().addListener((observable, oldValue, newValue) -> taskComboboxListener(newValue, mainButton));
 
-        window.setTitle("Change task");
+        window.setTitle("Change recording's task");
 
         mainButtonFunctionality(mainButton, window);
         cancelButton.setOnAction(event -> window.close());
