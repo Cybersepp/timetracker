@@ -83,6 +83,7 @@ public class ChangeRecordingParentPopup extends RecordingPopup {
     }
 
     private void mainButtonListener(Stage stage) {
+        recording.setParentTask(selectedTask);
         FileAccess.saveData();
         stage.close();
     }

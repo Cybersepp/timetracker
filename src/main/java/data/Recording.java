@@ -88,6 +88,8 @@ public class Recording {
     public String getProjectName() {return getParentProject().getValue();}
 
     public void setParentTask(TaskTreeItem parentTask) {
+        this.parentTask.getRecordings().remove(this);
+        parentTask.getRecordings().add(this);
         this.parentTask = parentTask;
     }
 

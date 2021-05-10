@@ -46,20 +46,26 @@ public class ChangeTaskProjectPopup extends TreeItemPopup {
     }
 
     /**
-     * Action that changes the parent project of the chosen task
+     * Main button configuration and functionality
      * @param button - the default button
      * @param stage the Stage that everything is happening in
      */
     @Override
     protected void mainButtonFunctionality(Button button, Stage stage) {
         super.mainButtonFunctionality(button, stage);
-        button.setOnAction(event -> {
-            ((ProjectTreeItem) treeItem.getParent()).removeJunior(selectedTask);
-            selectedProject.addJunior(selectedTask);
-            sortItems(selectedTask);
-            FileAccess.saveData();
-            stage.close();
-        });
+        button.setOnAction(event -> mainButtonAction(stage));
+    }
+
+    /**
+     * Main button functionality that changes the parent project of the chosen task
+     * @param stage
+     */
+    private void mainButtonAction(Stage stage) {
+        ((ProjectTreeItem) treeItem.getParent()).removeJunior(selectedTask);
+        selectedProject.addJunior(selectedTask);
+        sortItems(selectedTask);
+        FileAccess.saveData();
+        stage.close();
     }
 
     /**

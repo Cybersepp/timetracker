@@ -148,7 +148,7 @@ public class HistoryTabController {
      */
     private void editRecording(Recording recording) {
         new EditRecordingTimePopup(recording).popup();
-        // TODO change the start time or the duration of the recording
+        table.refresh();
     }
 
     /**
@@ -157,7 +157,7 @@ public class HistoryTabController {
      */
     private void replaceRecording(Recording recording) {
         new ChangeRecordingParentPopup(recording).popup();
-        // TODO change the parent of the recording
+        table.refresh();
     }
 
     /**

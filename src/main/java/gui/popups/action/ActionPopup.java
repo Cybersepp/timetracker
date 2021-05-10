@@ -66,6 +66,11 @@ public abstract class ActionPopup extends AbstractPopup {
         return label;
     }
 
+    /**
+     * Method for creating a comboBox with all the existing non-archived projects
+     * @param selectedProject - the project that is going to be selected at start
+     * @return Configured comboBox that is filled with data
+     */
     protected ComboBox<ProjectTreeItem> addProjectComboBox(ProjectTreeItem selectedProject) {
         ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
         ProjectsTabController.getProjects().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
@@ -93,5 +98,15 @@ public abstract class ActionPopup extends AbstractPopup {
         button.setDefaultButton(true);
         button.setDisable(true);
         button.setStyle("-fx-background-color: #00B5FE");
+    }
+
+    /**
+     * Listener for setting the maximum length characters typed inside the TextField
+     * @param textField - the TextField to be listened to
+     */
+    protected void textFieldLengthListener(TextField textField, int maxLength){
+        if (textField.getText().length() >= maxLength) {
+            textField.setText(textField.getText().substring(0, maxLength));
+        }
     }
 }
