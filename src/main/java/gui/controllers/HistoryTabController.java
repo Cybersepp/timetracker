@@ -1,6 +1,5 @@
 package gui.controllers;
 
-import data.tableview.RecordEntryData;
 import data.FileAccess;
 import data.Recording;
 import gui.popups.action.recordingAction.ChangeRecordingParentPopup;

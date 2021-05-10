@@ -1,5 +1,6 @@
-package gui.popups.action;
+package gui.popups.action.treeItemAction;
 
+import data.Recording;
 import data.tableview.AutoTrackData;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
@@ -12,7 +13,7 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-public class AddToProjectPopup extends ActionPopup {
+public class AddToProjectPopup extends TreeItemPopup {
 
     private ProjectTreeItem project;
     private TaskTreeItem task;
@@ -72,9 +73,9 @@ public class AddToProjectPopup extends ActionPopup {
     }
 
     public TaskTreeItem addRecord() {
-        String stopDate = selectedItem.getInitialDate();
-        String record = stopDate + ", " + stopDate + ", " + selectedItem.calculateDuration();
-        task.getRecords().add(record);
+        var recording = new Recording(task, selectedItem.calculateDuration());
+        recording.setRecordEnd(selectedItem.getInitialDate());
+        task.getRecordings().add(recording);
         return task;
     }
 }

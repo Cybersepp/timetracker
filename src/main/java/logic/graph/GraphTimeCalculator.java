@@ -1,6 +1,5 @@
 package logic.graph;
 
-import data.tableview.RecordEntryData;
 import data.Recording;
 import java.text.ParseException;
 import java.util.*;
@@ -25,15 +24,15 @@ public class GraphTimeCalculator {
 
         recordings.sort(comparator.reversed());
         Map<String, Integer> projectData = new HashMap<>();
-        var initialDate;
+        Date initialDate;
         try {
-            initialDate = records.get(0).getDate();
+            initialDate = recordings.get(0).getDate();
         } catch (ParseException e) {
             initialDate = new Date();
         }
 
         for (Recording recording : recordings) {
-            var recordDate = null;
+            Date recordDate;
             try {
                 recordDate = recording.getDate();
             } catch (ParseException e) {

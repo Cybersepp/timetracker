@@ -2,8 +2,6 @@ package gui.controllers;
 
 import data.DataHandler;
 import data.FileAccess;
-import data.Record;
-import data.tableview.RecordEntryData;
 import data.Recording;
 import gui.popups.notification.ErrorPopup;
 import javafx.animation.Animation;

@@ -1,8 +1,9 @@
 package gui.controllers;
 
 import data.FileAccess;
+import data.Recording;
 import data.tableview.AutoTrackData;
-import gui.popups.action.AddToProjectPopup;
+import gui.popups.action.treeItemAction.AddToProjectPopup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -108,7 +109,9 @@ public class AutotrackTabController {
             AddToProjectPopup popup = new AddToProjectPopup(selectedItem);
             popup.popup();
             TaskTreeItem task = popup.addRecord();
-            mainController.addToHistory(task, selectedItem.getInitialDate(), String.valueOf(selectedItem.calculateDuration()));
+            var recording = new Recording(task, selectedItem.calculateDuration());
+            recording.setRecordEnd(selectedItem.getInitialDate());
+            mainController.addToHistory(recording);
             FileAccess.saveData();
             historyTabController.showByTime(Integer.MAX_VALUE);
         });

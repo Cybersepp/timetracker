@@ -27,6 +27,11 @@ public class Recording {
         this.parentTask = parentTask;
     }
 
+    public Recording(TaskTreeItem parentTask, int durationInSec) {
+        this.durationInSec = durationInSec;
+        this.parentTask = parentTask;
+    }
+
     public String getRecordStart() {
         return recordStart.format(dateTimeFormat);
     }
