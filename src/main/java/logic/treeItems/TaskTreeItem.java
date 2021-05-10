@@ -1,14 +1,17 @@
 package logic.treeItems;
 
+import data.FileAccess;
+import data.Recording;
+import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskTreeItem extends AbstractTreeItem {
+public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>{
 
     private boolean done = false;
-    private List<String> records = new ArrayList<>();
+    private List<Recording> recordings = new ArrayList<>();
 
     public boolean isDone() {
         return done;
@@ -18,30 +21,28 @@ public class TaskTreeItem extends AbstractTreeItem {
         this.done = done;
     }
 
-    public List<String> getRecords() {
-        return records;
+    public List<Recording> getRecordings() {
+        return recordings;
     }
 
-    // ------------------ Constructor for creating a task while reading from file -------------------
-    public TaskTreeItem(String value, boolean archived, boolean done, List<String> records) {
-        super(value);
-        this.archived = archived;
-        this.done = done;
-        this.records = records;
+    public ProjectTreeItem getParentProject() {
+        return (ProjectTreeItem) this.getParent();
     }
 
-    // ------------ Constructor for creating a task ---------------
     public TaskTreeItem(String value) {
         super(value);
     }
+
+    //TODO MenuItem addRecording
 
     // ------------------ GUI ----------------------
     /**
      * Creates a ContextMenuItem with the functionality to mark the task as done
      * @return MenuItem with the needed functionality and text display
      */
-    private MenuItem markAsDone() {
-        MenuItem markAsDone = new MenuItem("Mark as done");
+    private MenuItem markAsDone(String label) {
+        // TODO mark task as done and cross it out
+        var markAsDone = new MenuItem(label);
         markAsDone.setOnAction(e -> {
             if (isDone()) {
                 this.setValue(this.getValue().substring(5));
@@ -51,11 +52,23 @@ public class TaskTreeItem extends AbstractTreeItem {
                 this.setValue("Done " + this.getValue());
                 this.setDone(true);
             }
-            // TODO mark task as done and cross it out
-            // TODO done tasks should not be able to add any recordings
-            // TODO crossed out tasks should be at the end of the project's task list
+            this.organizeView();
+            FileAccess.saveData();
         });
         return markAsDone;
+    }
+
+    /**
+     * Creates a ContextMenuItem with the functionality to move a task from one project to another
+     * @return MenuItem with the needed functionality
+     */
+    private MenuItem moveToAnotherProject() {
+        var moveToAnother = new MenuItem("Change project");
+        moveToAnother.setOnAction(event -> {
+            new ChangeTaskProjectPopup(this, toStringType()).popup();
+            this.organizeView();
+        });
+        return moveToAnother;
     }
 
     /**
@@ -71,8 +84,23 @@ public class TaskTreeItem extends AbstractTreeItem {
             return new ContextMenu(changeName, deleteTask);
 
         }
-        MenuItem markAsDone = this.markAsDone();
-        return new ContextMenu(changeName, deleteTask, markAsDone);
+        MenuItem markAsDone;
+        if (this.isDone()) {
+            markAsDone = this.markAsDone("Reactivate task");
+        }
+        else {
+            markAsDone = this.markAsDone("Complete task");
+        }
+
+        return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
+    }
+
+    /**
+     * @return - the name of the task (Needed for ComboBox)
+     */
+    @Override
+    public String toString() {
+        return this.getValue();
     }
 
     /**
@@ -82,10 +110,31 @@ public class TaskTreeItem extends AbstractTreeItem {
     public String toStringType() {
         return "task";
     }
-
-    public String toString() {
-        return this.getValue();
+  
+    /**
+     * Method that sorts all Tasks in a way stated in the compareTo method
+     */
+    @Override
+    public void organizeView() {
+        //sorts tasks
+        this.getParentProject().organizeView();
     }
 
-
+    /**
+     * Method for comparing task names with each other alphabetically and also with the "done" state
+     * @param o - comparable task
+     * @return a negative integer, zero, or a positive integer as this task is less than, equal to, or greater than the specified task.
+     */
+    @Override
+    public int compareTo(TaskTreeItem o) {
+        if (this.isDone() && o.isDone() || !this.isDone() && !o.isDone()) {
+            return this.getValue().compareTo(o.getValue());
+        }
+        if (this.isDone()) {
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
 }

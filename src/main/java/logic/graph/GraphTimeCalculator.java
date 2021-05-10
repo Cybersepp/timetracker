@@ -1,7 +1,7 @@
 package logic.graph;
 
 import data.tableview.RecordEntryData;
-
+import data.Recording;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -9,28 +9,33 @@ import java.util.concurrent.TimeUnit;
 public class GraphTimeCalculator {
 
     private final int days;
-    private final Comparator<RecordEntryData> comparator = Comparator.comparing(RecordEntryData::getStart);
+    private final Comparator<Recording> comparator = Comparator.comparing(Recording::getRecordStart);
 
     public GraphTimeCalculator(int days) {
         this.days = days;
-
     }
 
-    public Map<String, Integer> findRecordsByDays(List<RecordEntryData> records)  {
+    /**
+     * Method for finding the recordings before a certain amount of days
+     * @param recordings - List of all the recordings
+     * @return - Returns a Map with each project with the time spent on the project
+     * @throws ParseException - Throws ParseException if parsing the Date from the Recording class fails
+     */
+    public Map<String, Integer> findRecordsByDays(List<Recording> recordings) {
 
-        Collections.sort(records, comparator.reversed());
+        recordings.sort(comparator.reversed());
         Map<String, Integer> projectData = new HashMap<>();
-        Date initialDate;
+        var initialDate;
         try {
             initialDate = records.get(0).getDate();
         } catch (ParseException e) {
             initialDate = new Date();
         }
 
-        for (RecordEntryData record : records) {
-            Date recordDate = null;
+        for (Recording recording : recordings) {
+            var recordDate = null;
             try {
-                recordDate = record.getDate();
+                recordDate = recording.getDate();
             } catch (ParseException e) {
                 continue;
             }
@@ -41,8 +46,8 @@ public class GraphTimeCalculator {
                 break;
             }
             
-            int time = projectData.getOrDefault(record.getProjectName(), 0);
-            projectData.put(record.getProjectName(), record.getDurationInSec() + time);
+            int time = projectData.getOrDefault(recording.getParentProject().getValue(), 0);
+            projectData.put(recording.getParentProject().getValue(), recording.getDurationInSec() + time);
         }
         return projectData;
     }

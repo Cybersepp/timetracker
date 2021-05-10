@@ -5,11 +5,10 @@ import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectTreeItem extends AbstractTreeItem {
+public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>{
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
@@ -18,7 +17,6 @@ public class ProjectTreeItem extends AbstractTreeItem {
      * @param newRoot either "archived root" or "active projects root" with type RootTreeItem
      */
     public void setArchived(RootTreeItem newRoot) {
-        // TODO archived projects should be made unable to start recordings
         RootTreeItem formerParent = (RootTreeItem) this.getParent();
         formerParent.removeJunior(this);
         newRoot.addJunior(this);
@@ -26,6 +24,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
         for(TaskTreeItem task : this.getJuniors()) {
             task.setArchived(newRoot.isArchived());
         }
+        this.getParentRoot().organizeView();
         FileAccess.saveData();
     }
 
@@ -34,8 +33,9 @@ public class ProjectTreeItem extends AbstractTreeItem {
         return juniors;
     }
 
-    // TODO Should we override List add and remove (and also quite many methods more) so the following two methods would not be needed?
-    // TODO ProjectTreeItem and RootTreeItem should use the same method not two different ones. How can we do this?
+    public RootTreeItem getParentRoot() {
+        return (RootTreeItem) this.getParent();
+    }
 
     /**
      * Adds a task to the juniors Arraylist and also adds the task to the GUI TreeView children Observable list
@@ -55,14 +55,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
         this.getChildren().remove(junior);
     }
 
-    // ---------- Constructor for reading from file ------------------
-    public ProjectTreeItem(String value, List<TaskTreeItem> juniors, boolean archived) {
-        super(value);
-        this.juniors = juniors;
-        this.archived = archived;
-    }
-
-    // ---------- Constructor for creating a project ------------------
+    // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
         super(value);
     }
@@ -74,7 +67,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem archive() {
-        MenuItem archive = new MenuItem("Archive");
+        var archive = new MenuItem("Archive");
         archive.setOnAction(e -> setArchived(ProjectsTabController.getArchived()));
         return archive;
     }
@@ -84,7 +77,7 @@ public class ProjectTreeItem extends AbstractTreeItem {
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem unArchive() {
-        MenuItem unArchive = new MenuItem("Unarchive");
+        var unArchive = new MenuItem("Unarchive");
         unArchive.setOnAction(e -> setArchived(ProjectsTabController.getProjects()));
         return unArchive;
     }
@@ -110,9 +103,8 @@ public class ProjectTreeItem extends AbstractTreeItem {
     }
 
     /**
-     * @return - the name of the project (Needed for ComboBox in createTaskPopup)
+     * @return - the name of the project (Needed for ComboBox in ActionPopup)
      */
-    //TODO try to go around this method, i don't like this
     @Override
     public String toString() {
         return this.getValue();
@@ -124,5 +116,26 @@ public class ProjectTreeItem extends AbstractTreeItem {
     @Override
     public String toStringType() {
         return "project";
+    }
+
+    /**
+     * Method that organizes all the tasks in a way stated in the TaskTreeItem compareTo method
+     */
+    //TODO can you also sort ObservableList without removing and adding everything back?
+    @Override
+    public void organizeView() {
+        this.getJuniors().sort(TaskTreeItem::compareTo);
+        this.getChildren().removeAll(this.getChildren());
+        this.getChildren().addAll(juniors);
+    }
+
+    /**
+     * Method for comparing project names with each other alphabetically
+     * @param o - comparable project
+     * @return a negative integer, zero, or a positive integer as this project is less than, equal to, or greater than the specified project.
+     */
+    @Override
+    public int compareTo(ProjectTreeItem o) {
+        return this.getValue().compareTo(o.getValue());
     }
 }

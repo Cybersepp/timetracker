@@ -11,10 +11,7 @@ import logic.treeItems.TaskTreeItem;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FileAccess {
 
@@ -22,9 +19,14 @@ public class FileAccess {
         // util methods
     }
 
+    //TODO Would be nice if you could somehow append a single thing somewhere in the data.json for example a task to an existing project
+    // - Is it possible?
+    // - Is it necessary?
+    // - How much time would it save?
+    // - Thinking about it because if there are loads of recordings, would the constant overwriting of data make it too slow?
     public static void saveData() {
         try {
-            Map<String, Object> dataMap = new HashMap<>();
+            Map<String, Object> dataMap = new LinkedHashMap<>();
 
             List<ProjectTreeItem> currentProjects = new ArrayList<>(ProjectsTabController.getProjects().getJuniors());
             currentProjects.addAll(ProjectsTabController.getArchived().getJuniors());
@@ -42,27 +44,16 @@ public class FileAccess {
     }
 
     public static Map<String, Object> getProjectMap(ProjectTreeItem project) {
-        Map<String, Object> taskMap = new HashMap<>();
+        Map<String, Object> taskMap = new LinkedHashMap<>();
 
-        List<TaskTreeItem> projectTasks = project.getJuniors();
-
-        taskMap.put("isArchived", project.isArchived());
         taskMap.put("Tasks", getTaskMap(project));
+        taskMap.put("isArchived", project.isArchived());
 
         return taskMap;
     }
 
-    public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
-        Map<String, Object> taskAttributesMap = new HashMap<>();
-
-        taskAttributesMap.put("isDone", task.isDone());
-        taskAttributesMap.put("Records", task.getRecords());
-
-        return taskAttributesMap;
-    }
-
     public static Map<String, Map<String, Object>> getTaskMap(ProjectTreeItem project) {
-        Map<String, Map<String, Object>> taskMap = new HashMap<>();
+        Map<String, Map<String, Object>> taskMap = new LinkedHashMap<>();
         List<TaskTreeItem> projectTaskList = project.getJuniors();
 
         projectTaskList.forEach((t -> taskMap.put(t.getValue(), getTaskAttributesMap(t))));
@@ -70,15 +61,35 @@ public class FileAccess {
         return taskMap;
     }
 
+    public static Map<String, Object> getTaskAttributesMap(TaskTreeItem task) {
+        Map<String, Object> taskAttributesMap = new LinkedHashMap<>();
+
+        taskAttributesMap.put("isDone", task.isDone());
+
+        var recordings = new ArrayList<String>();
+        for (Recording recording : task.getRecordings()) {
+            recordings.add(recording.getRecordInfo());
+        }
+        taskAttributesMap.put("Records", recordings);
+
+        return taskAttributesMap;
+    }
+
+    //FIXME idk if this is the best way for this - made by Richard
+    public static Map<String, String> getRecordAttributesMap(TaskTreeItem task) {
+        Map<String, String> recordMap = new HashMap<>();
+
+        var recordings = task.getRecordings();
+        recordings.forEach((recording -> recordMap.put("Record", recording.getRecordInfo())));
+        //FIXME this might be broken
+        return recordMap;
+    }
+
     public static Map<String, Map<String, Object>> getProjectData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            //TODO check if the file exists and then return null here instead of Exception
-
-
-            return objectMapper.readValue(Paths.get("data.json").toFile(),
-                    new TypeReference<>() {
-                    });
+            //FIXME check if the file exists and then return null here instead of Exception
+            return objectMapper.readValue(Paths.get("data.json").toFile(), new TypeReference<>(){});
         } catch (IOException e) {
             return null;
             // TODO Should it also have a WarningPopup occur if some exception other than no file found occurs?

@@ -1,8 +1,9 @@
 package gui.controllers;
 
 import data.FileAccess;
-import gui.popups.action.CreateItemPopup;
-import gui.popups.action.CreateTaskButtonPopup;
+import data.Recording;
+import gui.popups.action.treeItemAction.CreateItemPopup;
+import gui.popups.action.treeItemAction.CreateTaskButtonPopup;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -11,8 +12,6 @@ import javafx.scene.input.KeyCode;
 import logic.commands.delete.DeleteProjectCommand;
 import logic.commands.delete.DeleteTaskCommand;
 import logic.treeItems.*;
-import logic.treeItems.TreeCellFactory;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,10 +48,6 @@ public class ProjectsTabController {
     private MenuItem allTime;
 
     private MainController mainController;
-
-    private HistoryTabController historyTabController;
-
-    private GraphTabController graphTabController;
 
 
     @FXML
@@ -104,7 +99,9 @@ public class ProjectsTabController {
                 projects.addJunior(project);
                 // GOOD
 
-                projectMap.forEach((projectAttr, value) -> {
+                for (Map.Entry<String, Object> entry : projectMap.entrySet()) {
+                    String projectAttr = entry.getKey();
+                    Object value = entry.getValue();
                     switch (projectAttr) {
                         case "isArchived":
                             if ((boolean) value) {
@@ -113,9 +110,9 @@ public class ProjectsTabController {
                             break;
                         case "Tasks":
                             initializeTasks(project, (HashMap<String, Object>) value);
-                        default:
+                            break;
                     }
-                });
+                }
             });
 
         }
@@ -135,7 +132,18 @@ public class ProjectsTabController {
                         taskItem.setDone(false);
                         break;
                     case "Records":
-                        taskItem.getRecords().addAll((ArrayList<String>) value);
+                        //TODO could be optimized if the json file would be changed a bit
+                        var recordingInfo = (ArrayList<String>) value;
+                        var recordings = new ArrayList<Recording>();
+                        for (String info : recordingInfo) {
+                            var split = info.split(", ");
+                            var recording = new Recording(taskItem);
+                            recording.setRecordStart(split[0]);
+                            recording.setRecordEnd(split[1]);
+                            recordings.add(recording);
+                        }
+
+                        taskItem.getRecordings().addAll(recordings);
                         break;
                     default:
                 }
@@ -182,13 +190,13 @@ public class ProjectsTabController {
     }
 
     public void updateGraphLabel(String graphLabel) {
-        graphTabController = mainController.getGraphTabController();
+        var graphTabController = mainController.getGraphTabController();
         graphTabController.setGraphLabel(graphLabel);
     }
 
     public void updateGraphByDays(String graphLabel, int days) throws ParseException {
         updateGraphLabel(graphLabel);
-        historyTabController = mainController.getHistoryTabController();
+        var historyTabController = mainController.getHistoryTabController();
         historyTabController.showByTime(days);
     }
 

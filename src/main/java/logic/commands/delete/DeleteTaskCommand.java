@@ -29,7 +29,7 @@ public class DeleteTaskCommand implements Command {
      */
     @Override
     public void commandControl() {
-        if (task.getRecords().isEmpty()) {
+        if (task.getRecordings().isEmpty()) {
             this.command();
         }
         else {
