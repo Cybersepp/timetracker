@@ -17,10 +17,6 @@ import java.text.ParseException;
  */
 public class MainController {
 
-
-    //TODO bad practice "hiding" tabs from the user by simply disabling window/button and setting opacity to 0, need
-    // to change
-
     // ---- CONTROLLER INSTANCES ----
 
     @FXML
@@ -113,7 +109,7 @@ public class MainController {
         if ("RECORD".equals(text)) {
             mainTabService.startRecordingButton(projectsTabController);
         } else if ("END".equals(text)) {
-            mainTabService.endRecordingButton(historyTabController);
+            mainTabService.endRecordingButton(historyTabController, graphTabController);
         }
     }
 
@@ -141,9 +137,8 @@ public class MainController {
         historyTab.setDisable(true);
         historyTab.setOpacity(0);
         historyTabController = loader.getController();
-        historyTabController.init(this);
         rightWindow.getChildren().add(content);
-        historyTabController.showByTime(Integer.MAX_VALUE);
+        historyTabController.showByTime(Integer.MAX_VALUE, graphTabController);
     }
 
     public void changeToAutotrackTab() {

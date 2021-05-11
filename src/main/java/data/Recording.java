@@ -29,11 +29,10 @@ public class Recording {
         this.parentTask = parentTask;
     }
 
-    public Recording(TaskTreeItem parentTask, int durationInSec) {
-        this.durationInSec = durationInSec;
+    public Recording(TaskTreeItem parentTask, LocalDateTime recordStart, LocalDateTime recordEnd) {
         this.parentTask = parentTask;
-        this.recordEnd = LocalDateTime.now();
-        this.recordStart = LocalDateTime.now();
+        this.recordStart = recordStart;
+        this.recordEnd = recordEnd;
     }
 
     public String getRecordStart() {
@@ -87,11 +86,7 @@ public class Recording {
     }
 
     private void setDuration() {
-        try {
-            this.durationInSec = (int) ChronoUnit.SECONDS.between(recordStart, recordEnd);
-        } catch (NullPointerException noStartingDate) {
-            return;
-        }
+        this.durationInSec = (int) ChronoUnit.SECONDS.between(recordStart, recordEnd);
     }
 
     public TaskTreeItem getParentTask() {

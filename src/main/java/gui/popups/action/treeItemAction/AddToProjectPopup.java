@@ -1,7 +1,9 @@
 package gui.popups.action.treeItemAction;
 
+import data.FileAccess;
 import data.Recording;
 import data.AutoTrackData;
+import gui.controllers.MainController;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,10 +18,12 @@ public class AddToProjectPopup extends TreeItemPopup {
     private ProjectTreeItem project;
     private TaskTreeItem task;
     private final AutoTrackData selectedItem;
+    private final MainController mainController;
 
-    public AddToProjectPopup(AutoTrackData selectedItem) {
+    public AddToProjectPopup(AutoTrackData selectedItem, MainController mainController) {
         super(ProjectsTabController.getActiveRoot(), "task");
         this.selectedItem = selectedItem;
+        this.mainController = mainController;
     }
 
     @Override
@@ -62,16 +66,15 @@ public class AddToProjectPopup extends TreeItemPopup {
 
     protected void mainButtonFunctionality(Button button, Stage stage) {
         super.mainButtonFunctionality(button, stage);
-        button.setOnAction(event -> {
-            stage.close();
-            addRecord();
-        });
+        button.setOnAction(event -> addRecord(stage));
     }
 
-    public TaskTreeItem addRecord() {
-        var recording = new Recording(task, selectedItem.calculateDuration());
-        recording.setRecordEnd(selectedItem.getInitialDate());
+    private void addRecord(Stage stage) {
+        var recording = new Recording(task, selectedItem.getStartTime(),selectedItem.getEndTime());
+        recording.setRecordEnd();
         task.getRecordings().add(recording);
-        return task;
+        mainController.getMainTabService().addToHistory(mainController.getHistoryTabController(), recording);
+        stage.close();
+        FileAccess.saveData();
     }
 }

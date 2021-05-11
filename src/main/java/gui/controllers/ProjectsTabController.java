@@ -96,11 +96,10 @@ public class ProjectsTabController {
         var graphTabController = mainController.getGraphTabController();
         graphTabController.setGraphLabel(graphLabel);
     }
-
     public void updateGraphByDays(String graphLabel, int days){
         updateGraphLabel(graphLabel);
         var historyTabController = mainController.getHistoryTabController();
-        historyTabController.showByTime(days);
+        historyTabController.showByTime(days, mainController.getGraphTabController());
     }
 
 }

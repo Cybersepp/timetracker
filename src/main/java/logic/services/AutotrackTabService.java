@@ -1,8 +1,6 @@
 package logic.services;
 
 import data.AutoTrackData;
-import data.FileAccess;
-import data.Recording;
 import gui.controllers.HistoryTabController;
 import gui.controllers.MainController;
 import gui.popups.action.treeItemAction.AddToProjectPopup;
@@ -13,8 +11,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import logic.treeItems.TaskTreeItem;
-
 import java.time.LocalTime;
 import java.util.*;
 
@@ -37,13 +33,8 @@ public class AutotrackTabService implements Service{
         contextMenu.getItems().add(addToProjectMenuItem);
         autoTable.setContextMenu(contextMenu);
         addToProjectMenuItem.setOnAction(event -> {
-            var popup = new AddToProjectPopup(selectedItem);
-            popup.popup();
-            TaskTreeItem task = popup.addRecord();
-            var recording = new Recording(task, selectedItem.calculateDuration());
-            mainController.getMainTabService().addToHistory(historyTabController, recording);
-            FileAccess.saveData();
-            historyTabController.showByTime(Integer.MAX_VALUE);
+            new AddToProjectPopup(selectedItem, mainController).popup();
+            historyTabController.showByTime(Integer.MAX_VALUE, mainController.getGraphTabController());
         });
     }
 
@@ -92,7 +83,6 @@ public class AutotrackTabService implements Service{
                     info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart());
             newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), duration));
         }
-
     }
 
     private void configureColumns(TableColumn<AutoTrackData, String> pathColumn, TableColumn<AutoTrackData, Integer> timeColumn) {

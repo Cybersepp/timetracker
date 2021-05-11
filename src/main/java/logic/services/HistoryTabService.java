@@ -2,6 +2,7 @@ package logic.services;
 
 import data.FileAccess;
 import data.Recording;
+import gui.controllers.GraphTabController;
 import gui.controllers.ProjectsTabController;
 import gui.popups.action.recordingAction.ChangeRecordingParentPopup;
 import gui.popups.action.recordingAction.EditRecordingTimePopup;
@@ -10,10 +11,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import logic.graph.GraphTimeCalculator;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HistoryTabService implements Service {
 
@@ -128,5 +133,20 @@ public class HistoryTabService implements Service {
 
     public void initializeData() {
         initializeTableView();
+    }
+
+    /**
+     * Method showByTime updates the graph for a certain time period in days.
+     * Counting in descending order from the method call day.
+     * Efficient method, since it sorts list by date and then starts from the initial date.
+     * @param days is the given period to show.
+     */
+    public void showByTime(int days, GraphTabController graphTabController) {
+        if (!getRecords().isEmpty()) {
+            List<Recording> copyForComputing = new ArrayList<>(getRecords());
+            var calculator = new GraphTimeCalculator(days);
+            Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
+            graphTabController.updateGraph(lastWeekProjectData);
+        }
     }
 }

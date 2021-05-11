@@ -3,6 +3,7 @@ package logic.services;
 import data.DataHandler;
 import data.FileAccess;
 import data.Recording;
+import gui.controllers.GraphTabController;
 import gui.controllers.HistoryTabController;
 import gui.controllers.ProjectsTabController;
 import gui.popups.notification.ErrorPopup;
@@ -57,7 +58,7 @@ public class MainTabService implements Service{
      * Method for ending a recording
      * @throws ParseException is thrown if can't parse string to date format.
      */
-    public void endRecordingButton(HistoryTabController historyTabController) throws ParseException {
+    public void endRecordingButton(HistoryTabController historyTabController, GraphTabController graphTabController) throws ParseException {
         TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
         recordButton.setText("RECORD");
         recording.setRecordEnd();
@@ -65,7 +66,7 @@ public class MainTabService implements Service{
         currentTask.getRecordings().add(recording);
         addToHistory(historyTabController, recording);
         FileAccess.saveData();
-        historyTabController.showByTime(Integer.MAX_VALUE);
+        historyTabController.showByTime(Integer.MAX_VALUE, graphTabController);
     }
 
 

@@ -4,11 +4,7 @@ import data.Recording;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import logic.graph.GraphTimeCalculator;
 import logic.services.HistoryTabService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class HistoryTabController {
 
@@ -27,8 +23,6 @@ public class HistoryTabController {
     @FXML
     private TableColumn<Recording, Integer> durationColumn;
 
-    private MainController mainController;
-
     private HistoryTabService historyTabService;
 
     /**
@@ -38,16 +32,6 @@ public class HistoryTabController {
     public void initialize() {
         historyTabService = new HistoryTabService(table, projectColumn, taskColumn, startColumn, durationColumn);
         historyTabService.initializeData();
-    }
-
-
-    /**
-     * In order for historyTabController to know its parent controller, main controller passes itself
-     * to its subcontrollers.
-     * @param main
-     */
-    public void init(MainController main) {
-        mainController = main;
     }
 
     /**
@@ -62,16 +46,9 @@ public class HistoryTabController {
      * Method showByTime updates the graph for a certain time period in days.
      * Counting in descending order from the method call day.
      * Efficient method, since it sorts list by date and then starts from the initial date.
-     *
      * @param days is the given period to show.
      */
-    public void showByTime(int days) {
-        if (!historyTabService.getRecords().isEmpty()) {
-            List<Recording> copyForComputing = new ArrayList<>(historyTabService.getRecords());
-            var calculator = new GraphTimeCalculator(days);
-            Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
-            var graphTabController = mainController.getGraphTabController();
-            graphTabController.updateGraph(lastWeekProjectData);
-        }
+    public void showByTime(int days, GraphTabController graphTabController) {
+        historyTabService.showByTime(days, graphTabController);
     }
 }
