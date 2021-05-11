@@ -25,6 +25,8 @@ public class Recording {
     public Recording(TaskTreeItem parentTask, int durationInSec) {
         this.durationInSec = durationInSec;
         this.parentTask = parentTask;
+        this.recordEnd = LocalDateTime.now();
+        this.recordStart = LocalDateTime.now();
     }
 
     public String getRecordStart() {
@@ -78,7 +80,11 @@ public class Recording {
     }
 
     private void setDuration() {
-        this.durationInSec = (int) ChronoUnit.SECONDS.between(recordStart, recordEnd);
+        try {
+            this.durationInSec = (int) ChronoUnit.SECONDS.between(recordStart, recordEnd);
+        } catch (NullPointerException noStartingDate) {
+            return;
+        }
     }
 
     public TaskTreeItem getParentTask() {

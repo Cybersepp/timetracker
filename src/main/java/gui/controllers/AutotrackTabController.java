@@ -80,7 +80,6 @@ public class AutotrackTabController {
         baseList = newList;
     }
 
-
     private void showProcess(ProcessHandle ph, Map<String, AutoTrackData> newList) {
         ProcessHandle.Info info = ph.info();
         if (newList.containsKey(info.command().toString())) {
@@ -110,7 +109,6 @@ public class AutotrackTabController {
             popup.popup();
             TaskTreeItem task = popup.addRecord();
             var recording = new Recording(task, selectedItem.calculateDuration());
-            recording.setRecordEnd(selectedItem.getInitialDate());
             mainController.addToHistory(recording);
             FileAccess.saveData();
             historyTabController.showByTime(Integer.MAX_VALUE);
