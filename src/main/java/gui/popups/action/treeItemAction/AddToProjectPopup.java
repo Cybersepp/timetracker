@@ -18,7 +18,7 @@ public class AddToProjectPopup extends TreeItemPopup {
     private final AutoTrackData selectedItem;
 
     public AddToProjectPopup(AutoTrackData selectedItem) {
-        super(ProjectsTabController.getProjects(), "task");
+        super(ProjectsTabController.getActiveRoot(), "task");
         this.selectedItem = selectedItem;
     }
 

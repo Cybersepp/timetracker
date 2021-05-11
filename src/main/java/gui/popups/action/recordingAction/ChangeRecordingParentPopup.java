@@ -50,7 +50,7 @@ public class ChangeRecordingParentPopup extends RecordingPopup {
     @Override
     protected ComboBox<ProjectTreeItem> addProjectComboBox(ProjectTreeItem selectedProject) {
         var projectComboBox = super.addProjectComboBox(selectedProject);
-        ProjectsTabController.getArchived().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
+        ProjectsTabController.getArchivedRoot().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
         return projectComboBox;
     }
 

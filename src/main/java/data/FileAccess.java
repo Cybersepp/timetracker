@@ -28,8 +28,8 @@ public class FileAccess {
         try {
             Map<String, Object> dataMap = new LinkedHashMap<>();
 
-            List<ProjectTreeItem> currentProjects = new ArrayList<>(ProjectsTabController.getProjects().getJuniors());
-            currentProjects.addAll(ProjectsTabController.getArchived().getJuniors());
+            List<ProjectTreeItem> currentProjects = new ArrayList<>(ProjectsTabController.getActiveRoot().getJuniors());
+            currentProjects.addAll(ProjectsTabController.getArchivedRoot().getJuniors());
 
             for (ProjectTreeItem project : currentProjects) {
                 dataMap.put(project.getValue(), getProjectMap(project));
