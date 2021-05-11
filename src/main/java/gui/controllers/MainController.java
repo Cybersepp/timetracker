@@ -86,7 +86,7 @@ public class MainController {
     private final DataHandler dataHandler = new DataHandler();
 
     @FXML
-    private void initialize() throws ParseException, IOException {
+    private void initialize() throws IOException {
         projectsTabController.init(this);
         injectHistoryTab();
         injectAutotrackTab();
@@ -232,7 +232,7 @@ public class MainController {
         historyTabController.addRecord(recording);
     }
 
-    public void injectHistoryTab() throws IOException, ParseException {
+    public void injectHistoryTab() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/gui/HistoryTab.fxml"));
         Parent content = loader.load();
