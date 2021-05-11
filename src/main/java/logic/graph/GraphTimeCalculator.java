@@ -1,9 +1,9 @@
 package logic.graph;
 
 import data.Recording;
-import java.text.ParseException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class GraphTimeCalculator {
 
@@ -18,30 +18,18 @@ public class GraphTimeCalculator {
      * Method for finding the recordings before a certain amount of days
      * @param recordings - List of all the recordings
      * @return - Returns a Map with each project with the time spent on the project
-     * @throws ParseException - Throws ParseException if parsing the Date from the Recording class fails
      */
     public Map<String, Integer> findRecordsByDays(List<Recording> recordings) {
 
         recordings.sort(comparator.reversed());
         Map<String, Integer> projectData = new HashMap<>();
-        Date initialDate;
-        try {
-            initialDate = recordings.get(0).getDate();
-        } catch (ParseException e) {
-            initialDate = new Date();
-        }
+        var initialDate = LocalDateTime.now();
 
         for (Recording recording : recordings) {
-            Date recordDate;
-            try {
-                recordDate = recording.getDate();
-            } catch (ParseException e) {
-                continue;
-            }
-            long diffInMillies = Math.abs(initialDate.getTime() - recordDate.getTime());
-            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            var recordDate = recording.getRecordStartInLocalDateTime();
+            long diffInDays = Duration.between(recordDate, initialDate).toDays();
 
-            if (diff > days) {
+            if (diffInDays > days) {
                 break;
             }
             

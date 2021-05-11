@@ -2,13 +2,9 @@ package data;
 
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 /**
  * Recording is class which holds a recording's data and also populates history tab's table view.
@@ -21,7 +17,6 @@ public class Recording {
     private TaskTreeItem parentTask;
 
     private final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public Recording(TaskTreeItem parentTask) {
         this.parentTask = parentTask;
@@ -104,10 +99,6 @@ public class Recording {
         this.parentTask.getRecordings().remove(this);
         parentTask.getRecordings().add(this);
         this.parentTask = parentTask;
-    }
-
-    public Date getDate() throws ParseException {
-        return dateFormat.parse(getRecordStart().split(" ")[0]);
     }
 
     public String getRecordInfo() {

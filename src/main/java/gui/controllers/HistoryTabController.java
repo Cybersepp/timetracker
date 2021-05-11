@@ -65,7 +65,6 @@ public class HistoryTabController {
      *
      * @param days is the given period to show.
      */
-
     public void showByTime(int days) {
         if (!historyTabService.getRecords().isEmpty()) {
             List<Recording> copyForComputing = new ArrayList<>(historyTabService.getRecords());
