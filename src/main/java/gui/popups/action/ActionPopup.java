@@ -73,7 +73,7 @@ public abstract class ActionPopup extends AbstractPopup {
      */
     protected ComboBox<ProjectTreeItem> addProjectComboBox(ProjectTreeItem selectedProject) {
         ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
-        ProjectsTabController.getProjects().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
+        ProjectsTabController.getActiveRoot().getJuniors().forEach(projectTreeItem -> projectComboBox.getItems().add(projectTreeItem));
         projectComboBox.getSelectionModel().select(selectedProject);
         projectComboBox.setMaxWidth(Double.MAX_VALUE);
         return projectComboBox;

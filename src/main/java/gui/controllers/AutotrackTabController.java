@@ -2,7 +2,7 @@ package gui.controllers;
 
 import data.FileAccess;
 import data.Recording;
-import data.tableview.AutoTrackData;
+import data.AutoTrackData;
 import gui.popups.action.treeItemAction.AddToProjectPopup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

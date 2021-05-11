@@ -50,7 +50,7 @@ public class HistoryTabController {
      * task and record object and creates a new data object.
      */
     public void initialize() {
-        RootTreeItem root = ProjectsTabController.getProjects();
+        RootTreeItem root = ProjectsTabController.getActiveRoot();
         List<ProjectTreeItem> projects = root.getJuniors();
 
         // FIXME instead of iterating through it here can we for example iterate it with reading from file

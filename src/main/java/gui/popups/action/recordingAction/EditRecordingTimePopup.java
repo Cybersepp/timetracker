@@ -39,8 +39,8 @@ public class EditRecordingTimePopup extends RecordingPopup {
         // default values for fields
         startDatePicker.setValue(recording.getRecordStartInLocalDateTime().toLocalDate());
         endDatePicker.setValue(recording.getRecordEndInLocalDateTime().toLocalDate());
-        startTimeField.setText(recording.getRecordStartInLocalDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-        endTimeField.setText(recording.getRecordEndInLocalDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        startTimeField.setText(recording.getRecordStartInLocalDateTime().toLocalTime().format(DateTimeFormatter.ofPattern(timeFormat.toPattern())));
+        endTimeField.setText(recording.getRecordEndInLocalDateTime().toLocalTime().format(DateTimeFormatter.ofPattern(timeFormat.toPattern())));
 
         // adding listeners
         startDatePicker.valueProperty().addListener(event -> datePickerListener(startDatePicker, endDatePicker, mainButton, startTimeField, endTimeField));

@@ -16,7 +16,7 @@ public class CreateTaskButtonPopup extends TreeItemPopup {
     private ProjectTreeItem project;
 
     public CreateTaskButtonPopup() {
-        super(ProjectsTabController.getProjects(), "task");
+        super(ProjectsTabController.getActiveRoot(), "task");
     }
 
     /**

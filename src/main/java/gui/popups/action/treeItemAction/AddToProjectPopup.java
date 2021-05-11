@@ -1,7 +1,7 @@
 package gui.popups.action.treeItemAction;
 
 import data.Recording;
-import data.tableview.AutoTrackData;
+import data.AutoTrackData;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,7 +18,7 @@ public class AddToProjectPopup extends TreeItemPopup {
     private final AutoTrackData selectedItem;
 
     public AddToProjectPopup(AutoTrackData selectedItem) {
-        super(ProjectsTabController.getProjects(), "task");
+        super(ProjectsTabController.getActiveRoot(), "task");
         this.selectedItem = selectedItem;
     }
 
