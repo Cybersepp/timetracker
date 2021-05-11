@@ -57,7 +57,7 @@ public class ProjectTabService implements Service{
     }
     private void initializeTasks(ProjectTreeItem projectTreeItem, HashMap<String, Object> tasks) {
         tasks.forEach((task, taskInfo) -> {
-            TaskTreeItem taskItem = new TaskTreeItem(task);
+            var taskItem = new TaskTreeItem(task);
             HashMap<String, Object> taskHash = (HashMap<String, Object>) taskInfo;
 
             taskHash.forEach((taskAttr, value) -> {
@@ -75,9 +75,7 @@ public class ProjectTabService implements Service{
                         var recordings = new ArrayList<Recording>();
                         for (String info : recordingInfo) {
                             var split = info.split(", ");
-                            var recording = new Recording(taskItem);
-                            recording.setRecordStart(split[0]);
-                            recording.setRecordEnd(split[1]);
+                            var recording = new Recording(taskItem, split[0], split[1], Integer.parseInt(split[2]));
                             recordings.add(recording);
                         }
 

@@ -18,6 +18,13 @@ public class Recording {
 
     private final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    public Recording( TaskTreeItem parentTask, String recordStart, String recordEnd, int durationInSec) {
+        this.recordStart = LocalDateTime.parse(recordStart, dateTimeFormat);
+        this.recordEnd = LocalDateTime.parse(recordEnd, dateTimeFormat);
+        this.durationInSec = durationInSec;
+        this.parentTask = parentTask;
+    }
+
     public Recording(TaskTreeItem parentTask) {
         this.parentTask = parentTask;
     }
@@ -113,6 +120,6 @@ public class Recording {
 
     @Override
     public String toString() {
-        return getParentProject().getValue() + parentTask.getValue() + "  " + recordStart.toString();
+        return getParentProject().getValue() + " " + parentTask.getValue() + "  " + recordStart.toString();
     }
 }
