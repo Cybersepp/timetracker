@@ -22,6 +22,7 @@ javafx {
 
 dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.2'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.2'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.2'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'

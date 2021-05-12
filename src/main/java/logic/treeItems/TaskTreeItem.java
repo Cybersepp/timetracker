@@ -1,14 +1,19 @@
 package logic.treeItems;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import data.FileAccess;
 import data.Recording;
 import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>{
+@JsonIncludeProperties({"value", "done", "recordings"})
+public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>, Serializable {
 
     private boolean done = false;
     private List<Recording> recordings = new ArrayList<>();

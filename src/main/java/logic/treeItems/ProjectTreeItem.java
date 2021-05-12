@@ -1,15 +1,21 @@
 package logic.treeItems;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import data.FileAccess;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>{
+@JsonIncludeProperties({"value", "archived", "tasks"})
+public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>, Serializable {
 
+    @JsonProperty(value = "tasks")
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
     /**
