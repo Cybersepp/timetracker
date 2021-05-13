@@ -129,9 +129,13 @@ public class Recording implements Serializable {
     public String getProjectName() {return getParentProject().getValue();}
 
     public void setParentTask(TaskTreeItem parentTask) {
-        this.parentTask.getRecordings().remove(this);
-        parentTask.getRecordings().add(this);
-        this.parentTask = parentTask;
+        try {
+            this.parentTask.getRecordings().remove(this);
+            parentTask.getRecordings().add(this);
+            this.parentTask = parentTask;
+        } catch (NullPointerException ignored) {
+            this.parentTask = parentTask;
+        }
     }
 
     public String getRecordInfo() {
