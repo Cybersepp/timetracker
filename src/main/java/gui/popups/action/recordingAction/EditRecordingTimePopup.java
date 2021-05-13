@@ -9,6 +9,8 @@ import javafx.util.converter.DateTimeStringConverter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 public class EditRecordingTimePopup extends RecordingPopup {
 
@@ -19,16 +21,16 @@ public class EditRecordingTimePopup extends RecordingPopup {
     @Override
     public void popup(){
         var window = addStage();
-        var format = new SimpleDateFormat("HH:mm:ss");
+        var timeFormat = new SimpleDateFormat("HH:mm:ss");
 
         var startLabel = addLabel("Start time:");
         var startDatePicker = addDatePicker();
-        var startTimeField = addTextField(format);
+        var startTimeField = addTextField(timeFormat);
         var startHBox = addHBox(new Node[] {startDatePicker, startTimeField});
 
         var endLabel = addLabel("End time: ");
         var endDatePicker = addDatePicker();
-        var endTimeField = addTextField(format);
+        var endTimeField = addTextField(timeFormat);
         var endHBox = addHBox(new Node[] {endDatePicker, endTimeField});
 
         var mainButton = addButton("Change recording time");
@@ -36,9 +38,9 @@ public class EditRecordingTimePopup extends RecordingPopup {
 
         // default values for fields
         startDatePicker.setValue(recording.getRecordStartInLocalDateTime().toLocalDate());
-        endDatePicker.setValue(recording.getRecordStartInLocalDateTime().toLocalDate());
-        startTimeField.setText(String.valueOf(recording.getRecordStartInLocalDateTime().toLocalTime()));
-        endTimeField.setText(String.valueOf(recording.getRecordEndInLocalDateTime().toLocalTime()));
+        endDatePicker.setValue(recording.getRecordEndInLocalDateTime().toLocalDate());
+        startTimeField.setText(recording.getRecordStartInLocalDateTime().toLocalTime().format(DateTimeFormatter.ofPattern(timeFormat.toPattern())));
+        endTimeField.setText(recording.getRecordEndInLocalDateTime().toLocalTime().format(DateTimeFormatter.ofPattern(timeFormat.toPattern())));
 
         // adding listeners
         startDatePicker.valueProperty().addListener(event -> datePickerListener(startDatePicker, endDatePicker, mainButton, startTimeField, endTimeField));

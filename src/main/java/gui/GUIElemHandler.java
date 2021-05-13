@@ -15,7 +15,6 @@ public class GUIElemHandler {
     private String title = "Title";
     private String text = "Write here...";
 
-
     /**
      *
      * @param text String text to be displayed in the TextField
@@ -25,7 +24,7 @@ public class GUIElemHandler {
      * This method creates and immediately shows a dialogue window to a user.
      * As no need has arisen yet, it simply gets the user input as the class's main purpose.
      */
-    public static String textDialog(String title, String text, String header) {
+    public String textDialog(String title, String text, String header) {
         TextInputDialog td = new TextInputDialog();
 
         td.setHeaderText(header);

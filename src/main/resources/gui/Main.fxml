@@ -50,13 +50,12 @@
                   <fx:include fx:id="projectsTab" source="ProjectsTab.fxml" />
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0">
+            <AnchorPane fx:id="rightWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <children>
                   <fx:include fx:id="graphTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" source="GraphTab.fxml" />
-                  <fx:include fx:id="historyTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" source="HistoryTab.fxml" />
                </children>
             </AnchorPane>
          </children>
@@ -85,13 +84,18 @@
                   </Rectangle>
                </children>
             </VBox>
-            <Button id="graphbutton" fx:id="historyAndGraphButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="38.0" prefWidth="113.0" stylesheets="@css/button.css" text="HISTORY">
+            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" prefHeight="40.0" prefWidth="120.0" stylesheets="@css/button.css" text="AUTOTRACK">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
                <HBox.margin>
-                  <Insets left="440.0" />
+                  <Insets left="300.0" />
                </HBox.margin>
+            </Button>
+            <Button id="graphbutton" fx:id="historyAndGraphButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" prefHeight="40.0" prefWidth="120.0" stylesheets="@css/button.css" text="HISTORY">
+               <font>
+                  <Font name="Ubuntu Condensed" size="20.0" />
+               </font>
             </Button>
          </children>
          <VBox.margin>

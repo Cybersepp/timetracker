@@ -42,6 +42,9 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
      */
     private MenuItem markAsDone(String label) {
         // TODO mark task as done and cross it out
+        // TODO if can not do the latter fix all the possible naming issues
+        //  - including creating a task when a done task exists with the same name
+        //  - or changing name, etc...
         var markAsDone = new MenuItem(label);
         markAsDone.setOnAction(e -> {
             if (isDone()) {
@@ -96,7 +99,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     }
 
     /**
-     * @return - the name of the task (Needed for ComboBox in ChangeRecordingParentPopup)
+     * @return - the name of the task (Needed for ComboBox)
      */
     @Override
     public String toString() {
@@ -110,7 +113,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     public String toStringType() {
         return "task";
     }
-
+  
     /**
      * Method that sorts all Tasks in a way stated in the compareTo method
      */

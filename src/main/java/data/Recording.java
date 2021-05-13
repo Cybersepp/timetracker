@@ -2,13 +2,9 @@ package data;
 
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 /**
  * Recording is class which holds a recording's data and also populates history tab's table view.
@@ -21,10 +17,22 @@ public class Recording {
     private TaskTreeItem parentTask;
 
     private final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public Recording( TaskTreeItem parentTask, String recordStart, String recordEnd, int durationInSec) {
+        this.recordStart = LocalDateTime.parse(recordStart, dateTimeFormat);
+        this.recordEnd = LocalDateTime.parse(recordEnd, dateTimeFormat);
+        this.durationInSec = durationInSec;
+        this.parentTask = parentTask;
+    }
 
     public Recording(TaskTreeItem parentTask) {
         this.parentTask = parentTask;
+    }
+
+    public Recording(TaskTreeItem parentTask, LocalDateTime recordStart, LocalDateTime recordEnd) {
+        this.parentTask = parentTask;
+        this.recordStart = recordStart;
+        this.recordEnd = recordEnd;
     }
 
     public String getRecordStart() {
@@ -101,16 +109,12 @@ public class Recording {
         this.parentTask = parentTask;
     }
 
-    public Date getDate() throws ParseException {
-        return dateFormat.parse(getRecordStart().split(" ")[0]);
-    }
-
     public String getRecordInfo() {
         return getRecordStart() + ", " + getRecordEnd() + ", " + durationInSec;
     }
 
     @Override
     public String toString() {
-        return getParentProject().getValue() + parentTask.getValue() + "  " + recordStart.toString();
+        return getParentProject().getValue() + " " + parentTask.getValue() + "  " + recordStart.toString();
     }
 }
