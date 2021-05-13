@@ -25,7 +25,11 @@ public class FileAccess {
     public static void saveData() {
         // I think here LinkedHashMap is absolutely useless, but I left it like this in case you still need specifically
         // linked map
-        Map<String, List<ProjectTreeItem>> mainMap = Map.of("projects", ProjectsTabController.getActiveRoot().getJuniors());
+
+        List<ProjectTreeItem> activeProjects = new ArrayList<>(ProjectsTabController.getActiveRoot().getJuniors());
+        List<ProjectTreeItem> archivedProjects = new ArrayList<>(ProjectsTabController.getArchivedRoot().getJuniors());
+        activeProjects.addAll(archivedProjects);
+        Map<String, List<ProjectTreeItem>> mainMap = Map.of("projects", activeProjects);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -39,23 +43,14 @@ public class FileAccess {
 
     public static Map<String, List<ProjectTreeItem>> getData() {
 
-        System.out.println("help");
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("data.json");
 
         try {
-//            Map<String, List<ProjectTreeItem>> mainMap = objectMapper.readValue(file, new TypeReference<Map<String, List<ProjectTreeItem>>>() {});
-            Map<String, List<ProjectTreeItem>> dataMap = objectMapper.readValue(Paths.get("data.json").toFile(),
-                    new TypeReference<Map<String, List<ProjectTreeItem>>>(){});
-
-            List<ProjectTreeItem> projects = dataMap.get("projects");
-
-            projects.forEach((project) -> System.out.println(project.getJuniors()));
-            return null;
+            return objectMapper.readValue(Paths.get("data.json").toFile(),
+                    new TypeReference<>() {
+                    });
         } catch (IOException e) {
-            System.out.println("Error during file reading: " + e.getMessage());
+            return null;
         }
-        return null;
-
     }
 }
