@@ -9,4 +9,5 @@ module Main{
     exports gui;
     exports logic.treeItems;
     exports data;
+    exports data.deserialization;
 }
