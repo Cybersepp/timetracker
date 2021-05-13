@@ -13,6 +13,7 @@ import javafx.scene.control.MenuItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @JsonIncludeProperties({"value", "done", "recordings"})
@@ -43,13 +44,25 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         super(value);
     }
 
-    public TaskTreeItem(String value, boolean done, List<Recording> recordings) {
+    public TaskTreeItem(String value, boolean done) {
         super(value);
         this.done = done;
-        this.recordings = recordings;
     }
 
     //TODO MenuItem addRecording
+
+    public void addJunior(Recording junior) {
+        getRecordings().add(junior);
+        junior.setParentTask(this);
+    }
+
+    public void addAllJuniors(Collection<Recording> juniors) {
+        for (Recording recording : juniors) {
+            getRecordings().add(recording);
+            recording.setParentTask(this);
+        }
+    }
+
 
     // ------------------ GUI ----------------------
     /**

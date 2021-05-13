@@ -13,6 +13,7 @@ import javafx.scene.control.MenuItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @JsonIncludeProperties({"value", "archived", "tasks"})
@@ -57,6 +58,13 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         this.getChildren().add(junior);
     }
 
+    public void addAllJuniors(Collection<TaskTreeItem> juniors) {
+        for (TaskTreeItem task : juniors) {
+            this.juniors.add(task);
+            this.getChildren().add(task);
+        }
+    }
+
     /**
      * Removes a task from the juniors Arraylist and also removes the task from the GUI TreeView children Observable list
      * @param junior - the task to be removed
@@ -72,10 +80,9 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
 
-    public ProjectTreeItem(String value, boolean archived, List<TaskTreeItem> tasks) {
+    public ProjectTreeItem(String value, boolean archived) {
         super(value);
         this.archived = archived;
-        this.juniors = tasks;
     }
     // --------- GUI ------------
 
