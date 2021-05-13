@@ -48,10 +48,11 @@ public class Recording implements Serializable {
         this.parentTask = parentTask;
     }
 
-    public Recording(TaskTreeItem parentTask, LocalDateTime recordStart, LocalDateTime recordEnd) {
+    public Recording(TaskTreeItem parentTask, int duration) {
         this.parentTask = parentTask;
-        this.recordStart = recordStart;
-        this.recordEnd = recordEnd;
+        this.durationInSec = duration;
+        this.recordStart = LocalDateTime.now();
+        this.recordEnd = recordStart;
     }
 
     public Recording(LocalDateTime start, LocalDateTime end, int duration) {
