@@ -36,7 +36,8 @@ public class ProjectItemDeserialization extends StdDeserializer<ProjectTreeItem>
         JsonNode tasks = node.get("tasks");
         ObjectMapper objectMapper = new ObjectMapper();
         List<TaskTreeItem> taskList = Arrays.asList(objectMapper.treeToValue(tasks, TaskTreeItem[].class));
-        return new ProjectTreeItem(projectName, archived, taskList);
-
+        ProjectTreeItem project = new ProjectTreeItem(projectName, archived);
+        project.addAllJuniors(taskList);
+        return project;
     }
 }

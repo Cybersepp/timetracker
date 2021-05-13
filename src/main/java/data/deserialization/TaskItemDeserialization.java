@@ -38,6 +38,8 @@ public class TaskItemDeserialization extends StdDeserializer<TaskTreeItem> {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Recording> recordingsList = Arrays.asList(objectMapper.treeToValue(recordings, Recording[].class));
 
-        return new TaskTreeItem(taskName, done, recordingsList);
+        TaskTreeItem task = new TaskTreeItem(taskName, done);
+        task.addAllJuniors(recordingsList);
+        return task;
     }
 }
