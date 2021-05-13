@@ -1,7 +1,9 @@
 package logic.treeItems;
 
 import data.FileAccess;
+import gui.ProjectIcon;
 import gui.controllers.ProjectsTabController;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -11,6 +13,7 @@ import java.util.List;
 public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>{
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
+    private Node iconColor;
 
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
@@ -57,7 +60,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
-        super(value);
+        super(value, new ProjectIcon().getIcon());
     }
 
     // --------- GUI ------------

@@ -2,6 +2,7 @@ package logic.treeItems;
 
 import gui.popups.action.treeItemAction.ChangeNamePopup;
 import gui.popups.action.treeItemAction.CreateItemPopup;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -15,6 +16,11 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
     protected AbstractTreeItem(String value) {
         this.setValue(value);
     }
+
+    protected AbstractTreeItem(String value, Node node) {
+        super(value, node);
+    }
+
 
     public boolean isArchived() {
         return archived;
