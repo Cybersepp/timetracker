@@ -1,13 +1,10 @@
 package data.deserialization;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import data.Recording;
-import logic.treeItems.TaskTreeItem;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -26,11 +23,11 @@ public class RecordingsDeserialization extends StdDeserializer<Recording> {
     }
 
     @Override
-    public Recording deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Recording deserialize(JsonParser p, DeserializationContext ctxt) throws IOException{
         JsonNode node = p.getCodec().readTree(p);
 
-        LocalDateTime start = LocalDateTime.parse(node.get("start").asText(), dateTimeFormat);
-        LocalDateTime end = LocalDateTime.parse(node.get("end").asText(), dateTimeFormat);
+        var start = LocalDateTime.parse(node.get("start").asText(), dateTimeFormat);
+        var end = LocalDateTime.parse(node.get("end").asText(), dateTimeFormat);
         int duration = node.get("duration").asInt();
 
         return new Recording(start, end, duration);

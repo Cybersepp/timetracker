@@ -1,15 +1,11 @@
 package data.deserialization;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonStreamContext;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import data.Recording;
-import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
 
 import java.io.IOException;
@@ -28,17 +24,17 @@ public class TaskItemDeserialization extends StdDeserializer<TaskTreeItem> {
 
     @Override
     public TaskTreeItem deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         JsonNode node = p.getCodec().readTree(p);
 
         String taskName = node.get("value").asText();
         boolean done = node.get("done").asBoolean();
         JsonNode recordings = node.get("recordings");
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        var objectMapper = new ObjectMapper();
         List<Recording> recordingsList = Arrays.asList(objectMapper.treeToValue(recordings, Recording[].class));
 
-        TaskTreeItem task = new TaskTreeItem(taskName, done);
+        var task = new TaskTreeItem(taskName, done);
         task.addAllJuniors(recordingsList);
         return task;
     }
