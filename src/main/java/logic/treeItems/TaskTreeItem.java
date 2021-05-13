@@ -2,8 +2,11 @@ package logic.treeItems;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.Recording;
+import data.deserialization.ProjectItemDeserialization;
+import data.deserialization.TaskItemDeserialization;
 import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIncludeProperties({"value", "done", "recordings"})
+@JsonDeserialize(using = TaskItemDeserialization.class)
 public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>, Serializable {
 
     private boolean done = false;
@@ -34,8 +38,15 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         return (ProjectTreeItem) this.getParent();
     }
 
+    // ---------------- CONSTRUCTORS --------------------
     public TaskTreeItem(String value) {
         super(value);
+    }
+
+    public TaskTreeItem(String value, boolean done, List<Recording> recordings) {
+        super(value);
+        this.done = done;
+        this.recordings = recordings;
     }
 
     //TODO MenuItem addRecording

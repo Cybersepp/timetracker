@@ -3,6 +3,9 @@ package data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import data.deserialization.ProjectItemDeserialization;
+import data.deserialization.RecordingsDeserialization;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
 
@@ -15,6 +18,7 @@ import java.time.temporal.ChronoUnit;
  * Recording is class which holds a recording's data and also populates history tab's table view.
  */
 @JsonIncludeProperties({"start", "end", "duration"})
+@JsonDeserialize(using = RecordingsDeserialization.class)
 public class Recording implements Serializable {
 
     @JsonProperty(value = "start")
@@ -31,6 +35,8 @@ public class Recording implements Serializable {
     @JsonIgnore
     private final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    // ----------------- CONSTRUCTORS ---------------------------
+
     public Recording( TaskTreeItem parentTask, String recordStart, String recordEnd, int durationInSec) {
         this.recordStart = LocalDateTime.parse(recordStart, dateTimeFormat);
         this.recordEnd = LocalDateTime.parse(recordEnd, dateTimeFormat);
@@ -46,6 +52,12 @@ public class Recording implements Serializable {
         this.parentTask = parentTask;
         this.recordStart = recordStart;
         this.recordEnd = recordEnd;
+    }
+
+    public Recording(LocalDateTime start, LocalDateTime end, int duration) {
+        this.recordStart = start;
+        this.recordEnd = end;
+        this.durationInSec = duration;
     }
 
     public String getRecordStart() {

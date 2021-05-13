@@ -2,8 +2,11 @@ package logic.treeItems;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
+import data.deserialization.ProjectItemDeserialization;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -13,9 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIncludeProperties({"value", "archived", "tasks"})
+@JsonDeserialize(using = ProjectItemDeserialization.class)
 public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>, Serializable {
 
     @JsonProperty(value = "tasks")
+
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
     /**
@@ -66,6 +71,12 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         super(value);
     }
 
+
+    public ProjectTreeItem(String value, boolean archived, List<TaskTreeItem> tasks) {
+        super(value);
+        this.archived = archived;
+        this.juniors = tasks;
+    }
     // --------- GUI ------------
 
     /**
