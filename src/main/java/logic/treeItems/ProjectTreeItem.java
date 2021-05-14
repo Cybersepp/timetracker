@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.deserialization.ProjectItemDeserialization;
 import gui.controllers.ProjectsTabController;
-import gui.icons.CustomImageView;
+import gui.icons.ProjectImageView;
 import gui.icons.ProjectIcon;
 import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
@@ -84,12 +84,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
         super(value, new ProjectIcon().getImageView());
-        icon = ((CustomImageView) this.getGraphic()).getIcon();
-    }
-
-    public ProjectTreeItem(String value, ProjectIcon projectIcon) {
-        super(value, projectIcon.getImageView());
-        icon = projectIcon;
+        icon = ((ProjectImageView) this.getGraphic()).getIcon();
     }
     // --------- GUI ------------
 

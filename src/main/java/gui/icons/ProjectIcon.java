@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ProjectIcon{
 
-    private final CustomImageView imageView;
+    private final ProjectImageView imageView;
     private final String[] colors = new String[]{"black", "brown", "green", "orange", "red", "violet", "yellow", "blue"};
     private String color;
     private int colorLocation;
@@ -15,19 +15,19 @@ public class ProjectIcon{
         int random = ThreadLocalRandom.current().nextInt(0, 8);
         color = colors[random];
         colorLocation = random;
-        imageView = new CustomImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
+        imageView = new ProjectImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
     }
 
     public ProjectIcon(String color) {
         this.color = color;
-        imageView = new CustomImageView(chooseImage(), this);
+        imageView = new ProjectImageView(chooseImage(), this);
     }
 
     public String getCurrentColor() {
         return color;
     }
 
-    public CustomImageView getImageView() {
+    public ProjectImageView getImageView() {
         return imageView;
     }
 

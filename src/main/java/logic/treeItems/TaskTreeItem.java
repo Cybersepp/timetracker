@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.Recording;
 import data.deserialization.TaskItemDeserialization;
+import gui.icons.ProjectImageView;
 import gui.icons.TaskIcon;
+import gui.icons.TaskImageView;
 import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -20,6 +22,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
 
     private boolean done = false;
     private final List<Recording> recordings = new ArrayList<>();
+    private TaskIcon icon;
 
     public boolean isDone() {
         return done;
@@ -39,12 +42,14 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
 
     // ---------------- CONSTRUCTORS --------------------
     public TaskTreeItem(String value) {
-        super(value, new TaskIcon().getIcon());
+        super(value, new TaskIcon(false).getImageView());
+        icon = ((TaskImageView) this.getGraphic()).getIcon();
     }
 
     public TaskTreeItem(String value, boolean done) {
-        super(value);
+        super(value, new TaskIcon(done).getImageView());
         this.done = done;
+        icon = ((TaskImageView) this.getGraphic()).getIcon();
     }
 
     //TODO MenuItem addRecording
@@ -68,20 +73,10 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem markAsDone(String label) {
-        // TODO mark task as done and cross it out
-        // TODO if can not do the latter fix all the possible naming issues
-        //  - including creating a task when a done task exists with the same name
-        //  - or changing name, etc...
         var markAsDone = new MenuItem(label);
         markAsDone.setOnAction(e -> {
-            if (isDone()) {
-                this.setValue(this.getValue().substring(5));
-                this.setDone(false);
-            }
-            else {
-                this.setValue("Done " + this.getValue());
-                this.setDone(true);
-            }
+            done = !done;
+            icon.changeIcon(done);
             this.organizeView();
             FileAccess.saveData();
         });
