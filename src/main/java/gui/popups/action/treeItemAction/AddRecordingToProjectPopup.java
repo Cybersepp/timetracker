@@ -8,6 +8,7 @@ import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
@@ -19,11 +20,14 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
     private TaskTreeItem task;
     private final AutoTrackData selectedItem;
     private final MainController mainController;
+    private TableView<AutoTrackData> autoTable;
 
-    public AddRecordingToProjectPopup(AutoTrackData selectedItem, MainController mainController) {
+    public AddRecordingToProjectPopup(AutoTrackData selectedItem, MainController mainController,
+                                      TableView<AutoTrackData> autoTable) {
         super(ProjectsTabController.getActiveRoot(), "task");
         this.selectedItem = selectedItem;
         this.mainController = mainController;
+        this.autoTable = autoTable;
     }
 
     @Override
@@ -68,7 +72,10 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
 
     protected void mainButtonFunctionality(Button button, Stage stage) {
         super.mainButtonFunctionality(button, stage);
-        button.setOnAction(event -> addRecord(stage));
+        button.setOnAction(event -> {
+            addRecord(stage);
+            autoTable.getItems().remove(selectedItem);
+        });
     }
 
     private void addRecord(Stage stage) {
