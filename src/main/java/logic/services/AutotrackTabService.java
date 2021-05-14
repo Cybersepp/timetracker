@@ -3,7 +3,7 @@ package logic.services;
 import data.AutoTrackData;
 import gui.controllers.HistoryTabController;
 import gui.controllers.MainController;
-import gui.popups.action.treeItemAction.AddToProjectPopup;
+import gui.popups.action.treeItemAction.AddRecordingToProjectPopup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
@@ -33,7 +33,7 @@ public class AutotrackTabService implements Service{
         contextMenu.getItems().add(addToProjectMenuItem);
         autoTable.setContextMenu(contextMenu);
         addToProjectMenuItem.setOnAction(event -> {
-            new AddToProjectPopup(selectedItem, mainController).popup();
+            new AddRecordingToProjectPopup(selectedItem, mainController).popup();
             historyTabController.showByTime(Integer.MAX_VALUE, mainController.getGraphTabController());
         });
     }

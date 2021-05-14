@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import gui.controllers.ProjectsTabController;
+import gui.popups.notification.ErrorPopup;
 import logic.treeItems.ProjectTreeItem;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class FileAccess {
         try {
             writer.writeValue(Paths.get("data.json").toFile(), mainMap);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            new ErrorPopup("Something went wrong when reading from file").popup();
         }
     }
 

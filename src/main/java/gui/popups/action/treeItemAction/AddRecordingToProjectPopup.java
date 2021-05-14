@@ -13,14 +13,14 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-public class AddToProjectPopup extends TreeItemPopup {
+public class AddRecordingToProjectPopup extends TreeItemPopup {
 
     private ProjectTreeItem project;
     private TaskTreeItem task;
     private final AutoTrackData selectedItem;
     private final MainController mainController;
 
-    public AddToProjectPopup(AutoTrackData selectedItem, MainController mainController) {
+    public AddRecordingToProjectPopup(AutoTrackData selectedItem, MainController mainController) {
         super(ProjectsTabController.getActiveRoot(), "task");
         this.selectedItem = selectedItem;
         this.mainController = mainController;

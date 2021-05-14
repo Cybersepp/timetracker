@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.deserialization.ProjectItemDeserialization;
 import gui.controllers.ProjectsTabController;
+import gui.icons.CustomImageView;
+import gui.icons.ProjectIcon;
+import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -23,6 +26,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     @JsonProperty(value = "tasks")
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
+    private ProjectIcon icon; // can call color from icon.getColor()
 
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
@@ -76,7 +80,13 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
-        super(value);
+        super(value, new ProjectIcon().getIcon());
+        icon = ((CustomImageView) this.getGraphic()).getIcon();
+    }
+
+    public ProjectTreeItem(String value, ProjectIcon projectIcon) {
+        super(value, projectIcon.getIcon());
+        icon = projectIcon;
     }
 
 
@@ -107,23 +117,35 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
+     * Creates a ContextMenuItem with create task functionality
+     * @return MenuItem with the needed functionality and text display
+     */
+    private MenuItem createTask() {
+        var addTask = new MenuItem("Add task");
+        addTask.setOnAction(e -> {
+            var createItemPopup = new CreateItemPopup(this, "task");
+            createItemPopup.popup();
+        });
+        return addTask;
+    }
+
+    /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
      */
     @Override
     public ContextMenu getMenu() {
 
-        MenuItem changeName = changeName();
         MenuItem deleteProject = deleteItem("Delete project");
 
         if (isArchived()) {
             MenuItem unArchive = unArchive();
-            return new ContextMenu(changeName, deleteProject, unArchive);
+            return new ContextMenu(deleteProject, unArchive);
         }
 
-        MenuItem addTask = createItem("task");
+        MenuItem addTask = createTask();
         MenuItem archive = archive();
-        return new ContextMenu(addTask, changeName, deleteProject, archive);
+        return new ContextMenu(addTask, deleteProject, archive);
     }
 
     /**
@@ -143,14 +165,14 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
-     * Method that organizes all the tasks in a way stated in the TaskTreeItem compareTo method
+     * Method that organizes all the tasks and projects in a way stated in the TaskTreeItem and ProjectTreeItem compareTo method
      */
-    //TODO can you also sort ObservableList without removing and adding everything back?
     @Override
     public void organizeView() {
         this.getJuniors().sort(TaskTreeItem::compareTo);
         this.getChildren().removeAll(this.getChildren());
         this.getChildren().addAll(juniors);
+        this.getParentRoot().organizeView();
     }
 
     /**
