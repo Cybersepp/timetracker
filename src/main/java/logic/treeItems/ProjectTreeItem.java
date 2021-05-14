@@ -92,17 +92,16 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     @Override
     public ContextMenu getMenu() {
 
-        MenuItem changeName = changeName();
         MenuItem deleteProject = deleteItem("Delete project");
 
         if (isArchived()) {
             MenuItem unArchive = unArchive();
-            return new ContextMenu(changeName, deleteProject, unArchive);
+            return new ContextMenu(deleteProject, unArchive);
         }
 
         MenuItem addTask = createItem("task");
         MenuItem archive = archive();
-        return new ContextMenu(addTask, changeName, deleteProject, archive);
+        return new ContextMenu(addTask, deleteProject, archive);
     }
 
     /**
@@ -122,14 +121,14 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
-     * Method that organizes all the tasks in a way stated in the TaskTreeItem compareTo method
+     * Method that organizes all the tasks and projects in a way stated in the TaskTreeItem and ProjectTreeItem compareTo method
      */
-    //TODO can you also sort ObservableList without removing and adding everything back?
     @Override
     public void organizeView() {
         this.getJuniors().sort(TaskTreeItem::compareTo);
         this.getChildren().removeAll(this.getChildren());
         this.getChildren().addAll(juniors);
+        this.getParentRoot().organizeView();
     }
 
     /**

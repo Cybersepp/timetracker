@@ -1,6 +1,5 @@
 package logic.treeItems;
 
-import gui.popups.action.treeItemAction.ChangeNamePopup;
 import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBoxTreeItem;
@@ -32,19 +31,6 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
 
     // ---------------- GUI and interactive methods ------------------------
     public abstract ContextMenu getMenu();
-
-    /**
-     * Creates a ContextMenuItem with rename functionality
-     * @return MenuItem with the needed functionality and text display
-     */
-    protected MenuItem changeName() {
-        var changeName = new MenuItem("Rename");
-        changeName.setOnAction(e -> {
-            var changeNamePopup = new ChangeNamePopup(this);
-            changeNamePopup.popup();
-        });
-        return changeName;
-    }
 
     /**
      * Creates a ContextMenuItem with the create item functionality

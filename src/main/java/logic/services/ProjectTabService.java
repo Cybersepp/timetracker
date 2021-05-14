@@ -95,6 +95,7 @@ public class ProjectTabService implements Service{
         treeView.setShowRoot(false);
         treeView.setRoot(root);
         treeView.setCellFactory(p -> new TreeCellFactory());
+        treeView.setEditable(false);
 
         activeRoot.setExpanded(true);
         archivedRoot.setExpanded(false);

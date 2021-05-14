@@ -83,10 +83,9 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     @Override
     public ContextMenu getMenu() {
 
-        MenuItem changeName = this.changeName();
         MenuItem deleteTask = this.deleteItem("Delete task");
         if (isArchived()) {
-            return new ContextMenu(changeName, deleteTask);
+            return new ContextMenu(deleteTask);
 
         }
         MenuItem markAsDone;
@@ -97,7 +96,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
             markAsDone = this.markAsDone("Complete task");
         }
 
-        return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
+        return new ContextMenu(deleteTask, markAsDone, moveToAnotherProject());
     }
 
     /**
@@ -122,7 +121,10 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     @Override
     public void organizeView() {
         //sorts tasks
-        this.getParentProject().organizeView();
+        var project = this.getParentProject();
+        project.getJuniors().sort(TaskTreeItem::compareTo);
+        project.getChildren().removeAll(project.getChildren());
+        project.getChildren().addAll(project.getJuniors());
     }
 
     /**
