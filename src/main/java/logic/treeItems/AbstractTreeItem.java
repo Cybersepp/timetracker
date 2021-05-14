@@ -1,10 +1,9 @@
 package logic.treeItems;
 
-import gui.popups.action.treeItemAction.CreateItemPopup;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import logic.commands.delete.DeleteProjectCommand;
 import logic.commands.delete.DeleteTaskCommand;
 
@@ -16,10 +15,9 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
         this.setValue(value);
     }
 
-    protected AbstractTreeItem(String value, Node node) {
-        super(value, node);
+    protected AbstractTreeItem(String value, ImageView imageView) {
+        super(value, imageView);
     }
-
 
     public boolean isArchived() {
         return archived;
@@ -31,42 +29,6 @@ public abstract class AbstractTreeItem extends CheckBoxTreeItem<String> {
 
     // ---------------- GUI and interactive methods ------------------------
     public abstract ContextMenu getMenu();
-
-    /**
-     * Creates a ContextMenuItem with the create item functionality
-     * @param type the type of the item to be created
-     * @return MenuItem with the needed functionality and text display
-     */
-    protected MenuItem createItem(String type) {
-        if (type.equals("project")) return createProject();
-        else return createTask();
-    }
-
-    /**
-     * Creates a ContextMenuItem with create project functionality
-     * @return MenuItem with the needed functionality and text display
-     */
-    private MenuItem createProject() {
-        var addProject = new MenuItem("Create project");
-        addProject.setOnAction(e -> {
-            var createItemPopup = new CreateItemPopup(this, "project");
-            createItemPopup.popup();
-        });
-        return addProject;
-    }
-
-    /**
-     * Creates a ContextMenuItem with create task functionality
-     * @return MenuItem with the needed functionality and text display
-     */
-    private MenuItem createTask() {
-        var addTask = new MenuItem("Add task");
-        addTask.setOnAction(e -> {
-            var createItemPopup = new CreateItemPopup(this, "task");
-            createItemPopup.popup();
-        });
-        return addTask;
-    }
 
     /**
      * Creates a ContextMenuItem with delete functionality

@@ -1,36 +1,43 @@
 package gui.icons;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ProjectIcon {
+public class ProjectIcon{
 
-    private Node icon;
+    private CustomImageView icon;
     private final String[] colors = new String[]{"black", "brown", "green", "orange", "red", "violet", "yellow", "blue"};
+    private String color;
 
     public ProjectIcon() {
         int random = ThreadLocalRandom.current().nextInt(0, 8);
-        chooseColor(colors[random]);
+        color = colors[random];
+        chooseIcon();
     }
 
     public ProjectIcon(String color) {
-        chooseColor(color);
+        this.color = color;
+        chooseIcon();
     }
 
-    public Node getIcon() {
+    public String getCurrentColor() {
+        return color;
+    }
+
+    public CustomImageView getIcon() {
         return icon;
     }
 
-    private void chooseColor(String color) {
+    private void chooseIcon() {
         for (String col : colors) {
             if (col.equals(color)) {
-                icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))));
+                icon = new CustomImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
                 return;
             }
         }
-        icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png"))));
+        //if there is a unrecognized color
+        color = "blue";
+        icon = new CustomImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png"))), this);
     }
 }

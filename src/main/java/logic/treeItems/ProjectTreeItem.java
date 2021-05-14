@@ -1,9 +1,10 @@
 package logic.treeItems;
 
 import data.FileAccess;
-import gui.icons.ProjectIcon;
 import gui.controllers.ProjectsTabController;
-import javafx.scene.Node;
+import gui.icons.CustomImageView;
+import gui.icons.ProjectIcon;
+import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>{
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
-    private Node iconColor;
+    private ProjectIcon icon; // can call color from icon.getColor()
 
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
@@ -61,6 +62,12 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
         super(value, new ProjectIcon().getIcon());
+        icon = ((CustomImageView) this.getGraphic()).getIcon();
+    }
+
+    public ProjectTreeItem(String value, ProjectIcon projectIcon) {
+        super(value, projectIcon.getIcon());
+        icon = projectIcon;
     }
 
     // --------- GUI ------------
@@ -86,6 +93,19 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
+     * Creates a ContextMenuItem with create task functionality
+     * @return MenuItem with the needed functionality and text display
+     */
+    private MenuItem createTask() {
+        var addTask = new MenuItem("Add task");
+        addTask.setOnAction(e -> {
+            var createItemPopup = new CreateItemPopup(this, "task");
+            createItemPopup.popup();
+        });
+        return addTask;
+    }
+
+    /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
      */
@@ -99,7 +119,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
             return new ContextMenu(deleteProject, unArchive);
         }
 
-        MenuItem addTask = createItem("task");
+        MenuItem addTask = createTask();
         MenuItem archive = archive();
         return new ContextMenu(addTask, deleteProject, archive);
     }

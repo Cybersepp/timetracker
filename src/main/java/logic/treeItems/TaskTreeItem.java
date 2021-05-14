@@ -13,7 +13,7 @@ import java.util.List;
 public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>{
 
     private boolean done = false;
-    private List<Recording> recordings = new ArrayList<>();
+    private final List<Recording> recordings = new ArrayList<>();
 
     public boolean isDone() {
         return done;
