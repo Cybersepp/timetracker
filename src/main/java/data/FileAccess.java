@@ -35,7 +35,7 @@ public class FileAccess {
         try {
             writer.writeValue(Paths.get("data.json").toFile(), mainMap);
         } catch (IOException e) {
-            new ErrorPopup("Something went wrong when reading from file").popup();
+            new ErrorPopup("Something went wrong when writing to file").popup();
         }
     }
 
@@ -48,6 +48,7 @@ public class FileAccess {
                     new TypeReference<>() {
                     });
         } catch (IOException e) {
+            new ErrorPopup("Something went wrong when reading from file").popup();
             return null;
         }
     }

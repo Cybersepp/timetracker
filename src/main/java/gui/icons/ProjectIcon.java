@@ -6,38 +6,53 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ProjectIcon{
 
-    private CustomImageView icon;
+    private final CustomImageView imageView;
     private final String[] colors = new String[]{"black", "brown", "green", "orange", "red", "violet", "yellow", "blue"};
     private String color;
+    private int colorLocation;
 
     public ProjectIcon() {
         int random = ThreadLocalRandom.current().nextInt(0, 8);
         color = colors[random];
-        chooseIcon();
+        colorLocation = random;
+        imageView = new CustomImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
     }
 
     public ProjectIcon(String color) {
         this.color = color;
-        chooseIcon();
+        imageView = new CustomImageView(chooseImage(), this);
     }
 
     public String getCurrentColor() {
         return color;
     }
 
-    public CustomImageView getIcon() {
-        return icon;
+    public CustomImageView getImageView() {
+        return imageView;
     }
 
-    private void chooseIcon() {
-        for (String col : colors) {
-            if (col.equals(color)) {
-                icon = new CustomImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
-                return;
+    private Image chooseImage() {
+        for (int i = 0; i < colors.length; i++) {
+            if (colors[i].equals(color)) {
+                colorLocation = i;
+                return new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png")));
             }
         }
         //if there is a unrecognized color
         color = "blue";
-        icon = new CustomImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png"))), this);
+        return new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png")));
+    }
+
+    private void setColor() {
+        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))));
+    }
+
+    public void nextColor() {
+        colorLocation++;
+        if (colorLocation >= colors.length) {
+            colorLocation = 0;
+        }
+        color = colors[colorLocation];
+        setColor();
     }
 }

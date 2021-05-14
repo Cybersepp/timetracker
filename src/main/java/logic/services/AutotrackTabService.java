@@ -33,7 +33,7 @@ public class AutotrackTabService implements Service{
         contextMenu.getItems().add(addToProjectMenuItem);
         autoTable.setContextMenu(contextMenu);
         addToProjectMenuItem.setOnAction(event -> {
-            new AddRecordingToProjectPopup(selectedItem, mainController).popup();
+            new AddRecordingToProjectPopup(selectedItem, mainController, autoTable).popup();
             historyTabController.showByTime(Integer.MAX_VALUE, mainController.getGraphTabController());
         });
     }

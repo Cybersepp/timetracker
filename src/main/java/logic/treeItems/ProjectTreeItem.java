@@ -1,8 +1,6 @@
 package logic.treeItems;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
@@ -24,24 +22,29 @@ import java.util.List;
 public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>, Serializable {
 
     @JsonProperty(value = "tasks")
+    private final List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
-    private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
-    private ProjectIcon icon; // can call color from icon.getColor()
+    private ProjectIcon icon;
 
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
      * @param newRoot either "archived root" or "active projects root" with type RootTreeItem
      */
     public void setArchived(RootTreeItem newRoot) {
-        RootTreeItem formerParent = (RootTreeItem) this.getParent();
+        RootTreeItem formerParent = this.getParentRoot();
         formerParent.removeJunior(this);
         newRoot.addJunior(this);
-        this.setArchived(newRoot.isArchived());
-        for(TaskTreeItem task : this.getJuniors()) {
-            task.setArchived(newRoot.isArchived());
-        }
+        setArchived(newRoot.isArchived());
         this.getParentRoot().organizeView();
         FileAccess.saveData();
+    }
+
+    @Override
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+        for(TaskTreeItem task : this.getJuniors()) {
+            task.setArchived(archived);
+        }
     }
 
     // -------------- DATA -----------------
@@ -80,19 +83,13 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     // ---------- Constructor ------------------
     public ProjectTreeItem(String value) {
-        super(value, new ProjectIcon().getIcon());
+        super(value, new ProjectIcon().getImageView());
         icon = ((CustomImageView) this.getGraphic()).getIcon();
     }
 
     public ProjectTreeItem(String value, ProjectIcon projectIcon) {
-        super(value, projectIcon.getIcon());
+        super(value, projectIcon.getImageView());
         icon = projectIcon;
-    }
-
-
-    public ProjectTreeItem(String value, boolean archived) {
-        super(value);
-        this.archived = archived;
     }
     // --------- GUI ------------
 
@@ -130,6 +127,16 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
+     * Creates a ContextMenuItem with create task functionality
+     * @return MenuItem with the needed functionality and text display
+     */
+    private MenuItem nextColor() {
+        var addTask = new MenuItem("Next color");
+        addTask.setOnAction(e -> icon.nextColor());
+        return addTask;
+    }
+
+    /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
      */
@@ -137,15 +144,16 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     public ContextMenu getMenu() {
 
         MenuItem deleteProject = deleteItem("Delete project");
+        MenuItem nextColor = nextColor();
 
         if (isArchived()) {
             MenuItem unArchive = unArchive();
-            return new ContextMenu(deleteProject, unArchive);
+            return new ContextMenu(deleteProject, unArchive, nextColor);
         }
 
         MenuItem addTask = createTask();
         MenuItem archive = archive();
-        return new ContextMenu(addTask, deleteProject, archive);
+        return new ContextMenu(addTask, deleteProject, archive, nextColor);
     }
 
     /**

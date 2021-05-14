@@ -20,7 +20,7 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
     private TaskTreeItem task;
     private final AutoTrackData selectedItem;
     private final MainController mainController;
-    private TableView<AutoTrackData> autoTable;
+    private final TableView<AutoTrackData> autoTable;
 
     public AddRecordingToProjectPopup(AutoTrackData selectedItem, MainController mainController,
                                       TableView<AutoTrackData> autoTable) {
