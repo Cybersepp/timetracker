@@ -1,6 +1,12 @@
 package logic.treeItems;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
+import data.deserialization.ProjectItemDeserialization;
 import gui.controllers.ProjectsTabController;
 import gui.icons.CustomImageView;
 import gui.icons.ProjectIcon;
@@ -8,10 +14,16 @@ import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>{
+@JsonIncludeProperties({"value", "archived", "tasks"})
+@JsonDeserialize(using = ProjectItemDeserialization.class)
+public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>, Serializable {
+
+    @JsonProperty(value = "tasks")
 
     private List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
     private ProjectIcon icon; // can call color from icon.getColor()
@@ -50,6 +62,13 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         this.getChildren().add(junior);
     }
 
+    public void addAllJuniors(Collection<TaskTreeItem> juniors) {
+        for (TaskTreeItem task : juniors) {
+            this.juniors.add(task);
+            this.getChildren().add(task);
+        }
+    }
+
     /**
      * Removes a task from the juniors Arraylist and also removes the task from the GUI TreeView children Observable list
      * @param junior - the task to be removed
@@ -70,6 +89,11 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         icon = projectIcon;
     }
 
+
+    public ProjectTreeItem(String value, boolean archived) {
+        super(value);
+        this.archived = archived;
+    }
     // --------- GUI ------------
 
     /**

@@ -8,4 +8,7 @@ module Main{
     opens data to javafx.base;
     exports gui;
     exports gui.icons;
+    exports logic.treeItems;
+    exports data;
+    exports data.deserialization;
 }

@@ -28,40 +28,42 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
 
     @Override
     public void popup() {
-        RootTreeItem root = (RootTreeItem) treeItem;
+        if (selectedItem != null) {
+            RootTreeItem root = (RootTreeItem) treeItem;
 
-        var window = addStage();
-        window.setTitle("Add to project");
+            var window = addStage();
+            window.setTitle("Add to project");
 
-        ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
-        ComboBox<TaskTreeItem> taskComboBox = new ComboBox<>();
-        taskComboBox.setDisable(true);
+            ComboBox<ProjectTreeItem> projectComboBox = new ComboBox<>();
+            ComboBox<TaskTreeItem> taskComboBox = new ComboBox<>();
+            taskComboBox.setDisable(true);
 
-        root.getJuniors().forEach((projectTreeItem) -> projectComboBox.getItems().add(projectTreeItem));
+            root.getJuniors().forEach((projectTreeItem) -> projectComboBox.getItems().add(projectTreeItem));
 
 
-        var createButton = addButton("Add to project");
-        var cancelButton = addButton("Cancel");
+            var createButton = addButton("Add to project");
+            var cancelButton = addButton("Cancel");
 
-        var label = this.addLabel("Choose the project");
+            var label = this.addLabel("Choose the project");
 
-        mainButtonFunctionality(createButton, window);
-        cancelButton.setCancelButton(true);
-        cancelButton.setOnAction(event -> window.close());
+            mainButtonFunctionality(createButton, window);
+            cancelButton.setCancelButton(true);
+            cancelButton.setOnAction(event -> window.close());
 
-        var display = addVBox(new Node[]{label, projectComboBox, taskComboBox, createButton, cancelButton});
+            var display = addVBox(new Node[]{label, projectComboBox, taskComboBox, createButton, cancelButton});
 
-        projectComboBox.setOnAction(event -> {
-            project = projectComboBox.getValue();
-            project.getJuniors().forEach(junior -> taskComboBox.getItems().add(junior));
-            taskComboBox.setDisable(false);
-        });
+            projectComboBox.setOnAction(event -> {
+                project = projectComboBox.getValue();
+                project.getJuniors().forEach(junior -> taskComboBox.getItems().add(junior));
+                taskComboBox.setDisable(false);
+            });
 
-        taskComboBox.setOnAction(event -> {
-            createButton.setDisable(false);
-            task = taskComboBox.getValue();
-        });
-        setScene(window, display);
+            taskComboBox.setOnAction(event -> {
+                createButton.setDisable(false);
+                task = taskComboBox.getValue();
+            });
+            setScene(window, display);
+        }
     }
 
     protected void mainButtonFunctionality(Button button, Stage stage) {
@@ -70,8 +72,7 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
     }
 
     private void addRecord(Stage stage) {
-        var recording = new Recording(task, selectedItem.getStartTime(),selectedItem.getEndTime());
-        recording.setRecordEnd();
+        var recording = new Recording(task, selectedItem.calculateDurationInSec());
         task.getRecordings().add(recording);
         mainController.getMainTabService().addToHistory(mainController.getHistoryTabController(), recording);
         stage.close();
