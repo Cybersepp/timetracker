@@ -4,6 +4,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class RootTreeItem extends AbstractTreeItem {
@@ -21,6 +22,13 @@ public class RootTreeItem extends AbstractTreeItem {
     public void addJunior(ProjectTreeItem junior) {
         this.juniors.add(junior);
         this.getChildren().add(junior);
+    }
+
+    public void addAllJuniors(Collection<ProjectTreeItem> juniors) {
+        for (ProjectTreeItem project : juniors) {
+            this.juniors.add(project);
+            this.getChildren().add(project);
+        }
     }
 
     /**

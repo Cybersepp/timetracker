@@ -12,6 +12,7 @@ import logic.treeItems.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProjectTabService implements Service{
@@ -24,69 +25,6 @@ public class ProjectTabService implements Service{
         this.activeRoot = activeRoot;
         this.archivedRoot = archivedRoot;
         this.treeView = treeView;
-    }
-
-    //TODO remake this f-word thing later to use ProjectTreeItem and TaskTreeItem as a Data Class
-    private void initializeProjects() {
-        Map<String, Map<String, Object>> dataMap = FileAccess.getProjectData();
-
-        if (dataMap != null) {
-
-            dataMap.forEach((name, projectMap) -> {
-                ProjectTreeItem project = new ProjectTreeItem(name);
-                activeRoot.addJunior(project);
-                // GOOD
-
-                for (Map.Entry<String, Object> entry : projectMap.entrySet()) {
-                    String projectAttr = entry.getKey();
-                    Object value = entry.getValue();
-                    switch (projectAttr) {
-                        case "isArchived":
-                            if ((boolean) value) {
-                                project.setArchived(archivedRoot);
-                            }
-                            break;
-                        case "Tasks":
-                            initializeTasks(project, (HashMap<String, Object>) value);
-                            break;
-                    }
-                }
-            });
-
-        }
-    }
-    private void initializeTasks(ProjectTreeItem projectTreeItem, HashMap<String, Object> tasks) {
-        tasks.forEach((task, taskInfo) -> {
-            var taskItem = new TaskTreeItem(task);
-            HashMap<String, Object> taskHash = (HashMap<String, Object>) taskInfo;
-
-            taskHash.forEach((taskAttr, value) -> {
-                switch (taskAttr) {
-                    case "isDone":
-                        if ((boolean) value) {
-                            taskItem.setDone(true);
-                            break;
-                        }
-                        taskItem.setDone(false);
-                        break;
-                    case "Records":
-                        //TODO could be optimized if the json file would be changed a bit
-                        var recordingInfo = (ArrayList<String>) value;
-                        var recordings = new ArrayList<Recording>();
-                        for (String info : recordingInfo) {
-                            var split = info.split(", ");
-                            var recording = new Recording(taskItem, split[0], split[1], Integer.parseInt(split[2]));
-                            recordings.add(recording);
-                        }
-
-                        taskItem.getRecordings().addAll(recordings);
-                        break;
-                    default:
-                }
-            });
-            projectTreeItem.addJunior(taskItem);
-
-        });
     }
 
     private void initializeTreeView(TreeItem<String> root) {
@@ -114,7 +52,21 @@ public class ProjectTabService implements Service{
 
     public void initializeData(TreeItem<String> root) {
         initializeTreeView(root);
-        initializeProjects();
+
+        Map<String, List<ProjectTreeItem>> dataMap = FileAccess.getData();
+
+        if (dataMap != null) {
+
+            List<ProjectTreeItem> projects = new ArrayList<>(dataMap.get("projects"));
+
+            for (ProjectTreeItem project : projects) {
+                if (project.isArchived()) {
+                    archivedRoot.addJunior(project);
+                    continue;
+                }
+                activeRoot.addJunior(project);
+            }
+        }
     }
 
     public AbstractTreeItem selectItem() {

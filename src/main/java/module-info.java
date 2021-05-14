@@ -7,4 +7,7 @@ module Main{
     opens gui.controllers to javafx.fxml;
     opens data to javafx.base;
     exports gui;
+    exports logic.treeItems;
+    exports data;
+    exports data.deserialization;
 }
