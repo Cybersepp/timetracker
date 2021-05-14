@@ -31,6 +31,10 @@ public class ProjectIcon{
         return imageView;
     }
 
+    /**
+     * Method that is meant for using when reading the color from a file (don't know if we want to set a certain color yet or let it be random at all times)
+     * @return icon with a certain color for the project
+     */
     private Image chooseImage() {
         for (int i = 0; i < colors.length; i++) {
             if (colors[i].equals(color)) {
@@ -43,10 +47,16 @@ public class ProjectIcon{
         return new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png")));
     }
 
+    /**
+     * Method that changes the color of the project icon to be the same as ProjectIcon color field
+     */
     private void setColor() {
         imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))));
     }
 
+    /**
+     * Method to change ProjectTreeItems icon colors
+     */
     public void nextColor() {
         colorLocation++;
         if (colorLocation >= colors.length) {

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.Recording;
 import data.deserialization.TaskItemDeserialization;
-import gui.icons.ProjectImageView;
 import gui.icons.TaskIcon;
 import gui.icons.TaskImageView;
 import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
@@ -22,14 +21,10 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
 
     private boolean done = false;
     private final List<Recording> recordings = new ArrayList<>();
-    private TaskIcon icon;
+    private final TaskIcon icon;
 
     public boolean isDone() {
         return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
     public List<Recording> getRecordings() {
@@ -52,22 +47,15 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         icon = ((TaskImageView) this.getGraphic()).getIcon();
     }
 
-    //TODO MenuItem addRecording
-
-    public void addJunior(Recording junior) {
-        getRecordings().add(junior);
-        junior.setParentTask(this);
-    }
-
-    public void addAllJuniors(Collection<Recording> juniors) {
+    public void addAllRecordings(Collection<Recording> juniors) {
         for (Recording recording : juniors) {
             getRecordings().add(recording);
             recording.setParentTask(this);
         }
     }
 
-
     // ------------------ GUI ----------------------
+    //TODO MenuItem addRecording
     /**
      * Creates a ContextMenuItem with the functionality to mark the task as done
      * @return MenuItem with the needed functionality and text display
@@ -76,7 +64,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         var markAsDone = new MenuItem(label);
         markAsDone.setOnAction(e -> {
             done = !done;
-            icon.changeIcon(done);
+            icon.setIcon(done);
             this.organizeView();
             FileAccess.saveData();
         });

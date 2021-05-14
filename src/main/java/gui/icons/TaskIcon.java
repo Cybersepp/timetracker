@@ -19,10 +19,13 @@ public class TaskIcon{
         else {
             imageView = new TaskImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_line.png"))), this);
         }
-        changeIcon(done);
     }
 
-    public void changeIcon(boolean done) {
+    /**
+     * Changes imageView Image according to task isDone state
+     * @param done - task isDone value
+     */
+    public void setIcon(boolean done) {
         if (done) {
             imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_checkmark.png"))));
         }

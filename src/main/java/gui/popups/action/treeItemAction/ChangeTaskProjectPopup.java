@@ -1,6 +1,7 @@
 package gui.popups.action.treeItemAction;
 
 import data.FileAccess;
+import gui.popups.notification.ErrorPopup;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -61,6 +62,13 @@ public class ChangeTaskProjectPopup extends TreeItemPopup {
      * @param stage
      */
     private void mainButtonAction(Stage stage) {
+        var sameName = selectedProject.getJuniors().stream()
+                .filter(task -> task.getValue().equals(selectedTask.getValue()))
+                .findFirst();
+        if (sameName.isPresent()) {
+            new ErrorPopup("The target project already has a task with the same name!").popup();
+            return;
+        }
         ((ProjectTreeItem) treeItem.getParent()).removeJunior(selectedTask);
         selectedProject.addJunior(selectedTask);
         sortItems(selectedTask);

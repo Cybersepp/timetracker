@@ -27,6 +27,10 @@ public class ProjectTabService implements Service{
         this.treeView = treeView;
     }
 
+    /**
+     * Method to initialize treeView starting settings
+     * @param root - the hidden root of the TreeView
+     */
     private void initializeTreeView(TreeItem<String> root) {
         root.getChildren().addAll(activeRoot, archivedRoot);
 
@@ -41,6 +45,10 @@ public class ProjectTabService implements Service{
         treeView.setOnKeyPressed(this::treeViewOnDelPressed);
     }
 
+    /**
+     * KeyEvent listener for "delete" button, which deletes the project or task in the treeView when pressed
+     * @param event - button press event
+     */
     private void treeViewOnDelPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.DELETE) {
             if (selectItem().getClass() == ProjectTreeItem.class) {
@@ -51,6 +59,10 @@ public class ProjectTabService implements Service{
         }
     }
 
+    /**
+     * Method that adds data to the treeView when read from file
+     * @param root - the hidden root of the treeView
+     */
     public void initializeData(TreeItem<String> root) {
         initializeTreeView(root);
 
@@ -70,6 +82,10 @@ public class ProjectTabService implements Service{
         }
     }
 
+    /**
+     * Method to get the currently selected TreeItem
+     * @return - currently selected AbstractTreeItem inside the treeView
+     */
     public AbstractTreeItem selectItem() {
         return (AbstractTreeItem) treeView.getSelectionModel().getSelectedItem();
     }
