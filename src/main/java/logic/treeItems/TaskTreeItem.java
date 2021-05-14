@@ -2,9 +2,11 @@ package logic.treeItems;
 
 import data.FileAccess;
 import data.Recording;
+import gui.icons.TaskIcon;
 import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     }
 
     public TaskTreeItem(String value) {
-        super(value);
+        super(value, new TaskIcon().getIcon());
     }
 
     //TODO MenuItem addRecording

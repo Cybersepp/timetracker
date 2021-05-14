@@ -1,4 +1,4 @@
-package gui;
+package gui.icons;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -27,11 +27,10 @@ public class ProjectIcon {
     private void chooseColor(String color) {
         for (String col : colors) {
             if (col.equals(color)) {
-                icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("colors/icon_" + color + ".png"))));
+                icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))));
                 return;
             }
         }
-        icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("colors/icon_blue.png"))));
-
+        icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png"))));
     }
 }

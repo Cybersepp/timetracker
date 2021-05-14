@@ -1,7 +1,7 @@
 package logic.treeItems;
 
 import data.FileAccess;
-import gui.ProjectIcon;
+import gui.icons.ProjectIcon;
 import gui.controllers.ProjectsTabController;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
