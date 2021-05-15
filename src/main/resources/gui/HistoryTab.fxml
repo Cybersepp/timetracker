@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
+<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
     <children>
-      <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="61.0" prefHeight="480.0" prefWidth="592.0" vbarPolicy="NEVER">
+      <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="61.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="592.0" vbarPolicy="NEVER">
          <content>
-            <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="594.0">
+            <TableView fx:id="table" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="594.0">
               <columns>
-                <TableColumn fx:id="projectColumn" editable="false" maxWidth="160.0" minWidth="60.0" prefWidth="123.0" text="PROJECT" />
-                <TableColumn fx:id="taskColumn" editable="false" maxWidth="177.0" minWidth="60.0" prefWidth="155.0" text="TASK" />
-                  <TableColumn fx:id="startColumn" editable="false" maxWidth="229.0" minWidth="0.0" prefWidth="192.0" sortType="DESCENDING" text="START" />
-                  <TableColumn fx:id="durationColumn" editable="false" maxWidth="237.0" minWidth="40.0" prefWidth="123.0" text="DURATION" />
+                <TableColumn fx:id="projectColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="123.0" text="PROJECT" />
+                <TableColumn fx:id="taskColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="155.0" text="TASK" />
+                  <TableColumn fx:id="startColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="192.0" sortType="DESCENDING" text="START" />
+                  <TableColumn fx:id="durationColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="123.0" text="DURATION" />
               </columns>
             </TableView>
          </content>
       </ScrollPane>
-      <Label fx:id="historyLabel" layoutX="178.0" layoutY="14.0" prefHeight="28.0" prefWidth="230.0" text="HISTORY OVERVIEW">
+      <Label fx:id="historyLabel" layoutX="178.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="230.0" text="HISTORY OVERVIEW">
          <font>
             <Font size="22.0" />
          </font>

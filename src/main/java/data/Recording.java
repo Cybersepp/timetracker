@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import data.deserialization.ProjectItemDeserialization;
 import data.deserialization.RecordingsDeserialization;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
@@ -111,6 +110,24 @@ public class Recording implements Serializable {
         return durationInSec;
     }
 
+    /**
+     * This method is used in HistoryTabService.configureColumns, do not delete
+     * @return String of duration in time Format
+     */
+    public String getDurationInString() {
+        int hours = durationInSec / 3600;
+        int minutes = (durationInSec - hours * 3600) / 60;
+        int seconds = durationInSec - hours * 3600 - minutes * 60;
+        return timeString(hours) + ":" + timeString(minutes) + ":" + timeString(seconds);
+    }
+
+    public String timeString(int time) {
+        if (time < 10) {
+            return "0"+time;
+        }
+        return String.valueOf(time);
+    }
+
     private void setDuration() {
         this.durationInSec = (int) ChronoUnit.SECONDS.between(recordStart, recordEnd);
     }
@@ -137,10 +154,6 @@ public class Recording implements Serializable {
         } catch (NullPointerException ignored) {
             this.parentTask = parentTask;
         }
-    }
-
-    public String getRecordInfo() {
-        return getRecordStart() + ", " + getRecordEnd() + ", " + durationInSec;
     }
 
     @Override

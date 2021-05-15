@@ -21,7 +21,7 @@ public class HistoryTabController {
     private TableColumn<Recording, String> startColumn;
 
     @FXML
-    private TableColumn<Recording, Integer> durationColumn;
+    private TableColumn<Recording, String> durationColumn;
 
     private HistoryTabService historyTabService;
 
