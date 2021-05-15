@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.AutotrackTabController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.AutotrackTabController">
     <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="80.0" prefHeight="446.0" prefWidth="560.0" vbarPolicy="NEVER">
          <content>
-            <TableView fx:id="autoTable" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#showContextMenu" prefHeight="447.0" prefWidth="559.0">
+            <TableView fx:id="autoTable" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#showContextMenu" onMouseClicked="#getSelectedItem" prefHeight="447.0" prefWidth="559.0">
                <columns>
                   <TableColumn fx:id="timeColumn" editable="false" maxWidth="160.0" minWidth="48.0" prefWidth="121.0" resizable="false" text="TIME" />
                   <TableColumn fx:id="pathColumn" editable="false" maxWidth="460.0" minWidth="100.0" prefWidth="437.0" resizable="false" text="APP" />
