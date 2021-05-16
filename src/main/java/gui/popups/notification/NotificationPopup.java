@@ -24,7 +24,7 @@ public abstract class NotificationPopup extends AbstractPopup {
     @Override
     protected Stage addStage() {
         var stage = new Stage();
-        defaultWindowSettings(stage);
+        defaultWindowSettings(stage, false);
         return stage;
     }
 

@@ -14,23 +14,24 @@ import java.util.Arrays;
 public abstract class AbstractPopup implements Popup{
 
     /**
-     * Makes sure you can't access the stage the popup popped out from and sets the minimum and maximum height and width for the window.
+     * Method that makes sure that you can't use the stage the popup popped out from .
      */
-    protected void defaultWindowSettings(Stage window, int minHeight, int minWidth, int maxHeight, int maxWidth) {
-
+    protected void defaultWindowSettings(Stage window, boolean resizability) {
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setMinHeight(minHeight);
-        window.setMinWidth(minWidth);
-        window.setMaxHeight(maxHeight);
-        window.setMaxWidth(maxWidth);
+        window.setResizable(false);
+        if (resizability) {
+            defaultMaxMinHeight(window);
+        }
     }
 
     /**
-     * Makes the Popup window not resizable and also makes sure that you can't use the stage it popped out from.
+     * Method that sets the minimum and maximum height for the window
      */
-    protected void defaultWindowSettings(Stage window) {
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setResizable(false);
+    private void defaultMaxMinHeight(Stage window) {
+        window.setMinHeight(250);
+        window.setMinWidth(300);
+        window.setMaxHeight(375);
+        window.setMaxWidth(450);
     }
 
     /**

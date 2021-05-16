@@ -30,6 +30,9 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
         this.autoTable = autoTable;
     }
 
+    /**
+     * Pops up the popup for the user to interact with
+     */
     @Override
     public void popup() {
         if (selectedItem != null) {
@@ -70,18 +73,25 @@ public class AddRecordingToProjectPopup extends TreeItemPopup {
         }
     }
 
+    /**
+     * Method for adding default functionality and button set on action to the main button
+     * @param button - the default button
+     * @param stage - the Stage that everything is happening in
+     */
     protected void mainButtonFunctionality(Button button, Stage stage) {
         super.mainButtonFunctionality(button, stage);
-        button.setOnAction(event -> {
-            addRecord(stage);
-            autoTable.getItems().remove(selectedItem);
-        });
+        button.setOnAction(event -> addRecord(stage));
     }
 
+    /**
+     * Method for adding a record to a certain project task's recordigns list
+     * @param stage - the stage that is about to be closed
+     */
     private void addRecord(Stage stage) {
         var recording = new Recording(task, selectedItem.calculateDurationInSec());
         task.getRecordings().add(recording);
         mainController.getMainTabService().addToHistory(mainController.getHistoryTabController(), recording);
+        autoTable.getItems().remove(selectedItem);
         stage.close();
         FileAccess.saveData();
     }

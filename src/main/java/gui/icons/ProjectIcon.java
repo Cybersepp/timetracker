@@ -18,11 +18,13 @@ public class ProjectIcon{
         imageView = new ProjectImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
     }
 
+    // Constructor for when reading a color from file (is not implemented this way atm)
     public ProjectIcon(String color) {
         this.color = color;
         imageView = new ProjectImageView(chooseImage(), this);
     }
 
+    // Method for getting the color to write to file (is not implemented this way atm)
     public String getCurrentColor() {
         return color;
     }

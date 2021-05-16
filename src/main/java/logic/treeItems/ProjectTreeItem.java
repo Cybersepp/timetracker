@@ -24,7 +24,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     @JsonProperty(value = "tasks")
     private final List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
-    private ProjectIcon icon;
+    private final ProjectIcon icon;
 
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
@@ -65,6 +65,10 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         this.getChildren().add(junior);
     }
 
+    /**
+     * Adds a collection of tasks to the juniors list (used in reading from file)
+     * @param juniors - Collection of child tasks
+     */
     public void addAllJuniors(Collection<TaskTreeItem> juniors) {
         for (TaskTreeItem task : juniors) {
             this.juniors.add(task);

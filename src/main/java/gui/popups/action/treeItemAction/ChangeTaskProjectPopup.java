@@ -49,7 +49,7 @@ public class ChangeTaskProjectPopup extends TreeItemPopup {
     /**
      * Main button configuration and functionality
      * @param button - the default button
-     * @param stage the Stage that everything is happening in
+     * @param stage - the Stage that everything is happening in
      */
     @Override
     protected void mainButtonFunctionality(Button button, Stage stage) {
@@ -59,7 +59,7 @@ public class ChangeTaskProjectPopup extends TreeItemPopup {
 
     /**
      * Main button functionality that changes the parent project of the chosen task
-     * @param stage
+     * @param stage - the Stage that everything is happening in
      */
     private void mainButtonAction(Stage stage) {
         var sameName = selectedProject.getJuniors().stream()

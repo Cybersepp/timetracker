@@ -47,8 +47,12 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         icon = ((TaskImageView) this.getGraphic()).getIcon();
     }
 
-    public void addAllRecordings(Collection<Recording> juniors) {
-        for (Recording recording : juniors) {
+    /**
+     * Adds a collection of recordings to the task recordings list
+     * @param recordings - collection of recordings to add when reading from file
+     */
+    public void addAllRecordings(Collection<Recording> recordings) {
+        for (Recording recording : recordings) {
             getRecordings().add(recording);
             recording.setParentTask(this);
         }

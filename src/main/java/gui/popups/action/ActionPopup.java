@@ -23,7 +23,7 @@ public abstract class ActionPopup extends AbstractPopup {
     @Override
     protected Stage addStage() {
         var stage = new Stage();
-        defaultWindowSettings(stage, 250, 300, 375, 450);
+        defaultWindowSettings(stage, true);
         return stage;
     }
 
