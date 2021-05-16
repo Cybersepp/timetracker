@@ -18,8 +18,6 @@ import javafx.util.Duration;
 import logic.timer.Timer;
 import logic.treeItems.TaskTreeItem;
 
-import java.text.ParseException;
-
 public class MainTabService {
 
     private final DataHandler dataHandler = new DataHandler();
@@ -54,9 +52,8 @@ public class MainTabService {
     /**
      * Method for ending a recording
      *
-     * @throws ParseException is thrown if can't parse string to date format.
      */
-    public void endRecordingButton(HistoryTabController historyTabController, GraphTabController graphTabController) throws ParseException {
+    public void endRecordingButton(HistoryTabController historyTabController, GraphTabController graphTabController) {
         TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
         recordButton.setText("RECORD");
         recording.setRecordEnd();

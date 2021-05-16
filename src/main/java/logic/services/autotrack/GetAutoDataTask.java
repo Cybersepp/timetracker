@@ -10,8 +10,8 @@ import java.util.*;
 public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
 
     private Map<String, AutoTrackData> newList;
-    private Map<String, AutoTrackData> baseList;
-    private ObservableList<AutoTrackData> helper;
+    private final Map<String, AutoTrackData> baseList;
+    private final ObservableList<AutoTrackData> helper;
     private final GetAutoDataService service;
 
 
@@ -61,9 +61,11 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
                 newList.get(info.command().toString()).setDuration(duration);
             }
         } else {
-            LocalTime duration = LocalTime.of(info.totalCpuDuration().get().toHoursPart(),
-                    info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart());
-            newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), duration));
+            if (info.totalCpuDuration().isPresent()) {
+                var duration = LocalTime.of(info.totalCpuDuration().get().toHoursPart(),
+                        info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart());
+                newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), duration));
+            }
         }
     }
 }

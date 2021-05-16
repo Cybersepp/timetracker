@@ -16,7 +16,9 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HistoryTabService  {
 
@@ -25,6 +27,7 @@ public class HistoryTabService  {
     private final TableColumn<Recording, String> taskColumn;
     private final TableColumn<Recording, String> startColumn;
     private final TableColumn<Recording, String> durationColumn;
+    private GraphTabController graphTabController;
 
     private final ObservableList<Recording> records = FXCollections.observableArrayList();
 
@@ -73,11 +76,11 @@ public class HistoryTabService  {
     }
 
     /**
-     * When record is added, history tab is updated and sorted so the user can see the newest record.
-     * @param record is data object to be added.
+     * When recording is added, history tab is updated and sorted so the user can see the newest recording.
+     * @param recording is data object to be added.
      */
-    public void addRecord(Recording record) {
-        records.add(record);
+    public void addRecord(Recording recording) {
+        records.add(recording);
         var start = new ArrayList<TableColumn<Recording, String>>();
         start.add(startColumn);
         table.getSortOrder().setAll(start);
@@ -110,6 +113,9 @@ public class HistoryTabService  {
     private void editRecording(Recording recording) {
         new EditRecordingTimePopup(recording).popup();
         table.refresh();
+        if (graphTabController != null) {
+            showByTime(Integer.MAX_VALUE, graphTabController); //refreshes graph
+        }
     }
 
     /**
@@ -119,6 +125,9 @@ public class HistoryTabService  {
     private void replaceRecording(Recording recording) {
         new ChangeRecordingParentPopup(recording).popup();
         table.refresh();
+        if (graphTabController != null) {
+            showByTime(Integer.MAX_VALUE, graphTabController); //refreshes graph
+        }
     }
 
     /**
@@ -129,12 +138,16 @@ public class HistoryTabService  {
         var task = recording.getParentTask();
         task.getRecordings().remove(recording);
         table.getItems().remove(recording);
+        if (graphTabController != null) {
+            showByTime(Integer.MAX_VALUE, graphTabController); //refreshes graph
+        }
         FileAccess.saveData();
     }
 
     public void initializeData() {
         initializeTableView();
     }
+
 
     /**
      * Method showByTime updates the graph for a certain time period in days.
@@ -148,6 +161,7 @@ public class HistoryTabService  {
             var calculator = new GraphTimeCalculator(days);
             Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
             graphTabController.updateGraph(lastWeekProjectData);
+            this.graphTabController = graphTabController;
         }
     }
 }
