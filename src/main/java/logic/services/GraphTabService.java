@@ -26,6 +26,7 @@ public class GraphTabService {
         }
     }
 
+
     public void clearGraph() {
         projectGraph.getData().clear();
     }

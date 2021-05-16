@@ -61,7 +61,7 @@ public class MainTabService {
         currentTask.getRecordings().add(recording);
         addToHistory(historyTabController, recording);
         FileAccess.saveData();
-        historyTabController.showByTime(Integer.MAX_VALUE, graphTabController);
+        historyTabController.showByTime(graphTabController.howManyDaysToShow(), graphTabController);
     }
 
 

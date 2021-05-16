@@ -33,5 +33,15 @@ public class GraphTabController {
     public String getGraphLabelText() {
         return graphLabel.getText();
     }
+
+    public int howManyDaysToShow() {
+        String labelText = graphLabel.getText();
+        switch (labelText) {
+            case "Last 7 days": return 7;
+            case "Last 30 days": return 30;
+            case "Last 365 days": return 365;
+            default: return Integer.MAX_VALUE;
+        }
+    }
 }
 
