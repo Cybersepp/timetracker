@@ -158,6 +158,6 @@ public class Recording implements Serializable {
 
     @Override
     public String toString() {
-        return getParentProject().getValue() + " " + parentTask.getValue() + "  " + recordStart.toString();
+        return getParentProject().getValue() + " " + parentTask.getValue() + "  " + durationInSec;
     }
 }

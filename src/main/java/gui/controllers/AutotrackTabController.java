@@ -31,6 +31,8 @@ public class AutotrackTabController {
 
     private HistoryTabController historyTabController;
 
+    private AutoTrackData selectedItem;
+
 
     private Map<String, AutoTrackData> newList;
     private Map<String, AutoTrackData> baseList = new HashMap<>();
@@ -45,7 +47,7 @@ public class AutotrackTabController {
     }
 
     public void showContextMenu() {
-        AutoTrackData selectedItem = autoTable.getSelectionModel().getSelectedItem();
+        getSelectedItem();
         var contextMenu = new ContextMenu();
         var addToProjectMenuItem = new MenuItem("Add to project");
         contextMenu.getItems().add(addToProjectMenuItem);
@@ -53,7 +55,6 @@ public class AutotrackTabController {
         addToProjectMenuItem.setOnAction(event -> {
             if (selectedItem != null) {
                 new AddRecordingToProjectPopup(selectedItem, mainController, autoTable).popup();
-                historyTabController.showByTime(Integer.MAX_VALUE, mainController.getGraphTabController());
             }
         });
     }
@@ -67,7 +68,6 @@ public class AutotrackTabController {
         configureColumns(pathColumn, timeColumn);
         final GetAutoDataService service = new GetAutoDataService(helper);
         service.setPeriod(Duration.millis(5000));
-        autoTable.itemsProperty().bind(service.valueProperty());
         autoTable.itemsProperty().bind(service.lastValueProperty());
         service.start();
     }
@@ -75,6 +75,10 @@ public class AutotrackTabController {
     private void configureColumns(TableColumn<AutoTrackData, String> pathColumn, TableColumn<AutoTrackData, Integer> timeColumn) {
         pathColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+    }
+
+    public void getSelectedItem() {
+        selectedItem = autoTable.getSelectionModel().getSelectedItem();
     }
 
 }
