@@ -1,24 +1,30 @@
 package logic.treeItems;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.Recording;
+import data.deserialization.TaskItemDeserialization;
+import gui.icons.TaskIcon;
+import gui.icons.TaskImageView;
 import gui.popups.action.treeItemAction.ChangeTaskProjectPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>{
+@JsonIncludeProperties({"value", "done", "recordings"})
+@JsonDeserialize(using = TaskItemDeserialization.class)
+public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTreeItem>, Serializable {
 
     private boolean done = false;
-    private List<Recording> recordings = new ArrayList<>();
+    private final List<Recording> recordings = new ArrayList<>();
+    private final TaskIcon icon;
 
     public boolean isDone() {
         return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
     public List<Recording> getRecordings() {
@@ -29,11 +35,28 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
         return (ProjectTreeItem) this.getParent();
     }
 
+    // ---------------- CONSTRUCTORS --------------------
     public TaskTreeItem(String value) {
-        super(value);
+        super(value, new TaskIcon(false).getImageView());
+        icon = ((TaskImageView) this.getGraphic()).getIcon();
     }
 
-    //TODO MenuItem addRecording
+    public TaskTreeItem(String value, boolean done) {
+        super(value, new TaskIcon(done).getImageView());
+        this.done = done;
+        icon = ((TaskImageView) this.getGraphic()).getIcon();
+    }
+
+    /**
+     * Adds a collection of recordings to the task recordings list
+     * @param recordings - collection of recordings to add when reading from file
+     */
+    public void addAllRecordings(Collection<Recording> recordings) {
+        for (Recording recording : recordings) {
+            getRecordings().add(recording);
+            recording.setParentTask(this);
+        }
+    }
 
     // ------------------ GUI ----------------------
     /**
@@ -41,20 +64,10 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem markAsDone(String label) {
-        // TODO mark task as done and cross it out
-        // TODO if can not do the latter fix all the possible naming issues
-        //  - including creating a task when a done task exists with the same name
-        //  - or changing name, etc...
         var markAsDone = new MenuItem(label);
         markAsDone.setOnAction(e -> {
-            if (isDone()) {
-                this.setValue(this.getValue().substring(5));
-                this.setDone(false);
-            }
-            else {
-                this.setValue("Done " + this.getValue());
-                this.setDone(true);
-            }
+            done = !done;
+            icon.setIcon(done);
             this.organizeView();
             FileAccess.saveData();
         });
@@ -81,10 +94,9 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     @Override
     public ContextMenu getMenu() {
 
-        MenuItem changeName = this.changeName();
         MenuItem deleteTask = this.deleteItem("Delete task");
         if (isArchived()) {
-            return new ContextMenu(changeName, deleteTask);
+            return new ContextMenu(deleteTask);
 
         }
         MenuItem markAsDone;
@@ -95,7 +107,7 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
             markAsDone = this.markAsDone("Complete task");
         }
 
-        return new ContextMenu(changeName, deleteTask, markAsDone, moveToAnotherProject());
+        return new ContextMenu(deleteTask, markAsDone, moveToAnotherProject());
     }
 
     /**
@@ -120,7 +132,10 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     @Override
     public void organizeView() {
         //sorts tasks
-        this.getParentProject().organizeView();
+        var project = this.getParentProject();
+        project.getJuniors().sort(TaskTreeItem::compareTo);
+        project.getChildren().removeAll(project.getChildren());
+        project.getChildren().addAll(project.getJuniors());
     }
 
     /**

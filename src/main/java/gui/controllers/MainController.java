@@ -156,6 +156,7 @@ public class MainController {
         autotrackTab.setDisable(true);
         autotrackTabController = loader.getController();
         autotrackTabController.init(this);
+        autotrackTabController.loadProcesses();
     }
 }
 

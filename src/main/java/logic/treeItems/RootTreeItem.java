@@ -1,5 +1,6 @@
 package logic.treeItems;
 
+import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -16,6 +17,7 @@ public class RootTreeItem extends AbstractTreeItem {
 
     /**
      * Adds a project to the juniors Arraylist and also adds the project to the GUI TreeView children Observable list
+     *
      * @param junior - the project to be added
      */
     public void addJunior(ProjectTreeItem junior) {
@@ -25,6 +27,7 @@ public class RootTreeItem extends AbstractTreeItem {
 
     /**
      * Removes a project from the juniors Arraylist and also removes the project from the GUI TreeView children Observable list
+     *
      * @param junior - the project to be removed
      */
     public void removeJunior(ProjectTreeItem junior) {
@@ -43,8 +46,24 @@ public class RootTreeItem extends AbstractTreeItem {
     }
 
     // ------------ GUI -------------------
+
+    /**
+     * Creates a ContextMenuItem with create project functionality
+     *
+     * @return MenuItem with the needed functionality and text display
+     */
+    private MenuItem createProject() {
+        var addProject = new MenuItem("Create project");
+        addProject.setOnAction(e -> {
+            var createItemPopup = new CreateItemPopup(this, "project");
+            createItemPopup.popup();
+        });
+        return addProject;
+    }
+
     /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
+     *
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
      */
     @Override
@@ -53,11 +72,12 @@ public class RootTreeItem extends AbstractTreeItem {
         if (isArchived()) {
             return new ContextMenu();
         }
-        MenuItem addProject = this.createItem("project");
+        MenuItem addProject = createProject();
         return new ContextMenu(addProject);
     }
 
     // ------------ Other Methods -------------------
+
     /**
      * @return - the type of the AbstractTreeItem as a String
      */

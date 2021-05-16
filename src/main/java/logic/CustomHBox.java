@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 
 /**
  * This class is made for the project treeView.
- * Due to the fact it wouldn't pass the tests and threw alot of errors this is not implemented at the moment.
+ * Due to the fact it wouldn't pass the tests and threw a lot of errors this is not implemented at the moment.
  * This planned to be implemented later in the following way TreeItem<CustomHBox>.
  */
 public class CustomHBox extends HBox {

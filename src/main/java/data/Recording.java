@@ -1,7 +1,14 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import data.deserialization.RecordingsDeserialization;
 import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.TaskTreeItem;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -9,14 +16,25 @@ import java.time.temporal.ChronoUnit;
 /**
  * Recording is class which holds a recording's data and also populates history tab's table view.
  */
-public class Recording {
+@JsonIncludeProperties({"start", "end", "duration"})
+@JsonDeserialize(using = RecordingsDeserialization.class)
+public class Recording implements Serializable {
 
+    @JsonProperty(value = "start")
     private LocalDateTime recordStart;
-    private LocalDateTime recordEnd;
-    private int durationInSec;
-    private TaskTreeItem parentTask;
 
+    @JsonProperty(value = "end")
+    private LocalDateTime recordEnd;
+
+    @JsonProperty(value = "duration")
+    private int durationInSec;
+
+    @JsonIgnore
+    private TaskTreeItem parentTask;
+    @JsonIgnore
     private final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    // ----------------- CONSTRUCTORS ---------------------------
 
     public Recording( TaskTreeItem parentTask, String recordStart, String recordEnd, int durationInSec) {
         this.recordStart = LocalDateTime.parse(recordStart, dateTimeFormat);
@@ -29,10 +47,17 @@ public class Recording {
         this.parentTask = parentTask;
     }
 
-    public Recording(TaskTreeItem parentTask, LocalDateTime recordStart, LocalDateTime recordEnd) {
+    public Recording(TaskTreeItem parentTask, int duration) {
         this.parentTask = parentTask;
-        this.recordStart = recordStart;
-        this.recordEnd = recordEnd;
+        this.durationInSec = duration;
+        this.recordStart = LocalDateTime.now();
+        this.recordEnd = recordStart;
+    }
+
+    public Recording(LocalDateTime start, LocalDateTime end, int duration) {
+        this.recordStart = start;
+        this.recordEnd = end;
+        this.durationInSec = duration;
     }
 
     public String getRecordStart() {
@@ -85,6 +110,24 @@ public class Recording {
         return durationInSec;
     }
 
+    /**
+     * This method is used in HistoryTabService.configureColumns, do not delete
+     * @return String of duration in time Format
+     */
+    public String getDurationInString() {
+        int hours = durationInSec / 3600;
+        int minutes = (durationInSec - hours * 3600) / 60;
+        int seconds = durationInSec - hours * 3600 - minutes * 60;
+        return timeString(hours) + ":" + timeString(minutes) + ":" + timeString(seconds);
+    }
+
+    public String timeString(int time) {
+        if (time < 10) {
+            return "0"+time;
+        }
+        return String.valueOf(time);
+    }
+
     private void setDuration() {
         this.durationInSec = (int) ChronoUnit.SECONDS.between(recordStart, recordEnd);
     }
@@ -93,28 +136,28 @@ public class Recording {
         return parentTask;
     }
 
-    /** Is used for populating HistoryTab (Do not delete) */
+    /** Is used for populating HistoryTab.configureColumns (Do not delete) */
     public String getTaskName() {return parentTask.getValue();}
 
     public ProjectTreeItem getParentProject() {
         return (ProjectTreeItem) parentTask.getParent();
     }
 
-    /** Is used for populating HistoryTab (Do not delete) */
+    /** Is used for populating HistoryTab.configureColumns (Do not delete) */
     public String getProjectName() {return getParentProject().getValue();}
 
     public void setParentTask(TaskTreeItem parentTask) {
-        this.parentTask.getRecordings().remove(this);
-        parentTask.getRecordings().add(this);
-        this.parentTask = parentTask;
-    }
-
-    public String getRecordInfo() {
-        return getRecordStart() + ", " + getRecordEnd() + ", " + durationInSec;
+        try {
+            this.parentTask.getRecordings().remove(this);
+            parentTask.getRecordings().add(this);
+            this.parentTask = parentTask;
+        } catch (NullPointerException ignored) {
+            this.parentTask = parentTask;
+        }
     }
 
     @Override
     public String toString() {
-        return getParentProject().getValue() + " " + parentTask.getValue() + "  " + recordStart.toString();
+        return getParentProject().getValue() + " " + parentTask.getValue() + "  " + durationInSec;
     }
 }

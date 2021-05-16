@@ -9,7 +9,7 @@ public class AutoTrackData {
 
     private String name;
     private LocalTime duration;
-    private final LocalDateTime endTime;
+    private LocalDateTime endTime;
     private LocalDateTime startTime;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -17,7 +17,7 @@ public class AutoTrackData {
         this.name = name;
         this.duration = duration;
         this.endTime = LocalDateTime.now();
-        this.startTime = endTime.minus(calculateDuration(), ChronoUnit.SECONDS);
+        this.startTime = calculateStartTime();
     }
 
     public String getName() {
@@ -46,11 +46,15 @@ public class AutoTrackData {
         return name + " " + duration;
     }
 
-    public int calculateDuration() {
-        int seconds = duration.getSecond();
-        int minutes = duration.getMinute();
-        int hours = duration.getHour();
-        return seconds + minutes * 60 + hours * 60 * 60;
+    public LocalDateTime calculateStartTime() {
+        startTime = endTime.minusSeconds(duration.getSecond());
+        startTime = endTime.minusMinutes(duration.getMinute());
+        startTime = endTime.minusHours(duration.getHour());
+        return startTime;
+    }
+
+    public int calculateDurationInSec() {
+        return  duration.getSecond() + duration.getMinute() * 60 + duration.getHour() * 60 * 60;
     }
 
     public LocalDateTime getStartTime() {

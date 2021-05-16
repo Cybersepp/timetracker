@@ -16,23 +16,21 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class HistoryTabService implements Service {
+public class HistoryTabService  {
 
     private final TableView<Recording> table;
     private final TableColumn<Recording, String> projectColumn;
     private final TableColumn<Recording, String> taskColumn;
     private final TableColumn<Recording, String> startColumn;
-    private final TableColumn<Recording, Integer> durationColumn;
+    private final TableColumn<Recording, String> durationColumn;
 
     private final ObservableList<Recording> records = FXCollections.observableArrayList();
 
     public HistoryTabService(TableView<Recording> table, TableColumn<Recording, String> projectColumn,
                              TableColumn<Recording, String> taskColumn, TableColumn<Recording, String> startColumn,
-                             TableColumn<Recording, Integer> durationColumn) {
+                             TableColumn<Recording, String> durationColumn) {
         this.table = table;
         this.projectColumn = projectColumn;
         this.taskColumn = taskColumn;
@@ -48,7 +46,6 @@ public class HistoryTabService implements Service {
         RootTreeItem root = ProjectsTabController.getActiveRoot();
         List<ProjectTreeItem> projects = root.getJuniors();
 
-        // FIXME instead of iterating through it here can we for example iterate it with reading from file
         for (ProjectTreeItem project : projects) {
             List<TaskTreeItem> tasks = project.getJuniors();
 
@@ -59,7 +56,9 @@ public class HistoryTabService implements Service {
         }
         configureColumns();
         table.setItems(records);
-        table.getSortOrder().setAll(startColumn);
+        var start = new ArrayList<TableColumn<Recording, String>>();
+        start.add(startColumn);
+        table.getSortOrder().setAll(start);
         table.setRowFactory(tableView -> tableRowContextMenu());
     }
 
@@ -70,7 +69,7 @@ public class HistoryTabService implements Service {
         projectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
         startColumn.setCellValueFactory(new PropertyValueFactory<>("recordStart"));
-        durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationInSec"));
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationInString"));
     }
 
     /**
@@ -79,7 +78,9 @@ public class HistoryTabService implements Service {
      */
     public void addRecord(Recording record) {
         records.add(record);
-        table.getSortOrder().setAll(startColumn);
+        var start = new ArrayList<TableColumn<Recording, String>>();
+        start.add(startColumn);
+        table.getSortOrder().setAll(start);
     }
 
     private TableRow<Recording> tableRowContextMenu () {
