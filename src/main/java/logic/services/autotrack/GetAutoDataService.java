@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class GetAutoDataService extends ScheduledService<ObservableList<AutoTrackData>> {
 
-    private ObservableList<AutoTrackData> helper;
+    private final ObservableList<AutoTrackData> helper;
     private Map<String, AutoTrackData> baseList = new HashMap<>();
 
     public GetAutoDataService(ObservableList<AutoTrackData> helper) {

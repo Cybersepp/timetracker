@@ -8,6 +8,7 @@ import gui.controllers.ProjectsTabController;
 import gui.popups.notification.ErrorPopup;
 import logic.treeItems.ProjectTreeItem;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,10 +42,13 @@ public class FileAccess {
 
         var objectMapper = new ObjectMapper();
 
+        var dataFile = new File("data.json");
+
         try {
-            return objectMapper.readValue(Paths.get("data.json").toFile(),
-                    new TypeReference<>() {
-                    });
+            if (dataFile.createNewFile() || dataFile.length() == 0) {
+                return null; // when the file is empty or no file existed before
+            }
+            return objectMapper.readValue(dataFile, new TypeReference<>() {});
         } catch (IOException e) {
             new ErrorPopup("Something went wrong when reading from file").popup();
             return null;

@@ -1,5 +1,6 @@
 package gui.icons;
 
+import data.FileAccess;
 import javafx.scene.image.Image;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,13 +19,12 @@ public class ProjectIcon{
         imageView = new ProjectImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png"))), this);
     }
 
-    // Constructor for when reading a color from file (is not implemented this way atm)
+    // Constructor for when reading a color from file
     public ProjectIcon(String color) {
         this.color = color;
         imageView = new ProjectImageView(chooseImage(), this);
     }
-
-    // Method for getting the color to write to file (is not implemented this way atm)
+    
     public String getCurrentColor() {
         return color;
     }
@@ -38,13 +38,15 @@ public class ProjectIcon{
      * @return icon with a certain color for the project
      */
     private Image chooseImage() {
-        for (int i = 0; i < colors.length; i++) {
-            if (colors[i].equals(color)) {
-                colorLocation = i;
-                return new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png")));
+        if (color != null) {
+            for (int i = 0; i < colors.length; i++) {
+                if (colors[i].equals(color)) {
+                    colorLocation = i;
+                    return new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_" + color + ".png")));
+                }
             }
         }
-        //if there is a unrecognized color
+        //if there is a unrecognized color or null
         color = "blue";
         return new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_blue.png")));
     }
@@ -66,5 +68,6 @@ public class ProjectIcon{
         }
         color = colors[colorLocation];
         setColor();
+        FileAccess.saveData();
     }
 }

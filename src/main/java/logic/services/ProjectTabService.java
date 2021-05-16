@@ -1,7 +1,6 @@
 package logic.services;
 
 import data.FileAccess;
-import data.Recording;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
@@ -11,7 +10,6 @@ import logic.commands.delete.DeleteTaskCommand;
 import logic.treeItems.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

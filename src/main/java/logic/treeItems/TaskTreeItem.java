@@ -1,5 +1,6 @@
 package logic.treeItems;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
@@ -21,6 +22,8 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
 
     private boolean done = false;
     private final List<Recording> recordings = new ArrayList<>();
+
+    @JsonIgnore
     private final TaskIcon icon;
 
     public boolean isDone() {
