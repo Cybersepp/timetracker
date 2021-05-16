@@ -2,6 +2,7 @@ package gui.popups.action.recordingAction;
 
 import data.FileAccess;
 import data.Recording;
+import gui.popups.notification.ErrorPopup;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -98,8 +99,8 @@ public class EditRecordingTimePopup extends RecordingPopup {
         try {
             textField.setTextFormatter(new TextFormatter<>(new DateTimeStringConverter(format), format.parse("00:00:00")));
         } catch (ParseException e) {
-            //TODO think what to do here -- needs to be changed
-            throw new RuntimeException();
+            new ErrorPopup("Formatting error with the text field!").popup();
+            return null;
         }
         return textField;
     }

@@ -1,5 +1,6 @@
 package logic.treeItems;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,13 +18,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@JsonIncludeProperties({"value", "archived", "tasks"})
+@JsonIncludeProperties({"value", "color", "archived", "tasks"})
 @JsonDeserialize(using = ProjectItemDeserialization.class)
 public class ProjectTreeItem extends AbstractTreeItem implements Comparable<ProjectTreeItem>, Serializable {
 
     @JsonProperty(value = "tasks")
     private final List<TaskTreeItem> juniors = new ArrayList<>(); // Junior is just a word for the child object
 
+    @JsonIgnore
     private final ProjectIcon icon;
 
     /**
@@ -55,6 +57,11 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     public RootTreeItem getParentRoot() {
         return (RootTreeItem) this.getParent();
+    }
+
+    @JsonProperty(value = "color")
+    public String getColor() {
+        return icon.getCurrentColor();
     }
 
     /**
@@ -89,10 +96,15 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         this.getChildren().remove(junior);
     }
 
-    // ---------- Constructor ------------------
+    // ---------- Constructors ------------------
     public ProjectTreeItem(String value) {
         super(value, new ProjectIcon().getImageView());
         icon = ((ProjectImageView) this.getGraphic()).getIcon();
+    }
+
+    public ProjectTreeItem(String value, ProjectIcon projectIcon) {
+        super(value, projectIcon.getImageView());
+        icon = projectIcon;
     }
 
     // --------- GUI ------------
