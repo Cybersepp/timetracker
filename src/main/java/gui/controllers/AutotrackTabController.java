@@ -18,6 +18,12 @@ public class AutotrackTabController {
     @FXML
     private Button autotrackButton;
 
+    private HistoryTabController historyTabController;
+
+    private MainController mainController;
+
+    private AutoTrackData selectedItem;
+
     @FXML
     private TableColumn<AutoTrackData, String> pathColumn;
 
@@ -27,20 +33,10 @@ public class AutotrackTabController {
     @FXML
     private TableView<AutoTrackData> autoTable;
 
-    private MainController mainController;
-
-    private HistoryTabController historyTabController;
-
-    private AutoTrackData selectedItem;
-
-
     private Map<String, AutoTrackData> newList;
     private Map<String, AutoTrackData> baseList = new HashMap<>();
     ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
 
-    @FXML
-    public void initialize() {
-    }
 
     public void loadProcesses() {
         startAutoTracking();
@@ -64,6 +60,9 @@ public class AutotrackTabController {
         historyTabController = mainController.getHistoryTabController();
     }
 
+    /**
+     * Method startAutoTracking creates!
+     */
     public void startAutoTracking() {
         configureColumns(pathColumn, timeColumn);
         final GetAutoDataService service = new GetAutoDataService(helper);

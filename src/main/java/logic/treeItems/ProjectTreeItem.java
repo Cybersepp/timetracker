@@ -28,6 +28,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
+     *
      * @param newRoot either "archived root" or "active projects root" with type RootTreeItem
      */
     public void setArchived(RootTreeItem newRoot) {
@@ -42,7 +43,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
-        for(TaskTreeItem task : this.getJuniors()) {
+        for (TaskTreeItem task : this.getJuniors()) {
             task.setArchived(archived);
         }
     }
@@ -58,6 +59,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Adds a task to the juniors Arraylist and also adds the task to the GUI TreeView children Observable list
+     *
      * @param junior - the task to be added
      */
     public void addJunior(TaskTreeItem junior) {
@@ -67,6 +69,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Adds a collection of tasks to the juniors list (used in reading from file)
+     *
      * @param juniors - Collection of child tasks
      */
     public void addAllJuniors(Collection<TaskTreeItem> juniors) {
@@ -78,6 +81,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Removes a task from the juniors Arraylist and also removes the task from the GUI TreeView children Observable list
+     *
      * @param junior - the task to be removed
      */
     public void removeJunior(TaskTreeItem junior) {
@@ -90,10 +94,11 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         super(value, new ProjectIcon().getImageView());
         icon = ((ProjectImageView) this.getGraphic()).getIcon();
     }
-    // --------- GUI ------------
 
+    // --------- GUI ------------
     /**
      * Creates a ContextMenuItem with archiving functionality
+     *
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem archive() {
@@ -104,6 +109,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Creates a ContextMenuItem with unarchiving functionality
+     *
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem unArchive() {
@@ -114,6 +120,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Creates a ContextMenuItem with create task functionality
+     *
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem createTask() {
@@ -127,6 +134,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Creates a ContextMenuItem with create task functionality
+     *
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem nextColor() {
@@ -137,6 +145,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
+     *
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
      */
     @Override
@@ -184,6 +193,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
     /**
      * Method for comparing project names with each other alphabetically
+     *
      * @param o - comparable project
      * @return a negative integer, zero, or a positive integer as this project is less than, equal to, or greater than the specified project.
      */

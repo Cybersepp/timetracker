@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GraphTabService implements Service {
+public class GraphTabService {
 
     private final StackedBarChart<String, Number> projectGraph;
     private final List<XYChart.Series<String, Number>> allSeries = new ArrayList<>();

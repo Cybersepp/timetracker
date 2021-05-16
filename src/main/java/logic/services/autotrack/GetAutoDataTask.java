@@ -49,6 +49,7 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
         service.setBaseList(newList);
         return helper;
     }
+
     private void showProcess(ProcessHandle ph, Map<String, AutoTrackData> newList) {
         ProcessHandle.Info info = ph.info();
         if (newList.containsKey(info.command().toString())) {

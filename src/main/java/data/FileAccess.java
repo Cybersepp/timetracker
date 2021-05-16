@@ -21,8 +21,6 @@ public class FileAccess {
     }
 
     public static void saveData() {
-        // I think here LinkedHashMap is absolutely useless, but I left it like this in case you still need specifically
-        // linked map
 
         List<ProjectTreeItem> activeProjects = new ArrayList<>(ProjectsTabController.getActiveRoot().getJuniors());
         List<ProjectTreeItem> archivedProjects = new ArrayList<>(ProjectsTabController.getArchivedRoot().getJuniors());

@@ -45,7 +45,8 @@ public final class TreeCellFactory extends TreeCell<String> {
 
     /**
      * Method for updating a treeItem by making the cell editable or by calling out a contextMenu
-     * @param item - the new item for the cell
+     *
+     * @param item  - the new item for the cell
      * @param empty - whether or not this cell represents data from the list. If it is empty, then it does not represent any domain data, but is a cell being used to render an "empty" row.
      */
     @Override
@@ -64,8 +65,7 @@ public final class TreeCellFactory extends TreeCell<String> {
                 }
                 setText(null);
                 setGraphic(textField);
-            }
-            else {
+            } else {
                 updateContextMenu();
             }
         }
@@ -81,9 +81,9 @@ public final class TreeCellFactory extends TreeCell<String> {
             setText(getItem());
         }
         setGraphic(getTreeItem().getGraphic());
-        setContextMenu( ((AbstractTreeItem) getTreeItem()).getMenu());
+        setContextMenu(((AbstractTreeItem) getTreeItem()).getMenu());
 
-        if (getTreeItem().getClass() == TaskTreeItem.class || getTreeItem().getClass() == ProjectTreeItem.class){
+        if (getTreeItem().getClass() == TaskTreeItem.class || getTreeItem().getClass() == ProjectTreeItem.class) {
             getContextMenu().getItems().add(rename);
         }
 
@@ -100,22 +100,23 @@ public final class TreeCellFactory extends TreeCell<String> {
 
     /**
      * Method to set actions on key events
+     *
      * @param event - key event (when a key is pressed)
      */
     private void textFieldKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             enterKeyEvent();
-        }
-        else if (event.getCode() == KeyCode.ESCAPE) {
+        } else if (event.getCode() == KeyCode.ESCAPE) {
             cancelEdit();
         }
     }
 
     /**
      * Listener for setting the maximum length characters typed inside the TextField
+     *
      * @param textField - the TextField to be listened to
      */
-    private void textFieldLengthListener(TextField textField){
+    private void textFieldLengthListener(TextField textField) {
         if (textField.getText().length() >= 25) {
             textField.setText(textField.getText().substring(0, 25));
         }
@@ -123,6 +124,7 @@ public final class TreeCellFactory extends TreeCell<String> {
 
     /**
      * Creates a ContextMenuItem with rename functionality
+     *
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem changeName() {

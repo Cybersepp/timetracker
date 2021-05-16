@@ -23,7 +23,7 @@ public class GetAutoDataService extends ScheduledService<ObservableList<AutoTrac
         return new GetAutoDataTask(helper, baseList, this);
     }
 
-    public void setBaseList(Map<String, AutoTrackData> baseList) {
+    protected void setBaseList(Map<String, AutoTrackData> baseList) {
         this.baseList = baseList;
     }
 }

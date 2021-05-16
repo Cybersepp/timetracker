@@ -59,7 +59,6 @@ public class TaskTreeItem extends AbstractTreeItem implements Comparable<TaskTre
     }
 
     // ------------------ GUI ----------------------
-    //TODO MenuItem addRecording
     /**
      * Creates a ContextMenuItem with the functionality to mark the task as done
      * @return MenuItem with the needed functionality and text display

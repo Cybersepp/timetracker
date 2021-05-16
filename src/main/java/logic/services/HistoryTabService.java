@@ -18,7 +18,7 @@ import logic.treeItems.TaskTreeItem;
 
 import java.util.*;
 
-public class HistoryTabService implements Service {
+public class HistoryTabService  {
 
     private final TableView<Recording> table;
     private final TableColumn<Recording, String> projectColumn;

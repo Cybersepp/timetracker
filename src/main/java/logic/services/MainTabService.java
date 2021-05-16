@@ -20,7 +20,7 @@ import logic.treeItems.TaskTreeItem;
 
 import java.text.ParseException;
 
-public class MainTabService implements Service{
+public class MainTabService {
 
     private final DataHandler dataHandler = new DataHandler();
     private Timer timer;
@@ -40,10 +40,7 @@ public class MainTabService implements Service{
      * Method that checks if a task has been selected to start a recording on that
      */
     public void startRecordingButton(ProjectsTabController projectsTabController) {
-        //TODO Needs some upgrades
-        // - if no project is selected create a project and task and start recording there
-        // - if project is selected without task, create task and start recording there
-        // - also display a quick message (that would disappear after 1-2s) (possible?)
+
         final var selectedItem = projectsTabController.selectItem();
         if (selectedItem == null || !selectedItem.getClass().equals(TaskTreeItem.class) ||
                 selectedItem.isArchived() || ((TaskTreeItem) selectedItem).isDone()
@@ -56,6 +53,7 @@ public class MainTabService implements Service{
 
     /**
      * Method for ending a recording
+     *
      * @throws ParseException is thrown if can't parse string to date format.
      */
     public void endRecordingButton(HistoryTabController historyTabController, GraphTabController graphTabController) throws ParseException {
@@ -72,6 +70,7 @@ public class MainTabService implements Service{
 
     /**
      * Method for starting a recording
+     *
      * @param selectedTask - The task that is to start recording
      */
     private void startRecording(TaskTreeItem selectedTask) {
@@ -107,6 +106,7 @@ public class MainTabService implements Service{
 
     /**
      * Adds new record entry to the history tab's table view.
+     *
      * @param recording - the recording to be added
      */
     public void addToHistory(HistoryTabController historyTabController, Recording recording) {

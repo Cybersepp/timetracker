@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProjectTabService implements Service{
+public class ProjectTabService {
 
     private final RootTreeItem activeRoot;
     private final RootTreeItem archivedRoot;
