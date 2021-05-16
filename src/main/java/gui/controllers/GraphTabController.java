@@ -29,5 +29,9 @@ public class GraphTabController {
     public void setGraphLabel(String text) {
         graphLabel.setText(text);
     }
+
+    public String getGraphLabelText() {
+        return graphLabel.getText();
+    }
 }
 

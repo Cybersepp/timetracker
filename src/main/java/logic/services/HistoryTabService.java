@@ -114,7 +114,7 @@ public class HistoryTabService  {
         new EditRecordingTimePopup(recording).popup();
         table.refresh();
         if (graphTabController != null) {
-            showByTime(Integer.MAX_VALUE, graphTabController); //refreshes graph
+            showByTime(howManyDaysToShow(), graphTabController); //refreshes graph
         }
     }
 
@@ -126,7 +126,7 @@ public class HistoryTabService  {
         new ChangeRecordingParentPopup(recording).popup();
         table.refresh();
         if (graphTabController != null) {
-            showByTime(Integer.MAX_VALUE, graphTabController); //refreshes graph
+            showByTime(howManyDaysToShow(), graphTabController); //refreshes graph
         }
     }
 
@@ -139,7 +139,7 @@ public class HistoryTabService  {
         task.getRecordings().remove(recording);
         table.getItems().remove(recording);
         if (graphTabController != null) {
-            showByTime(Integer.MAX_VALUE, graphTabController); //refreshes graph
+            showByTime(howManyDaysToShow(), graphTabController); //refreshes graph
         }
         FileAccess.saveData();
     }
@@ -162,6 +162,16 @@ public class HistoryTabService  {
             Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
             graphTabController.updateGraph(lastWeekProjectData);
             this.graphTabController = graphTabController;
+        }
+    }
+
+    public int howManyDaysToShow() {
+        String labelText = graphTabController.getGraphLabelText();
+        switch (labelText) {
+            case "Last 7 days": return 7;
+            case "Last 30 days": return 30;
+            case "Last 365 days": return 365;
+            default: return Integer.MAX_VALUE;
         }
     }
 }
