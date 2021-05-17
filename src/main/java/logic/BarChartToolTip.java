@@ -1,6 +1,7 @@
 package logic;
 
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 
 public class BarChartToolTip extends Tooltip {
 
@@ -21,5 +22,6 @@ public class BarChartToolTip extends Tooltip {
                 + "-fx-text-fill: orange;"
                 +  "-fx-stroke-width: 5");
         setText(text);
+        setShowDelay(Duration.ZERO);
     }
 }
