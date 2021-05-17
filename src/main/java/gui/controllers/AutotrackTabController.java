@@ -38,6 +38,9 @@ public class AutotrackTabController {
     ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
 
 
+    public void initialize() {
+        autoTable.setPlaceholder(new Label("Your closed apps will appear here shortly!"));
+    }
     public void loadProcesses() {
         startAutoTracking();
     }

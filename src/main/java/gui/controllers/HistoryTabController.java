@@ -2,6 +2,7 @@ package gui.controllers;
 
 import data.Recording;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import logic.services.HistoryTabService;
@@ -32,6 +33,7 @@ public class HistoryTabController {
     public void initialize() {
         historyTabService = new HistoryTabService(table, projectColumn, taskColumn, startColumn, durationColumn);
         historyTabService.initializeData();
+        table.setPlaceholder(new Label("No recording history yet!"));
     }
 
     /**

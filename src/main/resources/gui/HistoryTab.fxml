@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
+<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
     <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="61.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="592.0" vbarPolicy="NEVER">
          <content>
@@ -18,9 +21,9 @@
             </TableView>
          </content>
       </ScrollPane>
-      <Label fx:id="historyLabel" layoutX="178.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="230.0" text="HISTORY OVERVIEW">
+      <Label fx:id="historyLabel" layoutX="163.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="263.0" text="History overview">
          <font>
-            <Font size="22.0" />
+            <Font size="30.0" />
          </font>
       </Label>
 
