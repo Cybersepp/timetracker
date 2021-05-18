@@ -102,9 +102,10 @@ public class MainController {
     /**
      * When user ends recording, updateRecordButton method updates the graph, stops the timer and its animation,
      * and saves newly created entry to the history overview.
+     *
      * @throws ParseException is thrown from endRecordingButton
      */
-    public void updateRecordButton() throws ParseException {
+    public void updateRecordButton() {
         String text = recordButton.getText();
         if ("RECORD".equals(text)) {
             mainTabService.startRecordingButton(projectsTabController);
@@ -114,19 +115,19 @@ public class MainController {
     }
 
     /**
-     * If button shows "History", then change window from Graph tab to History tab and vice versa.
+     * Change right window to history tab.
      */
-    public void changeHistoryAndGraph() {
-        String text = historyAndGraphButton.getText();
-        if ("GRAPH".equals(text)) {
-            mainTabService.changeRightWindow(currentTab, graphTab);
-            historyAndGraphButton.setText("HISTORY");
-            currentTab = graphTab;
-        } else if ("HISTORY".equals(text)) {
-            mainTabService.changeRightWindow(currentTab, historyTab);
-            historyAndGraphButton.setText("GRAPH");
-            currentTab = historyTab;
-        }
+    public void switchToHistory() {
+        mainTabService.changeRightWindow(currentTab, historyTab);
+        currentTab = historyTab;
+    }
+
+    /**
+     * Change right window to graph tab.
+     */
+    public void switchToGraph() {
+        mainTabService.changeRightWindow(currentTab, graphTab);
+        currentTab = graphTab;
     }
 
     public void injectHistoryTab() throws IOException {

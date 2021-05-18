@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProjectsTabController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProjectsTabController">
    <children>
       <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="301.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="301.0" spacing="20.0">
                <children>
-                <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createProject" stylesheets="@css/button.css" text="Create project">
-                     <font>
-                        <Font name="Kalimati" size="12.0" />
-                     </font>
+                <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createProject" stylesheets="@css/button.css" text="PROJECT +">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createTask" stylesheets="@css/button.css" text="Create task">
-                     <font>
-                        <Font name="Kalimati" size="12.0" />
-                     </font></Button>
+                  <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createTask" stylesheets="@css/button.css" text="TASK +" />
                   <MenuButton minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="button" stylesheets="@css/button.css" text="GRAPH">
                     <items>
                       <MenuItem fx:id="lastWeek" mnemonicParsing="false" onAction="#graphForLastWeek" text="Last 7 days" />
@@ -29,9 +28,6 @@
                         <MenuItem fx:id="lastYear" mnemonicParsing="false" onAction="#graphForLastYear" text="Last 365 days" />
                         <MenuItem fx:id="allTime" mnemonicParsing="false" onAction="#graphForAllTime" text="All time" />
                     </items>
-                     <font>
-                        <Font name="Kalimati" size="12.0" />
-                     </font>
                   </MenuButton>
                </children>
                <padding>

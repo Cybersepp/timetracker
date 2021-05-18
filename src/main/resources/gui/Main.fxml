@@ -62,7 +62,7 @@
       </HBox>
       <HBox minHeight="-Infinity" minWidth="-Infinity" spacing="20.0">
          <children>
-            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="41.0" minWidth="90.0" mnemonicParsing="false" onAction="#updateRecordButton" snapToPixel="false" stylesheets="@css/button.css" text="RECORD">
+            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" minHeight="41.0" minWidth="90.0" mnemonicParsing="false" onAction="#updateRecordButton" snapToPixel="false" stylesheets="@css/button.css" text="RECORD">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
@@ -84,7 +84,7 @@
                   </Rectangle>
                </children>
             </VBox>
-            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" stylesheets="@css/button.css" text="AUTOTRACK">
+            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" stylesheets="@css/button.css" text="AUTO">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
@@ -92,7 +92,12 @@
                   <Insets left="300.0" />
                </HBox.margin>
             </Button>
-            <Button id="graphbutton" fx:id="historyAndGraphButton" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#changeHistoryAndGraph" stylesheets="@css/button.css" text="HISTORY">
+            <Button id="graphbutton" fx:id="historyAndGraphButton" alignment="CENTER" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToGraph" stylesheets="@css/button.css" text="GRAPH">
+               <font>
+                  <Font name="Ubuntu Condensed" size="20.0" />
+               </font>
+            </Button>
+            <Button id="historyButton" fx:id="historyButton" alignment="CENTER" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToHistory" stylesheets="@css/button.css" text="HISTORY">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
