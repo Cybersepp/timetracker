@@ -57,6 +57,7 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
 
     private void showProcess(ProcessHandle ph, Map<String, AutoTrackData> newList) {
         ProcessHandle.Info info = ph.info();
+        String appName = "unknown";
         if (newList.containsKey(info.command().toString())) {
             LocalTime duration = newList.get(info.command().toString()).getDuration();
             if (info.totalCpuDuration().isPresent()) {
@@ -72,10 +73,14 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
                 if (duration.equals(LocalTime.of(0,0,0)) || duration.equals(LocalTime.MIN)) {
                     return;
                 }
-                Path path = Paths.get(info.command().toString());
-                String lastSegment = path.getFileName().toString();
-                lastSegment = lastSegment.substring(0, lastSegment.length() - 1);
-                newList.put(info.command().toString(), new AutoTrackData(lastSegment, duration));
+                if (info.command().isPresent()) {
+                    Path path = Paths.get(info.command().get());
+                    String lastSegment = path.getFileName().toString();
+                    newList.put(lastSegment, new AutoTrackData(lastSegment, duration));
+                } else {
+                    newList.put(appName, new AutoTrackData(appName, duration));
+                }
+
             }
         }
     }
