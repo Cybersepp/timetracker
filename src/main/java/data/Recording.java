@@ -110,6 +110,14 @@ public class Recording implements Serializable {
         return durationInSec;
     }
 
+    public int getDurationInMinutes() {
+        return Math.round(durationInSec / 60);
+    }
+
+    public void addToDuration(int seconds) {
+        durationInSec += seconds;
+    }
+
     /**
      * This method is used in HistoryTabService.configureColumns, do not delete
      * @return String of duration in time Format

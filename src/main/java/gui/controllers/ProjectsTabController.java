@@ -73,6 +73,7 @@ public class ProjectsTabController {
 
     public void init(MainController main) {
         mainController = main;
+        activeRoot.addMain(main);
     }
 
     //------------- Graph views -------------------------//

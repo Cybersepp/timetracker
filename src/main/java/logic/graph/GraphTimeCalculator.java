@@ -34,7 +34,7 @@ public class GraphTimeCalculator {
             }
             
             int time = projectData.getOrDefault(recording.getParentProject().getValue(), 0);
-            projectData.put(recording.getParentProject().getValue(), recording.getDurationInSec() + time);
+            projectData.put(recording.getParentProject().getValue(), (recording.getDurationInSec() + time));
         }
         return projectData;
     }

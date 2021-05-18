@@ -23,6 +23,7 @@ public class GraphTabService {
         this.projectGraph = projectGraph;
     }
 
+
     /**
      * Method for updating the graph by deleting the previous one and constructing a new one.
      * @param projectData data of projects for graph to be constructed.

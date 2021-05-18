@@ -1,6 +1,9 @@
 package logic.treeItems;
 
+import gui.controllers.MainController;
+import gui.controllers.ProjectsTabController;
 import gui.popups.action.treeItemAction.CreateItemPopup;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -10,6 +13,8 @@ import java.util.List;
 public class RootTreeItem extends AbstractTreeItem {
 
     private final List<ProjectTreeItem> juniors = new ArrayList<>();
+
+    public MainController controller;
 
     public List<ProjectTreeItem> getJuniors() {
         return juniors;
@@ -43,6 +48,14 @@ public class RootTreeItem extends AbstractTreeItem {
     public RootTreeItem(String value, boolean archived) {
         super(value);
         this.archived = archived;
+    }
+
+    public void addMain(MainController controller) {
+        this.controller = controller;
+    }
+
+    public MainController getMain() {
+        return controller;
     }
 
     // ------------ GUI -------------------

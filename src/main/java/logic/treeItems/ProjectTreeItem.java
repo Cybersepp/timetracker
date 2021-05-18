@@ -5,18 +5,21 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
+import data.Recording;
 import data.deserialization.ProjectItemDeserialization;
+import gui.controllers.GraphTabController;
+import gui.controllers.HistoryTabController;
+import gui.controllers.MainController;
 import gui.controllers.ProjectsTabController;
 import gui.icons.ProjectImageView;
 import gui.icons.ProjectIcon;
 import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import logic.services.GraphTabService;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @JsonIncludeProperties({"value", "color", "archived", "tasks"})
 @JsonDeserialize(using = ProjectItemDeserialization.class)
@@ -156,6 +159,31 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     }
 
     /**
+     * Method to show specific data of a project.
+     * @return context menu item.
+     */
+    private MenuItem showProjectDetails() {
+        var addTask = new MenuItem("Show project details");
+        addTask.setOnAction(action -> {
+            MainController controller = getParentRoot().getMain();
+            GraphTabController graphController = controller.getGraphTabController();
+            graphController.setGraphLabel(this.toString());
+            Map<String, Integer> newMap = new HashMap<>();
+            juniors.forEach(element -> {
+                    String taskName = element.getValue();
+                    int time = 0;
+                    List<Recording> recordings = element.getRecordings();
+                    for (Recording recording : recordings) {
+                        time += recording.getDurationInSec();
+                    }
+                    newMap.put(taskName, time);
+                    graphController.updateGraph(newMap);
+        });
+    });
+        return addTask;
+    }
+
+    /**
      * Creates a ContextMenu with the selected MenuItem-s depending on the archived state
      *
      * @return ContextMenu to be viewed with the right click on the ProjectTreeItem
@@ -165,15 +193,16 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
         MenuItem deleteProject = deleteItem("Delete project");
         MenuItem nextColor = nextColor();
+        MenuItem projectDetails = showProjectDetails();
 
         if (isArchived()) {
             MenuItem unArchive = unArchive();
-            return new ContextMenu(deleteProject, unArchive, nextColor);
+            return new ContextMenu(deleteProject, unArchive, nextColor, projectDetails);
         }
 
         MenuItem addTask = createTask();
         MenuItem archive = archive();
-        return new ContextMenu(addTask, deleteProject, archive, nextColor);
+        return new ContextMenu(addTask, deleteProject, archive, nextColor, projectDetails);
     }
 
     /**
