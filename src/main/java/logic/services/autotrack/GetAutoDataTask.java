@@ -4,6 +4,11 @@ import data.AutoTrackData;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -67,7 +72,10 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
                 if (duration.equals(LocalTime.of(0,0,0)) || duration.equals(LocalTime.MIN)) {
                     return;
                 }
-                newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), duration));
+                Path path = Paths.get(info.command().toString());
+                String lastSegment = path.getFileName().toString();
+                lastSegment = lastSegment.substring(0, lastSegment.length() - 1);
+                newList.put(info.command().toString(), new AutoTrackData(lastSegment, duration));
             }
         }
     }
