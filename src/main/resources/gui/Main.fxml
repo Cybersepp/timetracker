@@ -92,15 +92,18 @@
                   <Insets left="300.0" />
                </HBox.margin>
             </Button>
-            <Button id="graphbutton" fx:id="historyAndGraphButton" alignment="CENTER" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToGraph" stylesheets="@css/button.css" text="GRAPH">
+            <Button id="graphbutton" fx:id="graphButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToGraph" stylesheets="@css/button.css" text="GRAPH">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
             </Button>
-            <Button id="historyButton" fx:id="historyButton" alignment="CENTER" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToHistory" stylesheets="@css/button.css" text="HISTORY">
+            <Button id="historyButton" fx:id="historyButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToHistory" stylesheets="@css/button.css" text="HISTORY">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Button>
          </children>
          <VBox.margin>

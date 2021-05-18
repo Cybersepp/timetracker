@@ -50,7 +50,10 @@ public class MainController {
     // ---- UI ELEMENTS ----
 
     @FXML
-    private Button historyAndGraphButton;
+    private Button historyButton;
+
+    @FXML
+    private Button graphButton;
 
     @FXML
     private Button recordButton;
