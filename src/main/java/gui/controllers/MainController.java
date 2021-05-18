@@ -5,12 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import logic.services.MainTabService;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Objects;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -82,6 +85,7 @@ public class MainController {
         injectHistoryTab();
         injectAutotrackTab();
         currentTab = graphTab;
+        setButtonGraphics();
 
     }
     // ---- GETTERS FOR CONTROLLERS ----
@@ -161,6 +165,16 @@ public class MainController {
         autotrackTabController = loader.getController();
         autotrackTabController.init(this);
         autotrackTabController.loadProcesses();
+    }
+
+    public void setButtonGraphics() {
+        Image img = new Image(String.valueOf(getClass().getResource("/gui/icons/graph_button.png")));
+        ImageView view = new ImageView(img);
+        view.setImage(img);
+        view.setPreserveRatio(true);
+        view.setFitHeight(25);
+        view.setFitWidth(70);
+        graphButton.setGraphic(view);
     }
 }
 

@@ -92,7 +92,7 @@
                   <Insets left="300.0" />
                </HBox.margin>
             </Button>
-            <Button id="graphbutton" fx:id="graphButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToGraph" stylesheets="@css/button.css" text="GRAPH">
+            <Button id="graphbutton" fx:id="graphButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToGraph" stylesheets="@css/button.css">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
