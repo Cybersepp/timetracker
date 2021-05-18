@@ -85,7 +85,9 @@ public class MainController {
         injectHistoryTab();
         injectAutotrackTab();
         currentTab = graphTab;
-        setButtonGraphics();
+        setButtonGraphics("graph_button5.png", graphButton);
+        setButtonGraphics("book6.png", historyButton);
+        setButtonGraphics("auto3.png", autotrackButton);
 
     }
     // ---- GETTERS FOR CONTROLLERS ----
@@ -167,15 +169,17 @@ public class MainController {
         autotrackTabController.loadProcesses();
     }
 
-    public void setButtonGraphics() {
-        Image img = new Image(String.valueOf(getClass().getResource("/gui/icons/graph_button.png")));
+    public void setButtonGraphics(String iconName, Button button) {
+        Image img = new Image(String.valueOf(getClass().getResource("/gui/icons/" + iconName)));
         ImageView view = new ImageView(img);
         view.setImage(img);
         view.setPreserveRatio(true);
         view.setFitHeight(25);
         view.setFitWidth(70);
-        graphButton.setGraphic(view);
+        button.setGraphic(view);
     }
+
+
 }
 
 
