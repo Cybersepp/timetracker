@@ -62,7 +62,7 @@
       </HBox>
       <HBox minHeight="-Infinity" minWidth="-Infinity" spacing="20.0">
          <children>
-            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" minHeight="41.0" minWidth="90.0" mnemonicParsing="false" onAction="#updateRecordButton" snapToPixel="false" stylesheets="@css/button.css" text="RECORD">
+            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="41.0" minWidth="90.0" mnemonicParsing="false" onAction="#updateRecordButton" snapToPixel="false" stylesheets="@css/button.css" text="RECORD">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
@@ -84,7 +84,7 @@
                   </Rectangle>
                </children>
             </VBox>
-            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" stylesheets="@css/button.css" text="AUTO">
+            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" stylesheets="@css/button.css" text="AUTO">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
