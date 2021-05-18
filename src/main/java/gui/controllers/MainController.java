@@ -116,7 +116,7 @@ public class MainController {
      */
     public void updateRecordButton() {
         String text = recordButton.getText();
-        if ("RECORD".equals(text)) {
+        if ("REC".equals(text)) {
             mainTabService.startRecordingButton(projectsTabController);
         } else if ("END".equals(text)) {
             mainTabService.endRecordingButton(historyTabController, graphTabController);

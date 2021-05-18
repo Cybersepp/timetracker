@@ -62,14 +62,14 @@
       </HBox>
       <HBox minHeight="-Infinity" minWidth="-Infinity" spacing="20.0">
          <children>
-            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="41.0" minWidth="90.0" mnemonicParsing="false" onAction="#updateRecordButton" snapToPixel="false" stylesheets="@css/button.css" text="RECORD">
+            <Button id="recordbutton" fx:id="recordButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="93.0" mnemonicParsing="false" onAction="#updateRecordButton" snapToPixel="false" stylesheets="@css/button.css" text="REC">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
             </Button>
             <VBox minHeight="-Infinity" minWidth="-Infinity">
                <children>
-                  <Label fx:id="timerId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="120.0" text="00:00:00">
+                  <Label fx:id="timerId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="120.0" text="00:00:00">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -84,12 +84,12 @@
                   </Rectangle>
                </children>
             </VBox>
-            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" stylesheets="@css/button.css" text="AUTO">
+            <Button id="graphbutton" fx:id="autotrackButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#changeToAutotrackTab" stylesheets="@css/button.css">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
                <HBox.margin>
-                  <Insets left="300.0" />
+                  <Insets left="350.0" />
                </HBox.margin>
             </Button>
             <Button id="graphbutton" fx:id="graphButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToGraph" stylesheets="@css/button.css">
@@ -97,7 +97,7 @@
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>
             </Button>
-            <Button id="historyButton" fx:id="historyButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToHistory" stylesheets="@css/button.css" text="HISTORY">
+            <Button id="historyButton" fx:id="historyButton" alignment="CENTER" maxHeight="38.0" maxWidth="93.0" minHeight="38.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#switchToHistory" stylesheets="@css/button.css">
                <font>
                   <Font name="Ubuntu Condensed" size="20.0" />
                </font>

@@ -55,7 +55,7 @@ public class MainTabService {
      */
     public void endRecordingButton(HistoryTabController historyTabController, GraphTabController graphTabController) {
         TaskTreeItem currentTask = dataHandler.getCurrentlyChosenTask();
-        recordButton.setText("RECORD");
+        recordButton.setText("REC");
         recording.setRecordEnd();
         stopTimer();
         currentTask.getRecordings().add(recording);
