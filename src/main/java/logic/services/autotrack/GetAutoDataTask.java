@@ -76,7 +76,7 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
                 if (info.command().isPresent()) {
                     Path path = Paths.get(info.command().get());
                     String lastSegment = path.getFileName().toString();
-                    newList.put(lastSegment, new AutoTrackData(lastSegment, duration));
+                    newList.put(info.command().toString(), new AutoTrackData(lastSegment, duration));
                 } else {
                     newList.put(appName, new AutoTrackData(appName, duration));
                 }
