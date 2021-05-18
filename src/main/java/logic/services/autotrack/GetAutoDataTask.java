@@ -64,7 +64,7 @@ public class GetAutoDataTask extends Task<ObservableList<AutoTrackData>> {
             if (info.totalCpuDuration().isPresent()) {
                 var duration = LocalTime.of(info.totalCpuDuration().get().toHoursPart(),
                         info.totalCpuDuration().get().toMinutesPart(), info.totalCpuDuration().get().toSecondsPart());
-                if (duration.equals(LocalTime.of(0,0,0))) {
+                if (duration.equals(LocalTime.of(0,0,0)) || duration.equals(LocalTime.MIN)) {
                     return;
                 }
                 newList.put(info.command().toString(), new AutoTrackData(info.command().orElse("none"), duration));
