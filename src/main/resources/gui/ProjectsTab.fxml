@@ -16,11 +16,11 @@
          <children>
             <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="301.0" spacing="20.0">
                <children>
-                <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createProject" stylesheets="@css/button.css" text="PROJECT +">
+                <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createProject" stylesheets="@css/button.css" text="Add Project">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>
-                  <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createTask" stylesheets="@css/button.css" text="TASK +" />
+                  <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createTask" stylesheets="@css/button.css" text="Add Task" />
                   <MenuButton minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="button" stylesheets="@css/button.css" text="GRAPH">
                     <items>
                       <MenuItem fx:id="lastWeek" mnemonicParsing="false" onAction="#graphForLastWeek" text="Last 7 days" />
