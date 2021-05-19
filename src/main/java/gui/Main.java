@@ -16,8 +16,8 @@ public class Main extends Application {
     Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
     primaryStage.setTitle("timetrack");
     primaryStage.show();
-    primaryStage.setMaxHeight(670);
-    primaryStage.setMinHeight(670);
+    primaryStage.setMaxHeight(640);
+    primaryStage.setMinHeight(640);
     primaryStage.setMinWidth(970);
     primaryStage.setMaxWidth(970);
     primaryStage.setResizable(true);

@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GraphTabController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GraphTabController">
     <children>
-      <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0">
+      <VBox minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
          <children>
-            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="600.0">
+            <HBox spacing="115.0">
                <children>
-                  <Label fx:id="graphLabel" layoutX="213.0" layoutY="5.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="278.0" text="All time">
+                  <Label fx:id="graphLabel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="260.0" text="All time">
                      <font>
                         <Font size="30.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="180.0" />
+                     </HBox.margin>
                   </Label>
-               </children></AnchorPane>
-          <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="20.0" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0">
+                  <Button id="info" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showInfo" prefHeight="29.0" prefWidth="29.0" stylesheets="@css/button.css" text="?">
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+          <StackedBarChart fx:id="projectGraph" animated="false" categoryGap="20.0" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="595.0">
               <xAxis>
                   <CategoryAxis minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="543.0" side="BOTTOM" />
               </xAxis>
@@ -26,6 +44,9 @@
               </yAxis>
           </StackedBarChart>
          </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
       </VBox>
 
     </children>

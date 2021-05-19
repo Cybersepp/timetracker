@@ -44,5 +44,9 @@ public class GraphTabController {
             default: return Integer.MAX_VALUE;
         }
     }
+
+    public void showInfo() {
+
+    }
 }
 

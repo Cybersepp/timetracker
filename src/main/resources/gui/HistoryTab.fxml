@@ -1,31 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
+<AnchorPane fx:id="historyTab" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.HistoryTabController">
     <children>
-      <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="61.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="592.0" vbarPolicy="NEVER">
-         <content>
-            <TableView fx:id="table" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="594.0">
-              <columns>
-                <TableColumn fx:id="projectColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="123.0" text="PROJECT" />
-                <TableColumn fx:id="taskColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="155.0" text="TASK" />
-                  <TableColumn fx:id="startColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="192.0" sortType="DESCENDING" text="START" />
-                  <TableColumn fx:id="durationColumn" editable="false" maxWidth="250.0" minWidth="100.0" prefWidth="123.0" text="DURATION" />
-              </columns>
-            </TableView>
-         </content>
-      </ScrollPane>
-      <Label fx:id="historyLabel" layoutX="163.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="263.0" text="History overview">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
+      <VBox minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
+         <children>
+            <HBox spacing="115.0">
+               <children>
+                  <Label fx:id="historyLabel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="260.0" text="History overview">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="170.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button id="info" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showInfo" prefHeight="29.0" prefWidth="29.0" stylesheets="@css/button.css" text="?">
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" vbarPolicy="NEVER">
+               <content>
+                  <TableView fx:id="table" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0">
+                    <columns>
+                      <TableColumn fx:id="projectColumn" editable="false" maxWidth="180.0" minWidth="100.0" prefWidth="140.0" text="PROJECT" />
+                      <TableColumn fx:id="taskColumn" editable="false" maxWidth="180.0" minWidth="100.0" prefWidth="140.0" text="TASK" />
+                        <TableColumn fx:id="startColumn" editable="false" maxWidth="220.0" minWidth="150.0" prefWidth="180.0" sortType="DESCENDING" text="START" />
+                        <TableColumn fx:id="durationColumn" editable="false" maxWidth="150.0" minWidth="90.0" prefWidth="120.0" text="DURATION" />
+                    </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
+         </children>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+      </VBox>
 
     </children>
 </AnchorPane>

@@ -7,3 +7,9 @@
     -fx-background-color: #C8CDE5;
 }
 
+#info {
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+}
+

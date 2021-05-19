@@ -53,4 +53,8 @@ public class HistoryTabController {
     public void showByTime(int days, GraphTabController graphTabController) {
         historyTabService.showByTime(days, graphTabController);
     }
+
+    public void showInfo() {
+
+    }
 }

@@ -83,6 +83,10 @@ public class AutotrackTabController {
         selectedItem = autoTable.getSelectionModel().getSelectedItem();
     }
 
+    public void showInfo() {
+
+    }
+
 }
 
 

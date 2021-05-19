@@ -71,6 +71,10 @@ public class ProjectsTabController {
         new CreateTaskButtonPopup().popup();
     }
 
+    public void showInfo() {
+
+    }
+
     public void init(MainController main) {
         mainController = main;
         activeRoot.addMain(main);
