@@ -22,7 +22,10 @@ public class Main extends Application {
     primaryStage.setMaxWidth(970);
     primaryStage.setResizable(true);
     primaryStage.setScene(new Scene(root));
-    primaryStage.setOnCloseRequest(event -> new CloseAppCommand().commandControl());
+    primaryStage.setOnCloseRequest(event -> {
+      new CloseAppCommand().commandControl();
+      event.consume();
+    });
   }
 
   public static void main(String[] args) {

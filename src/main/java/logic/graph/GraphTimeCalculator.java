@@ -3,11 +3,13 @@ package logic.graph;
 import data.Recording;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GraphTimeCalculator {
 
@@ -36,16 +38,13 @@ public class GraphTimeCalculator {
             if (diffInDays > days) {
                 break;
             }
-            
+
+            //calculations for hours
             BigDecimal previousTime = projectData.getOrDefault(recording.getParentProject().getValue(), new BigDecimal(0));
             BigDecimal newTime = new BigDecimal(recording.getDurationInSec());
-            System.out.println(newTime);
             newTime = newTime.divide(BigDecimal.valueOf(3600), 10, RoundingMode.HALF_UP);
-            System.out.println(newTime);
 
             projectData.put(recording.getParentProject().getValue(), previousTime.add(newTime));
-            System.out.println(newTime);
-            System.out.println(projectData.get(recording.getParentProject().getValue()));
         }
         return projectData;
     }
