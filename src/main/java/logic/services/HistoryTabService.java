@@ -16,6 +16,7 @@ import logic.treeItems.ProjectTreeItem;
 import logic.treeItems.RootTreeItem;
 import logic.treeItems.TaskTreeItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -159,7 +160,7 @@ public class HistoryTabService  {
         if (!getRecords().isEmpty()) {
             List<Recording> copyForComputing = new ArrayList<>(getRecords());
             var calculator = new GraphTimeCalculator(days);
-            Map<String, Integer> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
+            Map<String, BigDecimal> lastWeekProjectData = calculator.findRecordsByDays(copyForComputing);
             graphTabController.updateGraph(lastWeekProjectData);
             this.graphTabController = graphTabController;
         }

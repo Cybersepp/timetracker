@@ -19,6 +19,7 @@ import javafx.scene.control.MenuItem;
 import logic.services.GraphTabService;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 
 @JsonIncludeProperties({"value", "color", "archived", "tasks"})
@@ -166,9 +167,9 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         var addTask = new MenuItem("Show project details");
         addTask.setOnAction(action -> {
             MainController controller = getParentRoot().getMain();
-            GraphTabController graphController = controller.getGraphTabController();
+            var graphController = controller.getGraphTabController();
             graphController.setGraphLabel(this.toString());
-            Map<String, Integer> newMap = new HashMap<>();
+            Map<String, BigDecimal> newMap = new HashMap<>();
             juniors.forEach(element -> {
                     String taskName = element.getValue();
                     int time = 0;
@@ -176,7 +177,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
                     for (Recording recording : recordings) {
                         time += recording.getDurationInSec();
                     }
-                    newMap.put(taskName, time);
+                    newMap.put(taskName, BigDecimal.valueOf(time));
                     graphController.updateGraph(newMap);
         });
     });

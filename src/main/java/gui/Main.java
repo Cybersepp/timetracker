@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import logic.commands.CloseAppCommand;
 
 import java.util.Objects;
 
@@ -21,6 +22,7 @@ public class Main extends Application {
     primaryStage.setMaxWidth(970);
     primaryStage.setResizable(true);
     primaryStage.setScene(new Scene(root));
+    primaryStage.setOnCloseRequest(event -> new CloseAppCommand().commandControl());
   }
 
   public static void main(String[] args) {

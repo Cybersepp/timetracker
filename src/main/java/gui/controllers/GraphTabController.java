@@ -5,12 +5,13 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import logic.services.GraphTabService;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class GraphTabController {
 
     @FXML
-    StackedBarChart<String, Number> projectGraph;
+    StackedBarChart<String, BigDecimal> projectGraph;
 
     @FXML
     private Label graphLabel;
@@ -22,7 +23,7 @@ public class GraphTabController {
         graphTabService = new GraphTabService(projectGraph);
     }
 
-    public void updateGraph(Map<String, Integer> projectData) {
+    public void updateGraph(Map<String, BigDecimal> projectData) {
         graphTabService.updateGraph(projectData);
     }
 

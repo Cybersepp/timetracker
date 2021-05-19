@@ -8,7 +8,7 @@ public interface Command {
     void command();
 
     /**
-     * calls a popup with the selected Command functionality
+     * Checks if the function can be called safely
      */
     void commandControl();
 }

@@ -1,4 +1,4 @@
-package logic;
+package logic.graph;
 
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
@@ -25,8 +25,8 @@ public class BarChartToolTip extends Tooltip {
      * @return a string which shows time.
      */
     private String calculateTime(String duration) {
-        StringBuilder builder = new StringBuilder();
-        int seconds = Integer.parseInt(duration);
+        var builder = new StringBuilder();
+        int seconds = (int) Math.round(Double.parseDouble(duration));
         int minutes = seconds / 60;
         int hours = minutes / 60;
 
@@ -48,17 +48,11 @@ public class BarChartToolTip extends Tooltip {
                 } else {
                     builder.append(hours).append(" hours ");
                 }
-                if (isSingular(minutes)) {
-                    builder.append(minutes).append(" minute ");
-                } else {
-                    builder.append(minutes).append(" minutes ");
-                }
+            }
+            if (isSingular(minutes)) {
+                builder.append(minutes).append(" minute ");
             } else {
-                if (isSingular(minutes)) {
-                    builder.append(minutes).append(" minute ");
-                } else {
-                    builder.append(minutes).append(" minutes ");
-                }
+                builder.append(minutes).append(" minutes ");
             }
         }
 

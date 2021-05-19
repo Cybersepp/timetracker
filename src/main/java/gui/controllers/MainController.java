@@ -1,14 +1,18 @@
 package gui.controllers;
 
+import data.FileAccess;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import logic.commands.CloseAppCommand;
 import logic.services.MainTabService;
 
 import java.io.IOException;
@@ -70,6 +74,20 @@ public class MainController {
     @FXML
     private Button autotrackButton;
 
+    // ---- MenuBar items ----
+
+    @FXML
+    private MenuItem menuItemSave;
+
+    @FXML
+    private MenuItem menuItemClose;
+
+    @FXML
+    private MenuItem menuItemAbout;
+
+    @FXML
+    private MenuItem menuItemTips;
+
     // ---- DAO ----
 
     private MainTabService mainTabService;
@@ -88,7 +106,6 @@ public class MainController {
         setButtonGraphics("graph_button5.png", graphButton);
         setButtonGraphics("book6.png", historyButton);
         setButtonGraphics("auto3.png", autotrackButton);
-
     }
     // ---- GETTERS FOR CONTROLLERS ----
     // If history tab controller wants to communicate with graph tab controller,
@@ -179,7 +196,22 @@ public class MainController {
         button.setGraphic(view);
     }
 
+    // --------- MenuBarItems functionality -------------
+    public void showTips() {
+        // show a window of tips to user
+    }
 
+    public void showAbout() {
+        // show a window of a description of the app
+    }
+
+    public void save() {
+        FileAccess.saveData();
+    }
+
+    public void closeApp() {
+        new CloseAppCommand().commandControl();
+    }
 }
 
 
