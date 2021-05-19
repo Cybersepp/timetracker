@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.Recording;
 import data.deserialization.ProjectItemDeserialization;
-import gui.controllers.GraphTabController;
-import gui.controllers.HistoryTabController;
 import gui.controllers.MainController;
 import gui.controllers.ProjectsTabController;
 import gui.icons.ProjectImageView;
@@ -16,10 +14,10 @@ import gui.icons.ProjectIcon;
 import gui.popups.action.treeItemAction.CreateItemPopup;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import logic.services.GraphTabService;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @JsonIncludeProperties({"value", "color", "archived", "tasks"})
@@ -140,12 +138,12 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem createTask() {
-        var addTask = new MenuItem("Add task");
-        addTask.setOnAction(e -> {
+        var createTask = new MenuItem("Add task");
+        createTask.setOnAction(e -> {
             var createItemPopup = new CreateItemPopup(this, "task");
             createItemPopup.popup();
         });
-        return addTask;
+        return createTask;
     }
 
     /**
@@ -154,34 +152,34 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
      * @return MenuItem with the needed functionality and text display
      */
     private MenuItem nextColor() {
-        var addTask = new MenuItem("Next color");
-        addTask.setOnAction(e -> icon.nextColor());
-        return addTask;
+        var nextColor = new MenuItem("Next color");
+        nextColor.setOnAction(e -> icon.nextColor());
+        return nextColor;
     }
 
     /**
      * Method to show specific data of a project.
      * @return context menu item.
      */
-    private MenuItem showProjectDetails() {
-        var addTask = new MenuItem("Show project details");
-        addTask.setOnAction(action -> {
+    private MenuItem showDetails() {
+        var details = new MenuItem("Show details");
+        details.setOnAction(action -> {
             MainController controller = getParentRoot().getMain();
             var graphController = controller.getGraphTabController();
             graphController.setGraphLabel(this.toString());
             Map<String, BigDecimal> newMap = new HashMap<>();
-            juniors.forEach(element -> {
-                    String taskName = element.getValue();
-                    int time = 0;
-                    List<Recording> recordings = element.getRecordings();
-                    for (Recording recording : recordings) {
-                        time += recording.getDurationInSec();
+            juniors.forEach(task -> {
+                    String taskName = task.getValue();
+                    int seconds = 0;
+                    for (Recording recording : task.getRecordings()) {
+                        seconds += recording.getDurationInSec();
                     }
-                    newMap.put(taskName, BigDecimal.valueOf(time));
+                    BigDecimal hours = BigDecimal.valueOf(seconds).divide(BigDecimal.valueOf(3600), 10, RoundingMode.HALF_UP);
+                    newMap.put(taskName, hours);
                     graphController.updateGraph(newMap);
         });
     });
-        return addTask;
+        return details;
     }
 
     /**
@@ -194,7 +192,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
 
         MenuItem deleteProject = deleteItem("Delete project");
         MenuItem nextColor = nextColor();
-        MenuItem projectDetails = showProjectDetails();
+        MenuItem projectDetails = showDetails();
 
         if (isArchived()) {
             MenuItem unArchive = unArchive();
