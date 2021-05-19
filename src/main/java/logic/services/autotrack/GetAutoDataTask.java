@@ -4,9 +4,6 @@ import data.AutoTrackData;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;

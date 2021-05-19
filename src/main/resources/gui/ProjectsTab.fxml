@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProjectsTabController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProjectsTabController">
    <children>
       <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="301.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,7 +22,7 @@
                         <Insets />
                      </HBox.margin></Button>
                   <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createTask" stylesheets="@css/button.css" text="Add Task" />
-                  <MenuButton minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="button" stylesheets="@css/button.css" text="GRAPH">
+                  <MenuButton minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="button" stylesheets="@css/button.css" text="Graph">
                     <items>
                       <MenuItem fx:id="lastWeek" mnemonicParsing="false" onAction="#graphForLastWeek" text="Last 7 days" />
                         <MenuItem fx:id="lastMonth" mnemonicParsing="false" onAction="#graphForLastMonth" text="Last 30 days" />
@@ -41,9 +41,9 @@
                   <Insets left="10.0" top="7.0" />
                </padding>
             </HBox>
-            <ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="301.0" vbarPolicy="NEVER">
+            <ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="301.0" vbarPolicy="NEVER">
                <content>
-                  <TreeView fx:id="projectsTree" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="498.0" prefWidth="299.0" />
+                  <TreeView fx:id="projectsTree" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="493.0" prefWidth="299.0" />
                </content>
             </ScrollPane>
          </children>
