@@ -3,11 +3,12 @@ package gui.controllers;
 import gui.popups.action.treeItemAction.CreateItemPopup;
 import gui.popups.action.treeItemAction.CreateTaskButtonPopup;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import logic.services.ProjectTabService;
-import logic.treeItems.*;
+import logic.treeItems.AbstractTreeItem;
+import logic.treeItems.RootTreeItem;
 
 public class ProjectsTabController {
 
@@ -26,19 +27,6 @@ public class ProjectsTabController {
 
     @FXML
     private TreeView<String> projectsTree;
-
-    // ----------- GRAPH TIME OPTIONS ------------------
-    @FXML
-    private MenuItem lastWeek;
-
-    @FXML
-    private MenuItem lastMonth;
-
-    @FXML
-    private MenuItem lastYear;
-
-    @FXML
-    private MenuItem allTime;
 
     private MainController mainController;
 
@@ -72,7 +60,14 @@ public class ProjectsTabController {
     }
 
     public void showInfo() {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Projects' tab information");
+        alert.setHeaderText(null);
+        alert.setContentText("Interact with items using right click.\n" +
+                            "Move around the tree using your mouse or the arrow keys.\n\n" +
+                            "'enter' - changes project / task name.\n" +
+                            "'del' - deletes selected project / task.");
+        alert.showAndWait();
     }
 
     public void init(MainController main) {

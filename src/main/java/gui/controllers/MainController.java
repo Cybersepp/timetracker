@@ -1,23 +1,18 @@
 package gui.controllers;
 
-import data.FileAccess;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-import logic.commands.CloseAppCommand;
 import logic.services.MainTabService;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Objects;
 
 /**
  * MainController class is made for functionality of the UI elements (Not MVC sorry).
@@ -73,20 +68,6 @@ public class MainController {
 
     @FXML
     private Button autotrackButton;
-
-    // ---- MenuBar items ----
-
-    @FXML
-    private MenuItem menuItemSave;
-
-    @FXML
-    private MenuItem menuItemClose;
-
-    @FXML
-    private MenuItem menuItemAbout;
-
-    @FXML
-    private MenuItem menuItemTips;
 
     // ---- DAO ----
 
@@ -194,23 +175,6 @@ public class MainController {
         view.setFitHeight(25);
         view.setFitWidth(70);
         button.setGraphic(view);
-    }
-
-    // --------- MenuBarItems functionality -------------
-    public void showTips() {
-        // show a window of tips to user
-    }
-
-    public void showAbout() {
-        // show a window of a description of the app
-    }
-
-    public void save() {
-        FileAccess.saveData();
-    }
-
-    public void closeApp() {
-        new CloseAppCommand().commandControl();
     }
 }
 

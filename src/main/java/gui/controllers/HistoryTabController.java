@@ -2,6 +2,7 @@ package gui.controllers;
 
 import data.Recording;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -55,6 +56,11 @@ public class HistoryTabController {
     }
 
     public void showInfo() {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("History tab information");
+        alert.setHeaderText(null);
+        alert.setContentText("Interact with items using right click.\n" +
+                "Click on the table header to sort the items by that column.");
+        alert.showAndWait();
     }
 }

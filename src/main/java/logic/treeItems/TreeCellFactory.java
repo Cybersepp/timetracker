@@ -57,7 +57,7 @@ public final class TreeCellFactory extends TreeCell<String> {
             setText(null);
             setGraphic(null);
         } else {
-            getTreeView().setEditable(getTreeItem().getClass() == ProjectTreeItem.class || getTreeItem().getClass() == TaskTreeItem.class);
+            getTreeView().setEditable(getTreeItem().getClass() != RootTreeItem.class);
 
             if (isEditing()) {
                 if (textField != null) {

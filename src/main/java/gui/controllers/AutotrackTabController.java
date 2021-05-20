@@ -10,13 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import logic.services.autotrack.GetAutoDataService;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class AutotrackTabController {
-
-    @FXML
-    private Button autotrackButton;
 
     private HistoryTabController historyTabController;
 
@@ -33,8 +27,6 @@ public class AutotrackTabController {
     @FXML
     private TableView<AutoTrackData> autoTable;
 
-    private Map<String, AutoTrackData> newList;
-    private Map<String, AutoTrackData> baseList = new HashMap<>();
     ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
 
 
@@ -84,7 +76,12 @@ public class AutotrackTabController {
     }
 
     public void showInfo() {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Auto tracking tab information");
+        alert.setHeaderText(null);
+        alert.setContentText("Application names will appear here with the duration after being closed.\n" +
+                "Right click to add the time spent on an application to a task.");
+        alert.showAndWait();
     }
 
 }
