@@ -31,6 +31,7 @@ public class GraphTabController {
                 "Switch between time intervals from the 'GRAPH' button.\n" +
                 "Display project's tasks by right clicking it and selecting 'Show details'.\n" +
                 "Click on the table header to sort the items by that column."));
+        projectGraph.getYAxis().setLabel("hours");
     }
 
     public void updateGraph(Map<String, BigDecimal> projectData) {
