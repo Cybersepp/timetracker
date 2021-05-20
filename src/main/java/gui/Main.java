@@ -20,13 +20,13 @@ public class Main extends Application {
     primaryStage.setMinHeight(640);
     primaryStage.setMinWidth(970);
     primaryStage.setMaxWidth(970);
-    primaryStage.setResizable(true);
+    primaryStage.setResizable(System.getProperty("os.name").equals("Linux"));
     primaryStage.setScene(new Scene(root));
     primaryStage.setOnCloseRequest(event -> {
       new CloseAppCommand().commandControl();
       event.consume();
     });
-    primaryStage.setResizable(false);
+    primaryStage.setResizable(true);
   }
 
   public static void main(String[] args) {
