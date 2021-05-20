@@ -1,4 +1,4 @@
-package logic.graph;
+package gui.tooltips;
 
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
@@ -13,7 +13,8 @@ public class BarChartToolTip extends Tooltip {
     private void tooltipSetup(String seconds, String projectName) {
         styleProperty().set("-fx-font: normal bold 12 Langdon; "
                 + "-fx-base: black; "
-                + "-fx-text-fill: orange;"
+                + "-fx-background-color: rgba(46, 49, 49, 0.8); "
+                + "-fx-text-fill: orange; "
                 + "-fx-stroke-width: 5");
         setText(projectName + ": " + "\n" + calculateTime(seconds));
         setShowDelay(Duration.ZERO);

@@ -1,11 +1,9 @@
 package gui.controllers;
 
 import data.Recording;
+import gui.tooltips.InformationToolTip;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import logic.services.HistoryTabService;
 
 public class HistoryTabController {
@@ -25,6 +23,9 @@ public class HistoryTabController {
     @FXML
     private TableColumn<Recording, String> durationColumn;
 
+    @FXML
+    private Button infoButton;
+
     private HistoryTabService historyTabService;
 
     /**
@@ -35,6 +36,9 @@ public class HistoryTabController {
         historyTabService = new HistoryTabService(table, projectColumn, taskColumn, startColumn, durationColumn);
         historyTabService.initializeData();
         table.setPlaceholder(new Label("No recording history yet!"));
+        infoButton.setTooltip(new InformationToolTip("History\n" +
+                "Interact with items using right click.\n" +
+                "Click on the table header to sort the items by that column."));
     }
 
     /**

@@ -1,8 +1,10 @@
 package gui.controllers;
 
+import gui.tooltips.InformationToolTip;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import logic.services.GraphTabService;
 
@@ -20,8 +22,16 @@ public class GraphTabController {
     private GraphTabService graphTabService;
 
     @FXML
+    private Button infoButton;
+
+    @FXML
     private void initialize() {
         graphTabService = new GraphTabService(projectGraph);
+        infoButton.setTooltip(new InformationToolTip("Graph\n" +
+                "Y-axis of the graph shows time in hours.\n" +
+                "Switch between time intervals from the 'GRAPH' button.\n" +
+                "Display project's tasks by right clicking it and selecting 'Show details'.\n" +
+                "Click on the table header to sort the items by that column."));
     }
 
     public void updateGraph(Map<String, BigDecimal> projectData) {
@@ -40,17 +50,6 @@ public class GraphTabController {
             case "Last 365 days": return 365;
             default: return Integer.MAX_VALUE;
         }
-    }
-
-    public void showInfo() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Graph tab information");
-        alert.setHeaderText(null);
-        alert.setContentText("Y-axis of the graph shows time in hours.\n" +
-                "Switch between time intervals from the 'GRAPH' button.\n" +
-                "Display project's tasks by right clicking it and selecting 'Show details'.\n" +
-                "Click on the table header to sort the items by that column.");
-        alert.showAndWait();
     }
 }
 

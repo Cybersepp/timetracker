@@ -30,9 +30,8 @@
                         <MenuItem fx:id="allTime" mnemonicParsing="false" onAction="#graphForAllTime" text="All time" />
                     </items>
                   </MenuButton>
-                  <Button id="info" mnemonicParsing="false" onAction="#showInfo" prefHeight="25.0" prefWidth="25.0" text="?">
+                  <Button id="info" fx:id="infoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="?">
                      <stylesheets>
-                        <URL value="@css/button.css" />
                         <URL value="@css/button.css" />
                      </stylesheets>
                   </Button>

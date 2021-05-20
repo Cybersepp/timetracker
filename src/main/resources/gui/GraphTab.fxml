@@ -25,7 +25,7 @@
                         <Insets left="180.0" />
                      </HBox.margin>
                   </Label>
-                  <Button id="info" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showInfo" prefHeight="29.0" prefWidth="29.0" stylesheets="@css/button.css" text="?">
+                  <Button id="info" fx:id="infoButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="29.0" prefWidth="29.0" stylesheets="@css/button.css" text="?">
                      <HBox.margin>
                         <Insets top="7.0" />
                      </HBox.margin>

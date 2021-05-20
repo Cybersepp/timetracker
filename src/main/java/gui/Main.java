@@ -26,6 +26,7 @@ public class Main extends Application {
       new CloseAppCommand().commandControl();
       event.consume();
     });
+    primaryStage.setResizable(false);
   }
 
   public static void main(String[] args) {

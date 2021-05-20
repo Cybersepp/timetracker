@@ -3,7 +3,7 @@ package logic.services;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
-import logic.graph.BarChartToolTip;
+import gui.tooltips.BarChartToolTip;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

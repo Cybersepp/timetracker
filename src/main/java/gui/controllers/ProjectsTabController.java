@@ -2,10 +2,9 @@ package gui.controllers;
 
 import gui.popups.action.treeItemAction.CreateItemPopup;
 import gui.popups.action.treeItemAction.CreateTaskButtonPopup;
+import gui.tooltips.InformationToolTip;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import logic.services.ProjectTabService;
 import logic.treeItems.AbstractTreeItem;
 import logic.treeItems.RootTreeItem;
@@ -30,11 +29,18 @@ public class ProjectsTabController {
 
     private MainController mainController;
 
+    @FXML
+    private Button infoButton;
 
     @FXML
     private void initialize() {
         projectTabService = new ProjectTabService(activeRoot, archivedRoot, projectsTree);
         projectTabService.initializeData(new TreeItem<>("Projects"));
+        infoButton.setTooltip(new InformationToolTip("Projects tree\n" +
+                "Interact with items using right click.\n" +
+                "Move around the tree using your mouse or the arrow keys.\n\n" +
+                "'enter' - changes project / task name.\n" +
+                "'del' - deletes selected project / task."));
     }
 
     /**
@@ -57,17 +63,6 @@ public class ProjectsTabController {
      */
     public void createTask() {
         new CreateTaskButtonPopup().popup();
-    }
-
-    public void showInfo() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Projects' tab information");
-        alert.setHeaderText(null);
-        alert.setContentText("Interact with items using right click.\n" +
-                            "Move around the tree using your mouse or the arrow keys.\n\n" +
-                            "'enter' - changes project / task name.\n" +
-                            "'del' - deletes selected project / task.");
-        alert.showAndWait();
     }
 
     public void init(MainController main) {

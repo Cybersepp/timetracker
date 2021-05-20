@@ -2,6 +2,7 @@ package gui.controllers;
 
 import data.AutoTrackData;
 import gui.popups.action.treeItemAction.AddRecordingToProjectPopup;
+import gui.tooltips.InformationToolTip;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,11 +28,17 @@ public class AutotrackTabController {
     @FXML
     private TableView<AutoTrackData> autoTable;
 
+    @FXML
+    private Button infoButton;
+
     ObservableList<AutoTrackData> helper = FXCollections.observableArrayList();
 
 
     public void initialize() {
         autoTable.setPlaceholder(new Label("Your closed apps will appear here shortly!"));
+        infoButton.setTooltip(new InformationToolTip("Auto tracking\n" +
+                        "Application names will appear here with the duration after being closed.\n" +
+                        "Right click to add the time spent on an application to a task."));
     }
     public void loadProcesses() {
         startAutoTracking();
@@ -73,15 +80,6 @@ public class AutotrackTabController {
 
     public void getSelectedItem() {
         selectedItem = autoTable.getSelectionModel().getSelectedItem();
-    }
-
-    public void showInfo() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Auto tracking tab information");
-        alert.setHeaderText(null);
-        alert.setContentText("Application names will appear here with the duration after being closed.\n" +
-                "Right click to add the time spent on an application to a task.");
-        alert.showAndWait();
     }
 
 }
