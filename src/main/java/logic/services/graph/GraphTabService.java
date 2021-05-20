@@ -1,4 +1,4 @@
-package logic.services;
+package logic.services.graph;
 
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;

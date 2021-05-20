@@ -3,10 +3,9 @@ package gui.controllers;
 import gui.tooltips.InformationToolTip;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import logic.services.GraphTabService;
+import logic.services.graph.GraphTabService;
 
 import java.math.BigDecimal;
 import java.util.*;

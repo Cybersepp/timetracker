@@ -1,4 +1,4 @@
-package logic.graph;
+package logic.services.graph;
 
 import data.Recording;
 
