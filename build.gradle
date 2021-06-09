@@ -16,6 +16,7 @@ application {
     mainClassName = 'gui.Main'
 }
 
+
 javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }

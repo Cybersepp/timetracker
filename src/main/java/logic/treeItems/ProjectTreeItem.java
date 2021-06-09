@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import data.FileAccess;
 import data.Recording;
 import data.deserialization.ProjectItemDeserialization;
+import gui.controllers.GraphTabController;
+import gui.controllers.HistoryTabController;
 import gui.controllers.MainController;
 import gui.controllers.ProjectsTabController;
 import gui.icons.ProjectImageView;
@@ -30,6 +32,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
     @JsonIgnore
     private final ProjectIcon icon;
 
+
     /**
      * Method that sets the project and all of its juniors/children to the archived state of the new root
      *
@@ -42,6 +45,7 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
         setArchived(newRoot.isArchived());
         this.getParentRoot().organizeView();
         FileAccess.saveData();
+
     }
 
     @Override
@@ -117,7 +121,11 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
      */
     private MenuItem archive() {
         var archive = new MenuItem("Archive");
-        archive.setOnAction(e -> setArchived(ProjectsTabController.getArchivedRoot()));
+        archive.setOnAction(e -> {
+            //TODO refresh the graph and history after archiving
+                setArchived(ProjectsTabController.getArchivedRoot());
+
+        });
         return archive;
     }
 
@@ -128,7 +136,10 @@ public class ProjectTreeItem extends AbstractTreeItem implements Comparable<Proj
      */
     private MenuItem unArchive() {
         var unArchive = new MenuItem("Unarchive");
-        unArchive.setOnAction(e -> setArchived(ProjectsTabController.getActiveRoot()));
+        unArchive.setOnAction(e -> {
+            //TODO refresh the graph and history after unarchiving
+            setArchived(ProjectsTabController.getActiveRoot());
+        });
         return unArchive;
     }
 
