@@ -3,7 +3,10 @@ Simple and easy-to-use time tracking JavaFX application built with Gradle.
 
 ![image](https://user-images.githubusercontent.com/73464092/119146955-d09e0180-ba53-11eb-9b56-0518f7f18c47.png)
 ## How to run
-Clone the project and in IDEA under Gradle tasks choose ```application``` -> ```run```
+- Install IntelliJ IDEA on https://www.jetbrains.com/idea/download/#section=windows
+- Clone the project and in IDEA under Gradle tasks choose ```application``` -> ```run```
+![image](https://user-images.githubusercontent.com/72540789/119266374-3d9bcd80-bbf3-11eb-9197-65683953244a.png)
+- For the running operation to go smoothly the javafx library has to be installed.
 ## Features
 - Adding new projects and tasks.
 - Archiving and unarchiving projects.
