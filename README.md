@@ -2,7 +2,10 @@
 Simple and easy-to-use time tracking JavaFX application built with Gradle.
 
 ![image](https://user-images.githubusercontent.com/73464092/119146955-d09e0180-ba53-11eb-9b56-0518f7f18c47.png)
-## How to run
+## Running on Windows
+- Download latest release, go to `bin` and click `timetrack.bat` 
+
+## Development
 - Install IntelliJ IDEA on https://www.jetbrains.com/idea/download/#section=windows
 - Clone the project and in IDEA under Gradle tasks choose ```application``` -> ```run```
 ![image](https://user-images.githubusercontent.com/72540789/119266374-3d9bcd80-bbf3-11eb-9197-65683953244a.png)
